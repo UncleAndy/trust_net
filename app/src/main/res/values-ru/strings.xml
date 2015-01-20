@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Сеть доверия</string>
+    <string name="action_settings">Настройки</string>
+    <string name="btn_me">Обо мне</string>
+    <string name="btn_check_other">Удостоверить другого</string>
+    <string name="btn_check_me">Удостоверить меня</string>
+    <string name="btn_check_list">Список удостоверенных</string>
+    <string name="title_about_me">Ваши идентификационные данные</string>
+    <string name="label_last_name">Фамилия</string>
+    <string name="label_first_name">Имя</string>
+    <string name="label_middle_name">Отчество</string>
+    <string name="txt_about_me_info">ВНИМАНИЕ!!! Необходимо вводить только реальные данные из ваших официальных документов.</string>
+    <string name="label_id_doc_number">ИНН</string>
+    <string name="btn_save">Сохранить</string>
+    <string name="label_birth_day">Дата рождения (дд.мм.гггг)</string>
+    <string name="txt_confirm_info">ВНИМАНИЕ!!! Перед подтверждением данных вам необходимо проверить их по настоящим документам!</string>
+    <string name="label_verification_level">Уровень достоверности (от -16 до 16)</string>
+    <string name="label_trust_level">Уровень доверия (от -16 до 16)</string>
+    <string name="btn_confirm">Подтвердить</string>
+    <string name="btn_cancel">Отмена</string>
+</resources>

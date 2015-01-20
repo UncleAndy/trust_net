@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:nestedScrollingEnabled="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/textView8"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_vertical|center_horizontal"
+            android:background="@android:color/holo_green_dark"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/txt_confirm_info"
+            android:id="@+id/textView9"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            android:textSize="16dp"
+            android:padding="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/label_first_name"
+            android:id="@+id/textView9" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/txtConfirmFirstName"
+            android:textStyle="bold"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
+            android:padding="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/label_middle_name"
+            android:id="@+id/textView9" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/txtConfirmMiddleName"
+            android:textStyle="bold"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
+            android:padding="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/label_last_name"
+            android:id="@+id/textView9" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/txtConfirmLastName"
+            android:textStyle="bold"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
+            android:padding="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/label_birth_day"
+            android:id="@+id/textView9" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/txtConfirmBirthday"
+            android:textStyle="bold"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
+            android:padding="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/label_id_doc_number"
+            android:id="@+id/textView9" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/txtConfirmTaxNumber"
+            android:textStyle="bold"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
+            android:padding="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/label_verification_level"
+            android:id="@+id/textView10" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="10"
+            android:id="@+id/edtConfirmVerifyLevel"
+            android:numeric="signed|integer"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:text="0"
+            android:padding="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/label_trust_level"
+            android:id="@+id/textView11" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="10"
+            android:id="@+id/edtConfirmTrustLevel"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:text="0"
+            android:padding="4dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_confirm"
+            android:id="@+id/btnConfirm"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_cancel"
+            android:id="@+id/btnCancel"
+            android:layout_weight="1" />
+    </LinearLayout>
+</LinearLayout>

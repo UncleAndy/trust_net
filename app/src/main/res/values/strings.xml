@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Trust Net</string>
+    <string name="action_settings">Settings</string>
+    <string name="btn_me">About me</string>
+    <string name="btn_check_other">Confirm other</string>
+    <string name="btn_check_me">Confirm for me</string>
+    <string name="btn_check_list">List of checked</string>
+    <string name="title_about_me">Your identification data</string>
+    <string name="label_last_name">Last name</string>
+    <string name="label_first_name">First name</string>
+    <string name="label_middle_name">Middle name</string>
+    <string name="txt_about_me_info">ATTANTION!!! Your require enter only real data from your oficial documents.</string>
+    <string name="label_id_doc_number">Tax id number</string>
+    <string name="btn_save">Save</string>
+    <string name="label_birth_day">Birth day (dd.mm.yyyy)</string>
+    <string name="txt_confirm_info">ATTANTION!!! You need cleanly check all data by real documents before conform verification!</string>
+    <string name="label_verification_level">Verification level (from -16 to 16)</string>
+    <string name="label_trust_level">Trust level (from -16 to 16)</string>
+    <string name="btn_confirm">Confirm</string>
+    <string name="btn_cancel">Cancel</string>
+
+</resources>
