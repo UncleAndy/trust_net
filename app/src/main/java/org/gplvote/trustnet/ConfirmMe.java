@@ -11,6 +11,7 @@ import android.view.Display;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -51,7 +52,9 @@ public class ConfirmMe extends ActionBarActivity {
 
         if (user_key_id == null || user_key_id.equals("")) {return;}
 
-        String json_qr_data = "{\"first_name\":\""+info.first_name+"\",\"middle_name\":\""+info.middle_name+"\",\"last_name\":\""+info.last_name+"\",\"birthday\":\""+info.birthday+"\",\"tax_number\":\""+info.tax_number+"\",\"user_key_id\":\""+user_key_id+"\"}";
+        Gson gson = new Gson();
+        info.user_key_id = user_key_id;
+        String json_qr_data = gson.toJson(info);
 
         //Find screen size
         WindowManager manager = (WindowManager) getSystemService(WINDOW_SERVICE);

@@ -10,13 +10,15 @@
     <string name="label_last_name">Фамилия</string>
     <string name="label_first_name">Имя</string>
     <string name="label_middle_name">Отчество</string>
-    <string name="txt_about_me_info">ВНИМАНИЕ!!! Необходимо вводить только реальные данные из ваших официальных документов.</string>
+    <string name="txt_about_me_info">ВНИМАНИЕ!!! Необходимо вводить только реальные данные из ваших официальных документов. Значение имеют лишь выделенные поля. Остальные можно заполнять по своему желанию.</string>
     <string name="label_id_doc_number">ИНН</string>
     <string name="btn_save">Сохранить</string>
     <string name="label_birth_day">Дата рождения (дд.мм.гггг)</string>
-    <string name="txt_confirm_info">ВНИМАНИЕ!!! Перед подтверждением данных вам необходимо проверить их по настоящим документам!</string>
+    <string name="txt_confirm_info">ВНИМАНИЕ!!! Перед подтверждением выделенных данных вам необходимо проверить их по настоящим документам!</string>
     <string name="label_verification_level">Уровень достоверности (от -16 до 16)</string>
     <string name="label_trust_level">Уровень доверия (от -16 до 16)</string>
     <string name="btn_confirm">Подтвердить</string>
     <string name="btn_cancel">Отмена</string>
+    <string name="label_id_social_number">СНИЛС</string>
+    <string name="label_user_key_id">Идентификатор ключа</string>
 </resources>

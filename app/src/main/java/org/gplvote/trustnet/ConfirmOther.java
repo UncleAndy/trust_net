@@ -14,11 +14,11 @@ import org.gplvote.trustnet.R;
 public class ConfirmOther extends Activity {
     private Gson gson;
 
-    private TextView txtConfirmFirstName;
-    private TextView txtConfirmMiddleName;
-    private TextView txtConfirmLastName;
+    private TextView txtConfirmName;
     private TextView txtConfirmBirthday;
     private TextView txtConfirmTaxNumber;
+    private TextView txtConfirmSocialNumber;
+    private TextView txtConfirmUserKeyId;
     private EditText edtVerifyLevel;
     private EditText edtTrustLevel;
 
@@ -33,16 +33,16 @@ public class ConfirmOther extends Activity {
         String json_personal_info = getIntent().getStringExtra("PersonalInfo");
         personal_info = gson.fromJson(json_personal_info, new TypeToken<PersonalInfo>(){}.getType());
 
-        txtConfirmFirstName = (TextView) findViewById(R.id.txtConfirmFirstName);
-        txtConfirmMiddleName = (TextView) findViewById(R.id.txtConfirmMiddleName);
-        txtConfirmLastName = (TextView) findViewById(R.id.txtConfirmLastName);
+        txtConfirmName = (TextView) findViewById(R.id.txtConfirmName);
         txtConfirmBirthday = (TextView) findViewById(R.id.txtConfirmBirthday);
         txtConfirmTaxNumber = (TextView) findViewById(R.id.txtConfirmTaxNumber);
+        txtConfirmSocialNumber = (TextView) findViewById(R.id.txtConfirmSocialNumber);
+        txtConfirmUserKeyId = (TextView) findViewById(R.id.txtConfirmUserKeyId);
 
-        txtConfirmFirstName.setText(personal_info.first_name);
-        txtConfirmMiddleName.setText(personal_info.middle_name);
-        txtConfirmLastName.setText(personal_info.last_name);
+        txtConfirmName.setText(personal_info.name);
         txtConfirmBirthday.setText(personal_info.birthday);
         txtConfirmTaxNumber.setText(personal_info.tax_number);
+        txtConfirmSocialNumber.setText(personal_info.social_number);
+        txtConfirmUserKeyId.setText(personal_info.user_key_id);
     }
 }

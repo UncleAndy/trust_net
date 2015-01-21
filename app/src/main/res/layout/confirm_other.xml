@@ -31,7 +31,6 @@
             android:id="@+id/textView9"
             android:textColor="@android:color/black"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp"
             android:textSize="16dp"
             android:padding="4dp" />
 
@@ -47,44 +46,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
-            android:id="@+id/txtConfirmFirstName"
-            android:textStyle="bold"
-            android:background="@android:color/white"
-            android:textColor="@android:color/black"
-            android:padding="4dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/label_middle_name"
-            android:id="@+id/textView9" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/txtConfirmMiddleName"
-            android:textStyle="bold"
-            android:background="@android:color/white"
-            android:textColor="@android:color/black"
-            android:padding="4dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/label_last_name"
-            android:id="@+id/textView9" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/txtConfirmLastName"
-            android:textStyle="bold"
+            android:id="@+id/txtConfirmName"
             android:background="@android:color/white"
             android:textColor="@android:color/black"
             android:padding="4dp" />
@@ -94,7 +56,9 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/label_birth_day"
-            android:id="@+id/textView9" />
+            android:id="@+id/textView9"
+            android:textStyle="bold"
+            android:textColor="@android:color/black" />
 
         <TextView
             android:layout_width="fill_parent"
@@ -112,7 +76,9 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/label_id_doc_number"
-            android:id="@+id/textView9" />
+            android:id="@+id/textView9"
+            android:textStyle="bold"
+            android:textColor="@android:color/black" />
 
         <TextView
             android:layout_width="fill_parent"
@@ -120,6 +86,46 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
             android:id="@+id/txtConfirmTaxNumber"
+            android:textStyle="bold"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
+            android:padding="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/label_id_social_number"
+            android:id="@+id/textView9"
+            android:textStyle="bold"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/txtConfirmSocialNumber"
+            android:textStyle="bold"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
+            android:padding="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/label_user_key_id"
+            android:id="@+id/textView12"
+            android:textStyle="bold"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/txtConfirmUserKeyId"
             android:textStyle="bold"
             android:background="@android:color/white"
             android:textColor="@android:color/black"
@@ -142,7 +148,7 @@
             android:background="@android:color/white"
             android:textColor="@android:color/black"
             android:textStyle="bold"
-            android:text="0"
+            android:text="16"
             android:padding="4dp" />
 
         <TextView
@@ -161,7 +167,7 @@
             android:background="@android:color/white"
             android:textColor="@android:color/black"
             android:textStyle="bold"
-            android:text="0"
+            android:text="16"
             android:padding="4dp" />
 
     </LinearLayout>

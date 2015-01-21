@@ -1,20 +1,22 @@
 package org.gplvote.trustnet;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class AboutMe extends Activity implements View.OnClickListener {
 
     private Settings settings;
 
-    private EditText txtFirstName;
-    private EditText txtMiddleName;
-    private EditText txtLastName;
+    private EditText txtName;
     private EditText txtBirthday;
     private EditText txtTaxNumber;
+    private EditText txtSocialNumber;
+    private TextView txtPublicKeyId;
     private Button btnSave;
 
     @Override
@@ -27,21 +29,37 @@ public class AboutMe extends Activity implements View.OnClickListener {
         btnSave = (Button) findViewById(R.id.btnSave);
         btnSave.setOnClickListener(this);
 
-        txtFirstName    = (EditText) findViewById(R.id.txtFirstName);
-        txtMiddleName   = (EditText) findViewById(R.id.txtMiddleName);
-        txtLastName     = (EditText) findViewById(R.id.txtLastName);
+        txtName         = (EditText) findViewById(R.id.txtName);
         txtBirthday     = (EditText) findViewById(R.id.txtBirthday);
         txtTaxNumber    = (EditText) findViewById(R.id.txtTaxNumber);
+        txtSocialNumber = (EditText) findViewById(R.id.txtSocialNumber);
+        txtPublicKeyId  = (TextView) findViewById(R.id.txtPublicKeyId);
 
         PersonalInfo info = settings.getPersonalInfo();
-        txtFirstName.setText(info.first_name);
-        txtMiddleName.setText(info.middle_name);
-        txtLastName.setText(info.last_name);
-        txtBirthday.setText(info.birthday);
-        txtTaxNumber.setText(info.tax_number);
+        if (info != null) {
+            txtName.setText(info.name);
+            txtBirthday.setText(info.birthday);
+            txtTaxNumber.setText(info.tax_number);
+            txtSocialNumber.setText(info.social_number);
+        }
 
-        // TODO: Сделать получение идентификатора публичного ключа из SignDoc и отображение его на экране
+        Intent intent = new Intent("org.gplvote.signdoc.DO_SIGN");
+        intent.putExtra("Command", "GetPublicKeyId");
+        startActivityForResult(intent, 1);
+    }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null) {
+            return;
+        }
+
+        String user_key_id = data.getStringExtra("PUBLIC_KEY_ID");
+
+        if (user_key_id == null || user_key_id.equals("")) {
+            return;
+        }
+
+        txtPublicKeyId.setText(user_key_id);
     }
 
     @Override
@@ -50,11 +68,10 @@ public class AboutMe extends Activity implements View.OnClickListener {
             case R.id.btnSave:
                 // Сохраняем персональную информацию
                 PersonalInfo info = new PersonalInfo();
-                info.first_name = txtFirstName.getText().toString();
-                info.middle_name = txtMiddleName.getText().toString();
-                info.last_name = txtLastName.getText().toString();
+                info.name = txtName.getText().toString();
                 info.birthday = txtBirthday.getText().toString();
                 info.tax_number = txtTaxNumber.getText().toString();
+                info.social_number = txtSocialNumber.getText().toString();
                 settings.setPersonalInfo(info);
 
                 finish();

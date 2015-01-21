@@ -4,17 +4,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 public class Settings {
     public static final String APP_PREFERENCES = "org.gplvote.trustnet";
 
-    private final static String PREF_KEY_FIRST_NAME = "first_name";
-    private final static String PREF_KEY_MIDDLE_NAME = "middle_name";
-    private final static String PREF_KEY_LAST_NAME = "last_name";
-    private final static String PREF_KEY_BIRTHDAY = "birthday";
-    private final static String PREF_KEY_TAX_NUMBER = "tax_number";
+    private final static String PREF_KEY_PERSONAL_INFO = "personal_info";
 
     private static SharedPreferences sPref;
     private static Settings instance;
+    private static Gson gson;
 
     public static Settings getInstance(Context context) {
         synchronized (Settings.class) {
@@ -32,6 +31,7 @@ public class Settings {
 
     public Settings(Context context) {
         if (sPref == null) sPref = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        gson = new Gson();
     }
 
     public String get(String key) {
@@ -48,24 +48,15 @@ public class Settings {
     public void setPersonalInfo(PersonalInfo personal_info) {
         if (personal_info == null) return;
 
-        this.set(PREF_KEY_FIRST_NAME, personal_info.first_name);
-        this.set(PREF_KEY_MIDDLE_NAME, personal_info.middle_name);
-        this.set(PREF_KEY_LAST_NAME, personal_info.last_name);
-        this.set(PREF_KEY_BIRTHDAY, personal_info.birthday);
-        this.set(PREF_KEY_TAX_NUMBER, personal_info.tax_number);
-    }
-
-    public PersonalInfo getPersonalInfo(PersonalInfo personal_info) {
-        personal_info.first_name = this.get(PREF_KEY_FIRST_NAME);
-        personal_info.middle_name = this.get(PREF_KEY_MIDDLE_NAME);
-        personal_info.last_name = this.get(PREF_KEY_LAST_NAME);
-        personal_info.birthday = this.get(PREF_KEY_BIRTHDAY);
-        personal_info.tax_number = this.get(PREF_KEY_TAX_NUMBER);
-
-        return(personal_info);
+        String json_pers_info = gson.toJson(personal_info);
+        this.set(PREF_KEY_PERSONAL_INFO, json_pers_info);
     }
 
     public PersonalInfo getPersonalInfo() {
-        return(getPersonalInfo(new PersonalInfo()));
+        String json_pers_info = this.get(PREF_KEY_PERSONAL_INFO);
+
+        PersonalInfo personal_info = gson.fromJson(json_pers_info, PersonalInfo.class);
+
+        return(personal_info);
     }
 }
