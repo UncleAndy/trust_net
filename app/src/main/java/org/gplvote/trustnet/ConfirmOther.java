@@ -8,9 +8,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.gplvote.trustnet.PersonalInfo;
-import org.gplvote.trustnet.R;
-
 public class ConfirmOther extends Activity {
     private Gson gson;
 
@@ -22,7 +19,7 @@ public class ConfirmOther extends Activity {
     private EditText edtVerifyLevel;
     private EditText edtTrustLevel;
 
-    private PersonalInfo personal_info;
+    private DataPersonalInfo personal_info;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +28,7 @@ public class ConfirmOther extends Activity {
         gson = new Gson();
 
         String json_personal_info = getIntent().getStringExtra("PersonalInfo");
-        personal_info = gson.fromJson(json_personal_info, new TypeToken<PersonalInfo>(){}.getType());
+        personal_info = gson.fromJson(json_personal_info, new TypeToken<DataPersonalInfo>(){}.getType());
 
         txtConfirmName = (TextView) findViewById(R.id.txtConfirmName);
         txtConfirmBirthday = (TextView) findViewById(R.id.txtConfirmBirthday);
@@ -43,6 +40,6 @@ public class ConfirmOther extends Activity {
         txtConfirmBirthday.setText(personal_info.birthday);
         txtConfirmTaxNumber.setText(personal_info.tax_number);
         txtConfirmSocialNumber.setText(personal_info.social_number);
-        txtConfirmUserKeyId.setText(personal_info.user_key_id);
+        txtConfirmUserKeyId.setText(personal_info.public_key_id);
     }
 }

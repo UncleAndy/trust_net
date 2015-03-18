@@ -19,24 +19,40 @@
     <Button
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:text="@string/btn_check_other"
-        android:id="@+id/btnConfirmOther"
+        android:text="@string/btn_servers"
+        android:id="@+id/btnServers"
+        android:layout_weight="1" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:text="@string/btn_attestations"
+        android:id="@+id/btnAttestations"
         android:layout_gravity="center_horizontal"
         android:layout_weight="1" />
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:text="@string/btn_check_me"
-        android:id="@+id/btnConfirmMe"
+        android:text="@string/btn_trusts"
+        android:id="@+id/btnTrusts"
         android:layout_gravity="center_horizontal"
         android:layout_weight="1" />
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:text="@string/btn_check_list"
-        android:id="@+id/btnConfirmList"
+        android:text="@string/btn_tags_attestations"
+        android:id="@+id/btnTagsAttestations"
         android:layout_weight="1"
         android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:text="@string/btn_messages"
+        android:id="@+id/btnMessages"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1" />
+
 </LinearLayout>

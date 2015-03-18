@@ -3,6 +3,7 @@ package org.gplvote.trustnet;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,26 +13,62 @@ import android.widget.Button;
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
 
     private Button btnMe;
-    private Button btnConfirmOther;
-    private Button btnConfirmMe;
-    private Button btnConfirmList;
+    private Button btnServers;
+    private Button btnAttestations;
+    private Button btnTrusts;
+    private Button btnTagsAttestations;
+    private Button btnMessages;
+
+    private static final Integer RESULT_PUBLIC_KEY = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnMe           = (Button) findViewById(R.id.btnMe);
-        btnConfirmOther = (Button) findViewById(R.id.btnConfirmOther);
-        btnConfirmMe    = (Button) findViewById(R.id.btnConfirmMe);
-        btnConfirmList  = (Button) findViewById(R.id.btnConfirmList);
+        btnMe               = (Button) findViewById(R.id.btnMe);
+        btnServers          = (Button) findViewById(R.id.btnServers);
+        btnAttestations     = (Button) findViewById(R.id.btnAttestations);
+        btnTrusts           = (Button) findViewById(R.id.btnTrusts);
+        btnTagsAttestations = (Button) findViewById(R.id.btnTagsAttestations);
+        btnMessages         = (Button) findViewById(R.id.btnMessages);
 
         btnMe.setOnClickListener(this);
-        btnConfirmOther.setOnClickListener(this);
-        btnConfirmMe.setOnClickListener(this);
-        btnConfirmList.setOnClickListener(this);
+        btnServers.setOnClickListener(this);
+        btnAttestations.setOnClickListener(this);
+        btnTrusts.setOnClickListener(this);
+        btnTagsAttestations.setOnClickListener(this);
+        btnMessages.setOnClickListener(this);
+
+        // Считываем публичный ключ и его идентификатор из приложения SignDoc
+        Intent intent = new Intent("org.gplvote.signdoc.DO_SIGN");
+        intent.putExtra("Command", "GetPublicKeyId");
+        startActivityForResult(intent, RESULT_PUBLIC_KEY);
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null)
+            return;
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == RESULT_PUBLIC_KEY) {
+                // Получаем публичный ключ и его идентификатор и записываем их в настройки
+                Settings settings = Settings.getInstance(this);
+                DataPersonalInfo pi = settings.getPersonalInfo();
+
+                Log.d("GETKEY", "Personal info = " + pi.toString());
+                Log.d("GETKEY", "Returned data key id = " + data.getStringExtra("PUBLIC_KEY_ID"));
+
+                pi.public_key_id = data.getStringExtra("PUBLIC_KEY_ID");
+                pi.public_key = data.getStringExtra("PUBLIC_KEY");
+
+                if (pi.public_key_id == null || pi.public_key_id.equals("") || pi.public_key == null || pi.public_key.equals(""))
+                    return;
+
+                settings.setPersonalInfo(pi);
+            }
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -41,15 +78,15 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 intent = new Intent(this, AboutMe.class);
                 startActivity(intent);
                 break;
-            case R.id.btnConfirmOther:
-                intent = new Intent(this, ConfirmOtherQR.class);
-                startActivity(intent);
+            case R.id.btnServers:
                 break;
-            case R.id.btnConfirmMe:
-                intent = new Intent(this, ConfirmMe.class);
-                startActivity(intent);
+            case R.id.btnAttestations:
                 break;
-            case R.id.btnConfirmList:
+            case R.id.btnTrusts:
+                break;
+            case R.id.btnTagsAttestations:
+                break;
+            case R.id.btnMessages:
                 break;
         }
     }

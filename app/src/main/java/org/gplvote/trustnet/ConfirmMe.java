@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Display;
@@ -18,11 +17,6 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
-import org.gplvote.trustnet.PersonalInfo;
-import org.gplvote.trustnet.R;
-import org.gplvote.trustnet.Settings;
-
-import java.nio.charset.Charset;
 import java.util.Hashtable;
 
 public class ConfirmMe extends ActionBarActivity {
@@ -30,7 +24,7 @@ public class ConfirmMe extends ActionBarActivity {
 
     private ImageView imgQRCode;
 
-    PersonalInfo info;
+    DataPersonalInfo info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +43,12 @@ public class ConfirmMe extends ActionBarActivity {
         if (data == null) {return;}
 
         String user_key_id = data.getStringExtra("PUBLIC_KEY_ID");
+        String public_key = data.getStringExtra("PUBLIC_KEY");
 
         if (user_key_id == null || user_key_id.equals("")) {return;}
 
         Gson gson = new Gson();
-        info.user_key_id = user_key_id;
+        info.public_key_id = user_key_id;
         String json_qr_data = gson.toJson(info);
 
         //Find screen size

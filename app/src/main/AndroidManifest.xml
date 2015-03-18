@@ -18,9 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AboutMe" />
-        <activity android:name=".ConfirmMe" />
-        <activity android:name=".ConfirmOtherQR" />
-        <activity android:name=".ConfirmOther" />
+        <activity android:name=".AboutMeEdit" />
     </application>
 
 </manifest>

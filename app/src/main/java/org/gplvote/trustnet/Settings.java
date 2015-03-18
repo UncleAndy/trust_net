@@ -8,7 +8,6 @@ import com.google.gson.Gson;
 
 public class Settings {
     public static final String APP_PREFERENCES = "org.gplvote.trustnet";
-
     private final static String PREF_KEY_PERSONAL_INFO = "personal_info";
 
     private static SharedPreferences sPref;
@@ -45,17 +44,19 @@ public class Settings {
         ed.commit();
     }
 
-    public void setPersonalInfo(PersonalInfo personal_info) {
+    public void setPersonalInfo(DataPersonalInfo personal_info) {
         if (personal_info == null) return;
 
         String json_pers_info = gson.toJson(personal_info);
         this.set(PREF_KEY_PERSONAL_INFO, json_pers_info);
     }
 
-    public PersonalInfo getPersonalInfo() {
+    public DataPersonalInfo getPersonalInfo() {
         String json_pers_info = this.get(PREF_KEY_PERSONAL_INFO);
 
-        PersonalInfo personal_info = gson.fromJson(json_pers_info, PersonalInfo.class);
+        DataPersonalInfo personal_info = gson.fromJson(json_pers_info, DataPersonalInfo.class);
+        if (personal_info == null)
+            personal_info = new DataPersonalInfo();
 
         return(personal_info);
     }

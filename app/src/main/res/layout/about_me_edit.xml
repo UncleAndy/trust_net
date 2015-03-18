@@ -28,20 +28,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/txt_about_me_info"
+            android:id="@+id/textView2"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/label_first_name"
             android:id="@+id/textView3"
             android:textColor="@android:color/black" />
 
-        <TextView
-            android:layout_width="match_parent"
+        <EditText
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txtAboutMeName"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/edtAboutMeName"
+            android:background="@android:color/white"
             android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:text="Name"
-            android:padding="4dp"
-            android:background="@android:color/background_light" />
+            android:capitalize="characters"
+            android:padding="4dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,18 +57,20 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/label_birth_day"
             android:id="@+id/textView7"
+            android:textStyle="bold"
             android:textColor="@android:color/black" />
 
-        <TextView
-            android:layout_width="match_parent"
+        <EditText
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="01.01.2001"
-            android:id="@+id/txtAboutMeBirthday"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:inputType="date"
+            android:ems="10"
+            android:id="@+id/edtAboutMeBirthday"
             android:textColor="@android:color/black"
+            android:background="@android:color/white"
+            android:capitalize="characters"
             android:textStyle="bold"
-            android:padding="4dp"
-            android:background="@android:color/background_light" />
+            android:padding="4dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -68,18 +78,19 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/label_id_doc_number"
             android:id="@+id/textView6"
+            android:textStyle="bold"
             android:textColor="@android:color/black" />
 
-        <TextView
-            android:layout_width="match_parent"
+        <EditText
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="12332123"
-            android:id="@+id/txtAboutMeTaxNumber"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/edtAboutMeTaxNumber"
+            android:background="@android:color/white"
             android:textColor="@android:color/black"
+            android:capitalize="characters"
+            android:inputType="number"
             android:textStyle="bold"
-            android:padding="4dp"
-            android:background="@android:color/background_light" />
+            android:padding="4dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -87,38 +98,18 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/label_id_social_number"
             android:id="@+id/textView4"
+            android:textStyle="bold"
             android:textColor="@android:color/black" />
 
-        <TextView
-            android:layout_width="match_parent"
+        <EditText
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="7676-1726"
-            android:id="@+id/txtAboutMeSocialNumber"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/edtAboutMeSocialNumber"
+            android:background="@android:color/white"
             android:textColor="@android:color/black"
             android:textStyle="bold"
-            android:padding="4dp"
-            android:background="@android:color/background_light" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/label_user_key_id"
-            android:id="@+id/textView5"
-            android:textColor="@android:color/black" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="GFGQYRTYYGJJHJAKJKJKJKKJAIUJLQYTRHQHKG"
-            android:id="@+id/txtAboutMePublicKeyId"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:textSize="12dp"
-            android:textIsSelectable="true"
-            android:padding="4dp"
-            android:background="@android:color/background_light" />
+            android:capitalize="characters"
+            android:padding="4dp" />
 
     </LinearLayout>
 
@@ -132,14 +123,14 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_back"
-            android:id="@+id/btnAboutMeBack"
+            android:id="@+id/btnAboutMeEditBack"
             android:layout_weight="1" />
 
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/btn_change"
-            android:id="@+id/btnAboutMeChange"
+            android:text="@string/btn_save"
+            android:id="@+id/btnAboutMeSave"
             android:layout_gravity="center"
             android:layout_weight="1" />
     </LinearLayout>
