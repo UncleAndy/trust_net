@@ -22,14 +22,6 @@
             android:textStyle="bold" />
 
 
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_qr_read"
-            android:id="@+id/btnQRRead"
-            android:drawableLeft="@drawable/qr_code_icon"
-            android:drawableRight="@drawable/qr_code_icon" />
-
         <!-- Icons from http://icons8.com/ -->
     </LinearLayout>
 
@@ -58,15 +50,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_servers_view"
-                android:id="@+id/btnDocSign"
+                android:id="@+id/btnServerView"
                 android:layout_weight="1" />
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_servers_announses"
-                android:id="@+id/btnDocView"
-                android:layout_weight="1" />
         </LinearLayout>
 
     </LinearLayout>

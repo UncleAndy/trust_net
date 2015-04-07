@@ -27,10 +27,10 @@
     <string name="btn_back">Назад</string>
     <string name="title_servers_list">Список серверов</string>
     <string name="btn_qr_read">Считать код</string>
-    <string name="btn_servers_view">Просмотр...</string>
+    <string name="btn_servers_view">Просмотр</string>
     <string name="btn_servers_announses">Анонсы...</string>
     <string name="txt_only_for_admins">Только для администраторов серверов!</string>
     <string name="title_servers_announces_view">Анонсы серверов</string>
-    <string name="btn_server_announce_create">Создать анонс</string>
+    <string name="btn_server_announce_create">Создать свой анонс</string>
     <string name="btn_sign">Подписать</string>
 </resources>

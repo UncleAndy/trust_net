@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class AboutMeEdit extends Activity implements View.OnClickListener {
+public class AAboutMeEdit extends Activity implements View.OnClickListener {
 
     private Settings settings;
 
@@ -55,7 +55,7 @@ public class AboutMeEdit extends Activity implements View.OnClickListener {
                 info.social_number = edtSocialNumber.getText().toString();
                 settings.setPersonalInfo(info);
 
-                AboutMe.instance.setData();
+                AAboutMe.instance.setData();
 
                 finish();
                 break;

@@ -12,6 +12,15 @@
     <Button
         android:layout_width="fill_parent"
         android:layout_height="0dp"
+        android:text="@string/btn_qr_read"
+        android:id="@+id/btnQRRead"
+        android:drawableLeft="@drawable/qr_code_icon"
+        android:drawableRight="@drawable/qr_code_icon"
+        android:layout_weight="1" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
         android:text="@string/btn_me"
         android:id="@+id/btnMe"
         android:layout_weight="1" />

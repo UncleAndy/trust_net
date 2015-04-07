@@ -24,4 +24,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.2'
     compile files('src/main/java/org/gplvote/trustnet/libs/gson-2.3.1.jar')
     compile files('src/main/java/org/gplvote/trustnet/libs/android-integration-3.1.0.jar')
+    compile files('src/main/java/org/gplvote/trustnet/libs/android-core-3.1.0.jar')
+    compile files('src/main/java/org/gplvote/trustnet/libs/core-3.1.0.jar')
 }

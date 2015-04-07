@@ -1,6 +1,7 @@
 package org.gplvote.trustnet;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,8 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
-public class MainActivity extends ActionBarActivity implements View.OnClickListener {
+
+public class AMain extends ActionBarActivity implements View.OnClickListener {
 
     private Button btnMe;
     private Button btnServers;
@@ -18,6 +22,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private Button btnTrusts;
     private Button btnTagsAttestations;
     private Button btnMessages;
+    private Button btnQRCode;
 
     private static final Integer RESULT_PUBLIC_KEY = 1;
 
@@ -32,6 +37,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         btnTrusts           = (Button) findViewById(R.id.btnTrusts);
         btnTagsAttestations = (Button) findViewById(R.id.btnTagsAttestations);
         btnMessages         = (Button) findViewById(R.id.btnMessages);
+        btnQRCode           = (Button) findViewById(R.id.btnQRRead);
 
         btnMe.setOnClickListener(this);
         btnServers.setOnClickListener(this);
@@ -39,11 +45,18 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         btnTrusts.setOnClickListener(this);
         btnTagsAttestations.setOnClickListener(this);
         btnMessages.setOnClickListener(this);
+        btnQRCode.setOnClickListener(this);
 
         // Считываем публичный ключ и его идентификатор из приложения SignDoc
         Intent intent = new Intent("org.gplvote.signdoc.DO_SIGN");
         intent.putExtra("Command", "GetPublicKeyId");
         startActivityForResult(intent, RESULT_PUBLIC_KEY);
+    }
+
+    public void qrScanStart() {
+        Log.d("QRCODE", "qr_scan");
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.initiateScan();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -66,6 +79,19 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     return;
 
                 settings.setPersonalInfo(pi);
+            } else {
+                Log.d("QRCODE", "onActivityResult");
+                IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+                if (scanResult != null) {
+                    String uri = scanResult.getContents();
+
+                    if (uri != null) {
+                        Log.d("SCAN", "Scan result = " + uri);
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                        startActivity(intent);
+                    }
+                }
             }
         }
     }
@@ -75,10 +101,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         Intent intent;
         switch (v.getId()) {
             case R.id.btnMe:
-                intent = new Intent(this, AboutMe.class);
+                intent = new Intent(this, AAboutMe.class);
                 startActivity(intent);
                 break;
             case R.id.btnServers:
+                intent = new Intent(this, AServers.class);
+                startActivity(intent);
                 break;
             case R.id.btnAttestations:
                 break;
@@ -87,6 +115,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             case R.id.btnTagsAttestations:
                 break;
             case R.id.btnMessages:
+                break;
+            case R.id.btnQRRead:
+                qrScanStart();
                 break;
         }
     }

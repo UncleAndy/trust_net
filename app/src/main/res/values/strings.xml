@@ -28,11 +28,11 @@
     <string name="btn_back">Back</string>
     <string name="title_servers_list">Servers list</string>
     <string name="btn_qr_read">Scan code</string>
-    <string name="btn_servers_view">View...</string>
+    <string name="btn_servers_view">View</string>
     <string name="btn_servers_announses">Announces...</string>
     <string name="txt_only_for_admins">Only for servers admins!</string>
     <string name="title_servers_announces_view">Servers announces</string>
-    <string name="btn_server_announce_create">Create announce</string>
+    <string name="btn_server_announce_create">Create self announce</string>
     <string name="btn_sign">Sign</string>
 
 </resources>

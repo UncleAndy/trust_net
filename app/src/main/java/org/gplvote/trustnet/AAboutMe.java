@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class AboutMe extends Activity implements View.OnClickListener {
-    public static AboutMe instance;
+public class AAboutMe extends Activity implements View.OnClickListener {
+    public static AAboutMe instance;
 
     private Settings settings;
 
@@ -48,7 +48,7 @@ public class AboutMe extends Activity implements View.OnClickListener {
         Intent intent;
         switch (v.getId()) {
             case R.id.btnAboutMeChange:
-                intent = new Intent(this, AboutMeEdit.class);
+                intent = new Intent(this, AAboutMeEdit.class);
                 startActivity(intent);
                 break;
             case R.id.btnAboutMeBack:
