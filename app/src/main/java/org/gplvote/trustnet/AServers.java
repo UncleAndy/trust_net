@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +40,17 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
         btnView.setOnClickListener(this);
 
         reload_servers();
+
+        // Check server registration over URI
+        Intent i = getIntent();
+        Uri d = null;
+        if (i != null) d = i.getData();
+
+        if (d != null && d.getScheme().equals("trustnet") && d.getHost().equals("regserver")) {
+            String reg_host = d.getPath();
+            reg_host = reg_host.replaceAll("^/", "");
+            register_server(reg_host);
+        }
     }
 
     @Override
@@ -48,6 +60,14 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
             case R.id.btnServerView:
                 break;
         }
+    }
+
+    public void register_server(String host) {
+
+
+
+
+        
     }
 
     public void reload_servers() {
