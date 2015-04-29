@@ -87,11 +87,11 @@ public class HttpProcessor {
                 return body;
             } else {
                 Log.e("AsyncHTTP", "Error HTTP response status " + http_status);
-                return nil;
+                return null;
             }
         } catch (Exception e) {
             Log.e("AsyncHTTP", "Error HTTP request: ", e);
-            return nil;
+            return null;
         }
     }
 }

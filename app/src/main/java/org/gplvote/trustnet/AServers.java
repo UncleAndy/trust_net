@@ -63,11 +63,26 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
     }
 
     public void register_server(String host) {
+        // 1. Send PING packet to new server
+        // 2. If PING is OK, add server to DB
+        // 3. Send request for get trusted servers list
+        // 3.1. Add new servers in DB after PING
+        // 4. Send to main server user public key
+        // 5. Send to main server all certifications (main and addition)
+        PacketPing ping = new PacketPing();
+        if (!ping.send(host))
+            return;
+        if (!Servers.add(host))
+            return;
+
+        Servers.add_from_server(host);
+
+        Settings settings = Settings.getInstance(this);
+        DataPersonalInfo pi = settings.getPersonalInfo();
+
+        Servers.send_public_key(host, pi.public_key);
 
 
-
-
-        
     }
 
     public void reload_servers() {
