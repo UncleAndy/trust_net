@@ -82,7 +82,11 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
 
         Servers.send_public_key(host, pi.public_key);
 
-
+        ArrayList<PacketBase> list =  PacketBase.db_list();
+        for(int i = 0; i < list.size(); i++) {
+            PacketBase packet = list.get(i);
+            packet.send(host);
+        }
     }
 
     public void reload_servers() {

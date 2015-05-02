@@ -1,6 +1,8 @@
 package org.gplvote.trustnet;
 
 public class DocPacketsList extends DocBase {
-    String type = "PACKETS_LIST";
+    public static final String DOC_TYPE = "PACKETS_LIST";
+
+    String type = DOC_TYPE;
     String[] list;
 }

@@ -26,6 +26,8 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
 
     private static final Integer RESULT_PUBLIC_KEY = 1;
 
+    public static DbHelper db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,8 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
         btnTagsAttestations.setOnClickListener(this);
         btnMessages.setOnClickListener(this);
         btnQRCode.setOnClickListener(this);
+
+        db = DbHelper.getInstance(this);
 
         // Считываем публичный ключ и его идентификатор из приложения SignDoc
         Intent intent = new Intent("org.gplvote.signdoc.DO_SIGN");

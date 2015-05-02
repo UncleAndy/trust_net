@@ -25,7 +25,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public DbHelper(Context context) {
-        super(context, "TrustNet", null, 1);
+        super(context, "TrustNet", null, 2);
     }
 
     @Override
@@ -42,10 +42,33 @@ public class DbHelper extends SQLiteOpenHelper {
                 + ");");
         db.execSQL("CREATE INDEX servers_source_t_last_idx ON servers (source, t_last_online)");
 
+        // signed docs
+        db.execSQL("CREATE TABLE docs ("
+                + "id integer primary key autoincrement,"
+                + "type text,"
+                + "doc text,"
+                + "sign text,"
+                + "sign_pub_key_id,"
+                + "t_create INTEGER"
+                + ");");
+        db.execSQL("CREATE INDEX docs_type_t_create_idx ON servers (type, t_create)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        if (oldVersion < 2 && newVersion >= 2) {
+            db.beginTransaction();
+            db.execSQL("CREATE TABLE docs ("
+                    + "id integer primary key autoincrement,"
+                    + "type text,"
+                    + "doc text,"
+                    + "sign text,"
+                    + "sign_pub_key_id,"
+                    + "t_create INTEGER"
+                    + ");");
+            db.execSQL("CREATE INDEX docs_type_t_create_idx ON servers (type, t_create)");
+            db.setTransactionSuccessful();
+            db.endTransaction();
+        }
     }
 }
