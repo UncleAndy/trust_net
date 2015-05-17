@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
 
 import java.util.ArrayList;
 
@@ -12,9 +14,10 @@ public class PacketBase {
     public DocBase doc;
     public String sign;
     public String sign_pub_key_id;
+    public String sign_personal_id;
 
     public boolean send() {
-        Log.d("PacketBase send to servers", "");
+        Log.d("PacketBase", "send to servers all");
 
         int skip = 0;
         boolean sended = false;
@@ -32,13 +35,14 @@ public class PacketBase {
     }
 
     public boolean send(String host) {
-        Gson gson = new Gson();
-        String json = gson.toJson(this);
+        Log.d("PacketBase", "send to server: "+host);
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().serializeNulls().create();
+        String json = gson.toJson(this, this.getClass());
 
         Log.d("PacketBase send", "Json = " + json);
 
         HttpProcessor httpprocessor = new HttpProcessor();
-        return (httpprocessor.postData(host, json));
+        return (httpprocessor.postData("http://"+host+"/get/time", json));
     }
 
     public static ArrayList<PacketBase> db_list() {
@@ -66,6 +70,7 @@ public class PacketBase {
                 String json_doc = c.getString(c.getColumnIndex("doc"));
                 String sign = c.getString(c.getColumnIndex("sign"));
                 String sign_pub_key_id = c.getString(c.getColumnIndex("sign_pub_key_id"));
+                String sign_personal_id = c.getString(c.getColumnIndex("sign_personal_id"));
 
                 Gson gson = new Gson();
                 doc = gson.fromJson(json_doc, doc.getClass());

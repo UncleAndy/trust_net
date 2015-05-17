@@ -1,7 +1,16 @@
 package org.gplvote.trustnet;
 
+import android.util.Log;
+
+import com.google.gson.annotations.Expose;
+
 public class PacketPing extends PacketBase {
-    public DocPing doc;
-    public String sign;
-    public String sign_pub_key_id;
+    @Expose public DocPing doc;
+
+    public PacketPing() {
+        super();
+        Log.d("PacketPing", "Constructor start");
+        doc = new DocPing();
+        doc.source = "test";
+    }
 }

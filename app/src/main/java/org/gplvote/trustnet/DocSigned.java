@@ -1,5 +1,7 @@
 package org.gplvote.trustnet;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
 public class DocSigned extends DocBase {
@@ -34,31 +36,36 @@ public class DocSigned extends DocBase {
     }
 
     public PacketBase get_packet(String sign, String sign_pub_key_id) {
+        Gson gson = new Gson();
+        String[] desc_data_array = gson.fromJson(this.dec_data, String[].class);
         switch (this.type) {
             case DocAttestation.DOC_TYPE:
-                PacketAttestation packet = new PacketAttestation();
-                packet.doc = (DocAttestation) this;
-                packet.sign = sign;
-                packet.sign_pub_key_id = sign_pub_key_id;
-                return(packet);
+                PacketAttestation packet_att = new PacketAttestation();
+                packet_att.doc = (DocAttestation) this;
+                packet_att.sign = sign;
+                packet_att.sign_pub_key_id = sign_pub_key_id;
+                packet_att.sign_personal_id = desc_data_array[0];
+                return(packet_att);
             case DocTrust.DOC_TYPE:
-                PacketTrust packet = new PacketTrust();
-                packet.doc = (DocTrust) this;
-                packet.sign = sign;
-                packet.sign_pub_key_id = sign_pub_key_id;
-                return(packet);
+                PacketTrust packet_trust = new PacketTrust();
+                packet_trust.doc = (DocTrust) this;
+                packet_trust.sign = sign;
+                packet_trust.sign_pub_key_id = sign_pub_key_id;
+                packet_trust.sign_personal_id = desc_data_array[0];
+                return(packet_trust);
             case DocTag.DOC_TYPE:
-                PacketTag packet = new PacketTag();
-                packet.doc = (DocTag) this;
-                packet.sign = sign;
-                packet.sign_pub_key_id = sign_pub_key_id;
-                return(packet);
+                PacketTag packet_tag = new PacketTag();
+                packet_tag.doc = (DocTag) this;
+                packet_tag.sign = sign;
+                packet_tag.sign_pub_key_id = sign_pub_key_id;
+                packet_tag.sign_personal_id = desc_data_array[0];
+                return(packet_tag);
             case DocMessage.DOC_TYPE:
-                PacketMessage packet = new PacketMessage();
-                packet.doc = (DocMessage) this;
-                packet.sign = sign;
-                packet.sign_pub_key_id = sign_pub_key_id;
-                return(packet);
+                PacketMessage packet_msg = new PacketMessage();
+                packet_msg.doc = (DocMessage) this;
+                packet_msg.sign = sign;
+                packet_msg.sign_pub_key_id = sign_pub_key_id;
+                return(packet_msg);
         }
         return(null);
     }

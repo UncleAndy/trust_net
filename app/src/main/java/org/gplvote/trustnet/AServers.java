@@ -69,7 +69,10 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
         // 3.1. Add new servers in DB after PING
         // 4. Send to main server user public key
         // 5. Send to main server all certifications (main and addition)
+        Log.d("register_server", "Start");
+
         PacketPing ping = new PacketPing();
+        Log.i("PacketPing", "Doc = "+ping.doc.hashCode());
         if (!ping.send(host))
             return;
         if (!Servers.add(host))
