@@ -2,7 +2,7 @@ package org.gplvote.trustnet;
 
 import com.google.gson.annotations.Expose;
 
-public class PacketMessage extends PacketBase {
+public class PacketMessage extends PacketSigned {
     @Expose public DocMessage doc;
     @Expose public String sign;
     @Expose public String sign_pub_key_id;

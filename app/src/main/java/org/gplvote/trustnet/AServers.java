@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 
 public class AServers  extends QRReaderActivity implements View.OnClickListener{
-
     private Button btnView;
     private ListView listServersView;
     private ServersListArrayAdapter sAdapter;
@@ -83,11 +84,11 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
         Settings settings = Settings.getInstance(this);
         DataPersonalInfo pi = settings.getPersonalInfo();
 
-        Servers.send_public_key(host, pi.public_key);
+        send_public_key(host);
 
-        ArrayList<PacketBase> list =  PacketBase.db_list();
+        ArrayList<PacketSigned> list =  PacketSigned.db_list();
         for(int i = 0; i < list.size(); i++) {
-            PacketBase packet = list.get(i);
+            PacketSigned packet = list.get(i);
             packet.send(host);
         }
     }
@@ -216,5 +217,64 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
 
             return(time_to_string(time_long));
         }
+    }
+
+    public void send_public_key(String hosts) {
+        DataPersonalInfo pi = AMain.settings.getPersonalInfo();
+        if (pi == null) return;
+
+        // 1. Ищем в базе документов нужный документ
+        // 2. Если его нет - добавляем в базу без подписи
+        // 3. Если он не подписан - ставим в очередь на подписание и отправку через ASendSign
+
+
+        // 1.
+        SQLiteDatabase db = AMain.db.getWritableDatabase();
+
+        long public_key_doc_id = -1;
+        Boolean public_key_signed = false;
+
+        Cursor c = db.query("docs", new String[]{"id", "doc", "sign"}, "type = 'PUBLIC_KEY'", null, null, null, null, null);
+        if (c != null) {
+            if (c.moveToFirst()) {
+                do {
+                    String doc_json = c.getString(c.getColumnIndex("doc"));
+
+                    Gson gson = new Gson();
+                    DocSigned doc = gson.fromJson(doc_json, DocSigned.class);
+
+                    String[] data = gson.fromJson(doc.dec_data, String[].class);
+
+                    if (data[0].equals(pi.personal_id()) && (data[1].equals(pi.public_key))) {
+                        public_key_signed = !c.getString(c.getColumnIndex("sign")).isEmpty();
+                        public_key_doc_id = c.getInt(c.getColumnIndex("id"));
+                        break;
+                    }
+                } while (c.moveToNext());
+            }
+        }
+
+        // 2.
+        PacketSigned pack = null;
+        if (public_key_doc_id == -1) {
+            DocPublicKey doc = new DocPublicKey();
+            doc.type = DocPublicKey.DOC_TYPE;
+            doc.site = AMain.SIGN_DOC_APP_TYPE;
+            doc.template = getString(R.string.template_doc_public_key);
+            doc.dec_data = "[\"" + pi.personal_id() + "\",\"" + pi.public_key + "\"]";
+
+            pack = doc.get_packet(null, null);
+
+            pack.insert(DocPublicKey.DOC_TYPE);
+            public_key_signed = false;
+        } else {
+            pack = new PacketSigned(String.valueOf(public_key_doc_id));
+        }
+
+        // 3.
+        ASendSign.add_to_queue(pack.doc, hosts, !public_key_signed);
+
+        Intent intent = new Intent(this, ASendSign.class);
+        startActivity(intent);
     }
 }

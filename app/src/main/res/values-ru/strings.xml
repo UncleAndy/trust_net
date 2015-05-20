@@ -33,4 +33,5 @@
     <string name="title_servers_announces_view">Анонсы серверов</string>
     <string name="btn_server_announce_create">Создать свой анонс</string>
     <string name="btn_sign">Подписать</string>
+    <string name="template_doc_public_key">LIST\nВаш персональный идентификатор\nВаш публичный ключ</string>
 </resources>

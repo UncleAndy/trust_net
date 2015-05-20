@@ -1,5 +1,6 @@
 package org.gplvote.trustnet;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -12,9 +13,29 @@ import java.util.ArrayList;
 
 public class PacketBase {
     public DocBase doc;
-    public String sign;
-    public String sign_pub_key_id;
-    public String sign_personal_id;
+
+    public boolean send_hosts(String hosts) {
+        if (hosts.isEmpty()) return(false);
+
+        Boolean sended = false;
+
+        if (hosts.equals("*")) {
+            sended = send();
+        } else {
+            String[] host_list = hosts.split(",");
+
+            sended = true;
+            for (String host : host_list) {
+                if (host.equals("*")) {
+                    sended = sended && send();
+                } else if (!host.isEmpty()) {
+                    sended = sended && send(host);
+                }
+            }
+        }
+
+        return(sended);
+    }
 
     public boolean send() {
         Log.d("PacketBase", "send to servers all");
@@ -25,7 +46,7 @@ public class PacketBase {
         do {
             servers = Servers.for_send(skip);
             for (int i = 0; i < servers.size(); i++) {
-                Log.d("PacketBase send to servers", "Host = "+servers.get(i));
+                Log.d("PacketBase", "Send to servers: Host = "+servers.get(i));
                 if (send(servers.get(i)))
                     sended = true;
             }
@@ -43,45 +64,5 @@ public class PacketBase {
 
         HttpProcessor httpprocessor = new HttpProcessor();
         return (httpprocessor.postData("http://"+host+"/get/time", json));
-    }
-
-    public static ArrayList<PacketBase> db_list() {
-        return(db_list(null));
-    }
-
-    public static ArrayList<PacketBase> db_list(String type) {
-        ArrayList<PacketBase> list = new ArrayList<PacketBase>();
-
-        SQLiteDatabase db = AMain.db.getWritableDatabase();
-
-        Cursor c;
-        if (type == null || type.isEmpty()) {
-            c = db.query("docs", new String[]{"id", "type", "doc", "sign", "sign_pub_key_id"}, null, null, null, null, null, null);
-        } else {
-            c = db.query("docs", new String[]{"id", "type", "doc", "sign", "sign_pub_key_id"}, "type = ?", new String[]{type}, null, null, null, null);
-        }
-
-        if (c != null && c.moveToFirst()) {
-            do {
-                String doc_type = c.getString(c.getColumnIndex("type"));
-
-                DocSigned doc = DocSigned.new_doc_by_type(doc_type);
-
-                String json_doc = c.getString(c.getColumnIndex("doc"));
-                String sign = c.getString(c.getColumnIndex("sign"));
-                String sign_pub_key_id = c.getString(c.getColumnIndex("sign_pub_key_id"));
-                String sign_personal_id = c.getString(c.getColumnIndex("sign_personal_id"));
-
-                Gson gson = new Gson();
-                doc = gson.fromJson(json_doc, doc.getClass());
-
-                PacketBase packet = doc.get_packet(sign, sign_pub_key_id);
-
-                list.add(packet);
-
-            } while (c.moveToNext());
-        }
-
-        return(list);
     }
 }

@@ -11,11 +11,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.util.ArrayList;
+
 
 public class AMain extends ActionBarActivity implements View.OnClickListener {
+    public static final String SIGN_DOC_APP_TYPE = "app:trustnet";
+    public static AMain instance;
+
+    public static Settings settings;
 
     private Button btnMe;
     private Button btnServers;
@@ -38,6 +46,9 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
+
+        settings = Settings.getInstance(this);
+        instance = this;
 
         btnMe               = (Button) findViewById(R.id.btnMe);
         btnServers          = (Button) findViewById(R.id.btnServers);
@@ -76,7 +87,6 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
         if (resultCode == RESULT_OK) {
             if (requestCode == RESULT_PUBLIC_KEY) {
                 // Получаем публичный ключ и его идентификатор и записываем их в настройки
-                Settings settings = Settings.getInstance(this);
                 DataPersonalInfo pi = settings.getPersonalInfo();
 
                 Log.d("GETKEY", "Personal info = " + pi.toString());

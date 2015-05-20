@@ -34,5 +34,5 @@
     <string name="title_servers_announces_view">Servers announces</string>
     <string name="btn_server_announce_create">Create self announce</string>
     <string name="btn_sign">Sign</string>
-
+    <string name="template_doc_public_key">LIST\nYour personal identifier\nYour public key</string>
 </resources>
