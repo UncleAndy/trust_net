@@ -30,6 +30,7 @@ public class PacketSigned extends PacketBase {
                 Gson gson = new Gson();
                 doc = gson.fromJson(doc_json, DocSigned.class);
             }
+            c.close();
         }
     }
 
@@ -90,25 +91,28 @@ public class PacketSigned extends PacketBase {
             c = db.query("docs", new String[]{"id", "type", "doc", "sign", "sign_pub_key_id"}, "type = ?", new String[]{type}, null, null, null, null);
         }
 
-        if (c != null && c.moveToFirst()) {
-            do {
-                String doc_type = c.getString(c.getColumnIndex("type"));
+        if (c != null) {
+            if (c.moveToFirst()) {
+                do {
+                    String doc_type = c.getString(c.getColumnIndex("type"));
 
-                DocSigned doc = DocSigned.new_doc_by_type(doc_type);
+                    DocSigned doc = DocSigned.new_doc_by_type(doc_type);
 
-                String json_doc = c.getString(c.getColumnIndex("doc"));
-                String sign = c.getString(c.getColumnIndex("sign"));
-                String sign_pub_key_id = c.getString(c.getColumnIndex("sign_pub_key_id"));
-                String sign_personal_id = c.getString(c.getColumnIndex("sign_personal_id"));
+                    String json_doc = c.getString(c.getColumnIndex("doc"));
+                    String sign = c.getString(c.getColumnIndex("sign"));
+                    String sign_pub_key_id = c.getString(c.getColumnIndex("sign_pub_key_id"));
+                    String sign_personal_id = c.getString(c.getColumnIndex("sign_personal_id"));
 
-                Gson gson = new Gson();
-                doc = gson.fromJson(json_doc, doc.getClass());
+                    Gson gson = new Gson();
+                    doc = gson.fromJson(json_doc, doc.getClass());
 
-                PacketSigned packet = doc.get_packet(sign, sign_pub_key_id);
+                    PacketSigned packet = doc.get_packet(sign, sign_pub_key_id);
 
-                list.add(packet);
+                    list.add(packet);
 
-            } while (c.moveToNext());
+                } while (c.moveToNext());
+            }
+            c.close();
         }
 
         return(list);

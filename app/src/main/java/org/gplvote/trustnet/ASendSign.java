@@ -87,35 +87,6 @@ public class ASendSign extends Activity {
         startActivityForResult(intent, 1);
     }
 
-    private void send_queue_docs() {
-        // Цикл по очереди, выборка документов из базы и отправка всех подписанных по одному
-        for(int i=0; i < queue.size();i++) {
-            QueueRecord req = queue.get(i);
-            if (req.send_req) {
-                PacketSigned pack = new PacketSigned(req.doc_id);
-                if (pack.doc != null && !pack.sign.isEmpty()) {
-                    // Отправляем пакет
-                    if (pack.send_hosts(req.hosts)) {
-                        // После удачной отправки удаляем пакет из очереди
-                        queue.remove(i);
-                        i--;
-                    }
-                }
-            }
-        }
-
-        if (queue.size() > 0) {
-            String doc_ids = "";
-            String sep = "";
-            for(int i=0;i<queue.size();i++) {
-                QueueRecord req = queue.get(i);
-                Log.e("SEND_QUEUE", "Can not send doc "+req.doc_id);
-            }
-        }
-
-        finish();
-    }
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data == null)
             return;
@@ -159,5 +130,35 @@ public class ASendSign extends Activity {
 
             send_queue_docs();
         }
+    }
+
+    // TODO: Реализовать отправку через асинхронный таск
+    private void send_queue_docs() {
+        // Цикл по очереди, выборка документов из базы и отправка всех подписанных по одному
+        for(int i=0; i < queue.size();i++) {
+            QueueRecord req = queue.get(i);
+            if (req.send_req) {
+                PacketSigned pack = new PacketSigned(req.doc_id);
+                if (pack.doc != null && !pack.sign.isEmpty()) {
+                    // Отправляем пакет
+                    if (pack.send_hosts(req.hosts)) {
+                        // После удачной отправки удаляем пакет из очереди
+                        queue.remove(i);
+                        i--;
+                    }
+                }
+            }
+        }
+
+        if (queue.size() > 0) {
+            String doc_ids = "";
+            String sep = "";
+            for(int i=0;i<queue.size();i++) {
+                QueueRecord req = queue.get(i);
+                Log.e("SEND_QUEUE", "Can not send doc "+req.doc_id);
+            }
+        }
+
+        finish();
     }
 }

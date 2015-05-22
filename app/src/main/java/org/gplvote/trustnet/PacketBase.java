@@ -24,12 +24,25 @@ public class PacketBase {
         } else {
             String[] host_list = hosts.split(",");
 
-            sended = true;
+            Boolean sended_to_all = false;
+            String server = null;
             for (String host : host_list) {
                 if (host.equals("*")) {
-                    sended = sended && send();
+                    sended_to_all = true;
                 } else if (!host.isEmpty()) {
-                    sended = sended && send(host);
+                    server = host;
+                }
+            }
+
+            if (server != null) {
+                sended = sended || send(server);
+            }
+
+            if (sended_to_all) {
+                if (server != null) {
+                    send_excluded(server);
+                } else {
+                    send();
                 }
             }
         }
@@ -37,14 +50,14 @@ public class PacketBase {
         return(sended);
     }
 
-    public boolean send() {
+    public boolean send_excluded(String exclude_host) {
         Log.d("PacketBase", "send to servers all");
 
         int skip = 0;
         boolean sended = false;
         ArrayList<String> servers;
         do {
-            servers = Servers.for_send(skip);
+            servers = Servers.for_send(skip, exclude_host);
             for (int i = 0; i < servers.size(); i++) {
                 Log.d("PacketBase", "Send to servers: Host = "+servers.get(i));
                 if (send(servers.get(i)))
@@ -55,6 +68,10 @@ public class PacketBase {
         return(sended);
     }
 
+    public boolean send() {
+        return(send_excluded(null));
+    }
+
     public boolean send(String host) {
         Log.d("PacketBase", "send to server: "+host);
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().serializeNulls().create();
@@ -63,6 +80,10 @@ public class PacketBase {
         Log.d("PacketBase send", "Json = " + json);
 
         HttpProcessor httpprocessor = new HttpProcessor();
-        return (httpprocessor.postData("http://"+host+"/get/time", json));
+        if (httpprocessor.postData("http://"+host+Servers.URI_GET_TIME, json)) {
+            Servers.set_online(host);
+            return (true);
+        }
+        return (false);
     }
 }

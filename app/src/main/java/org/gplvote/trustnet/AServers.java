@@ -76,7 +76,7 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
         Log.i("PacketPing", "Doc = "+ping.doc.hashCode());
         if (!ping.send(host))
             return;
-        if (!Servers.add(host))
+        if (!Servers.add(host, Servers.SOURCE_DIRECT))
             return;
 
         Servers.add_from_server(host);
@@ -99,7 +99,7 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
 
         Log.d("SERVERS", "Run update_list");
 
-        // Заполнение m данными из таблицы документов
+        // Заполнение m данными из таблицы серверов
         DbHelper dbStorage = DbHelper.getInstance(this);
         SQLiteDatabase db = dbStorage.getWritableDatabase();
 
@@ -122,6 +122,7 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
                     list.add(m);
                 } while (c.moveToNext());
             }
+            c.close();
         }
 
         listServersView = (ListView) findViewById(R.id.listServersView);
@@ -252,6 +253,7 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
                     }
                 } while (c.moveToNext());
             }
+            c.close();
         }
 
         // 2.
