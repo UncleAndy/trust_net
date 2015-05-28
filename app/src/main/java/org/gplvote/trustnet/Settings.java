@@ -47,6 +47,8 @@ public class Settings {
     public void setPersonalInfo(DataPersonalInfo personal_info) {
         if (personal_info == null) return;
 
+        // TODO: Сравниваем старые персональные данные с новыми и запускаем генерацию нового персонального идентификатора если не совпадают
+
         String json_pers_info = gson.toJson(personal_info);
         this.set(PREF_KEY_PERSONAL_INFO, json_pers_info);
     }
