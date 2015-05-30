@@ -1,10 +1,13 @@
 package org.gplvote.trustnet;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class AAboutMeEdit extends Activity implements View.OnClickListener {
 
@@ -16,6 +19,10 @@ public class AAboutMeEdit extends Activity implements View.OnClickListener {
     private EditText edtSocialNumber;
     private Button btnSave;
     private Button btnBack;
+    private TextView txtInfo;
+    private ProgressBar progressSave;
+
+    private TaskSettingSave task_save = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +40,9 @@ public class AAboutMeEdit extends Activity implements View.OnClickListener {
         edtBirthday     = (EditText) findViewById(R.id.edtAboutMeBirthday);
         edtTaxNumber    = (EditText) findViewById(R.id.edtAboutMeTaxNumber);
         edtSocialNumber = (EditText) findViewById(R.id.edtAboutMeSocialNumber);
+
+        txtInfo         = (TextView) findViewById(R.id.textAboutMeEditInfo);
+        progressSave    = (ProgressBar) findViewById(R.id.progressSave);
 
         DataPersonalInfo info = settings.getPersonalInfo();
         if (info != null) {
@@ -53,15 +63,57 @@ public class AAboutMeEdit extends Activity implements View.OnClickListener {
                 info.birthday = edtBirthday.getText().toString();
                 info.tax_number = edtTaxNumber.getText().toString();
                 info.social_number = edtSocialNumber.getText().toString();
-                settings.setPersonalInfo(info);
 
-                AAboutMe.instance.setData();
-
-                finish();
+                // TODO: Запуск фоновой задачи сохранения данных
+                task_save = new TaskSettingSave();
+                task_save.execute(info);
                 break;
             case R.id.btnAboutMeEditBack:
                 finish();
                 break;
+        }
+    }
+
+    // Асинхронный таск для записи персональных данных
+    // Необходим потому, что генерация персонального идентификатора может занять существенное время
+    // При старте в форме ввода:
+    // 1. показывает прогресс-бар
+    // 2. отображает в текстовом поле с пояснениями предупреждение о длительном процессе
+    // 3. запрещает редактирование всех полей и кнопку "Сохранить"
+    // 4. вешает на кнопку "Назад" сообщение "Прервать" и обработчик для остановки фоновой задачи
+
+    class TaskSettingSave extends AsyncTask<DataPersonalInfo, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            txtInfo.setText(getText(R.string.txt_about_me_generate));
+
+            edtName.setEnabled(false);
+            edtBirthday.setEnabled(false);
+            edtTaxNumber.setEnabled(false);
+            edtSocialNumber.setEnabled(false);
+            btnSave.setEnabled(false);
+            btnBack.setEnabled(false);
+
+            progressSave.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(DataPersonalInfo... params) {
+            settings.setPersonalInfo(params[0]);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            AAboutMe.instance.setData();
+
+            task_save = null;
+
+            AAboutMeEdit.this.finish();
         }
     }
 }

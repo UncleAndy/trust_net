@@ -17,6 +17,7 @@ public class AAboutMe extends Activity implements View.OnClickListener {
     private TextView txtTaxNumber;
     private TextView txtSocialNumber;
     private TextView txtPublicKeyId;
+    private TextView txtPersonalId;
     private Button btnChange;
     private Button btnBack;
 
@@ -39,6 +40,7 @@ public class AAboutMe extends Activity implements View.OnClickListener {
         txtTaxNumber    = (TextView) findViewById(R.id.txtAboutMeTaxNumber);
         txtSocialNumber = (TextView) findViewById(R.id.txtAboutMeSocialNumber);
         txtPublicKeyId  = (TextView) findViewById(R.id.txtAboutMePublicKeyId);
+        txtPersonalId   = (TextView) findViewById(R.id.txtAboutMePersonalId);
 
         setData();
     }
@@ -65,6 +67,7 @@ public class AAboutMe extends Activity implements View.OnClickListener {
             txtTaxNumber.setText(info.tax_number);
             txtSocialNumber.setText(info.social_number);
             txtPublicKeyId.setText(info.public_key_id);
+            txtPersonalId.setText(info.personal_id);
         }
     }
 }

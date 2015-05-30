@@ -34,4 +34,6 @@
     <string name="btn_server_announce_create">Создать свой анонс</string>
     <string name="btn_sign">Подписать</string>
     <string name="template_doc_public_key">LIST\nВаш персональный идентификатор\nВаш публичный ключ</string>
+    <string name="label_personal_id">Персональный идентификатор</string>
+    <string name="txt_about_me_generate">Происходит создание вашего персонального идентификатора. Это может занять несколько минут. Пожалуйста, подождите.</string>
 </resources>

@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/txt_about_me_info"
-            android:id="@+id/textView2"
+            android:id="@+id/textAboutMeEditInfo"
             android:textColor="@android:color/black"
             android:textStyle="bold"
             android:layout_marginBottom="8dp" />
@@ -110,6 +110,14 @@
             android:textStyle="bold"
             android:capitalize="characters"
             android:padding="4dp" />
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressSave"
+            android:layout_gravity="center_horizontal"
+            android:visibility="invisible" />
 
     </LinearLayout>
 

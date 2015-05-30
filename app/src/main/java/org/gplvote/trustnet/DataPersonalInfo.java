@@ -1,5 +1,6 @@
 package org.gplvote.trustnet;
 
+import android.os.AsyncTask;
 import android.util.Base64;
 
 import com.google.gson.annotations.Expose;
@@ -8,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 public class DataPersonalInfo {
     public static final int PERSONAL_ID_BCRYPT_COST = 8;
@@ -37,19 +39,17 @@ public class DataPersonalInfo {
     }
 
     public String personal_hash(String personal_data) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        byte[] hashBytes = null;
-
         BigInteger salt = new BigInteger("0");
         byte[] hash = null;
         int order_counter = PERSONAL_ID_HASH_ORDER;
         while (true) {
             salt = salt.add(new BigInteger("1"));
             BCrypt B = new BCrypt();
-            hash = B.crypt_raw(personal_data.getBytes("UTF-8"), salt.toByteArray(), PERSONAL_ID_BCRYPT_COST);
+            hash = B.crypt_raw(personal_data.getBytes("UTF-8"), big_int_to_bytes(salt, 16), PERSONAL_ID_BCRYPT_COST);
             if (is_zero_bits(hash, PERSONAL_ID_ZERO_BITS)) {
                 order_counter--;
                 if (order_counter <= 0)
-                    return(Integer.toHexString(PERSONAL_ID_BCRYPT_COST)+"$"+Integer.toHexString(PERSONAL_ID_HASH_ORDER)+"$"+Integer.toHexString(PERSONAL_ID_ZERO_BITS)+"$"+Base64.encodeToString(hashBytes, Base64.NO_WRAP));
+                    return(Integer.toHexString(PERSONAL_ID_BCRYPT_COST)+"$"+Integer.toHexString(PERSONAL_ID_HASH_ORDER)+"$"+Integer.toHexString(PERSONAL_ID_ZERO_BITS)+"$"+Base64.encodeToString(hash, Base64.NO_WRAP));
             }
         }
     }
@@ -65,15 +65,23 @@ public class DataPersonalInfo {
             }
         }
 
-        // Если еще остались биты для проверки - проверяем их в последнем байте
+        // Если еще остались биты для проверки - проверяем их в следующем байте
         if ((bits_count > 0) && (hash.length >= z_bytes_count)) {
             byte last = hash[z_bytes_count];
-            int mask = 255;
-            mask = mask << (8 - bits_count);
+            byte mask = (byte) 255;
+            mask = (byte) (mask << (8 - bits_count));
             if ((last & mask) > 0)
                 return(false);
         }
 
         return(true);
+    }
+
+    private byte[] big_int_to_bytes(BigInteger big_int, int bytes_count) {
+        byte[] array = big_int.toByteArray();
+        byte[] tmp = new byte[bytes_count];
+        Arrays.fill(tmp, (byte) 0);
+        System.arraycopy(array, 0, tmp, 0, array.length);
+        return(tmp);
     }
 }

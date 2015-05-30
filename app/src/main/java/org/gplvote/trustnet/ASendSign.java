@@ -116,7 +116,7 @@ public class ASendSign extends Activity {
                 PacketSigned pack = new PacketSigned(sign.doc_id);
                 pack.sign = sign.sign;
                 pack.sign_pub_key_id = pi.public_key_id;
-                pack.sign_personal_id = pi.personal_id();
+                pack.sign_personal_id = pi.personal_id;
                 pack.update_sign();
             }
 

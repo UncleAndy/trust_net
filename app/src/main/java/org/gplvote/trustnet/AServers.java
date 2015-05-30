@@ -246,7 +246,7 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
 
                     String[] data = gson.fromJson(doc.dec_data, String[].class);
 
-                    if (data[0].equals(pi.personal_id()) && (data[1].equals(pi.public_key))) {
+                    if (data[0].equals(pi.personal_id) && (data[1].equals(pi.public_key))) {
                         public_key_signed = !c.getString(c.getColumnIndex("sign")).isEmpty();
                         public_key_doc_id = c.getInt(c.getColumnIndex("id"));
                         break;
@@ -263,7 +263,7 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
             doc.type = DocPublicKey.DOC_TYPE;
             doc.site = AMain.SIGN_DOC_APP_TYPE;
             doc.template = getString(R.string.template_doc_public_key);
-            doc.dec_data = "[\"" + pi.personal_id() + "\",\"" + pi.public_key + "\"]";
+            doc.dec_data = "[\"" + pi.personal_id + "\",\"" + pi.public_key + "\"]";
 
             pack = doc.get_packet(null, null);
 

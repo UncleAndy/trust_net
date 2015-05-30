@@ -2,6 +2,7 @@ package org.gplvote.trustnet;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -34,22 +35,29 @@ public class Settings {
     }
 
     public String get(String key) {
-        String val = sPref.getString(key, "");
-        return(val);
+        return(sPref.getString(key, ""));
     }
 
     public void set(String key, String val) {
         SharedPreferences.Editor ed = sPref.edit();
         ed.putString(key, val);
-        ed.commit();
+        ed.apply();
     }
 
     public void setPersonalInfo(DataPersonalInfo personal_info) {
         if (personal_info == null) return;
 
-        // TODO: Сравниваем старые персональные данные с новыми и запускаем генерацию нового персонального идентификатора если не совпадают
+        // Сравниваем старые персональные данные с новыми и запускаем генерацию нового персонального идентификатора если не совпадают
+        DataPersonalInfo old_pi = getPersonalInfo();
+        if (!old_pi.birthday.equals(personal_info.birthday) ||
+            !old_pi.social_number.equals(personal_info.social_number) ||
+            !old_pi.tax_number.equals(personal_info.tax_number)) {
+            personal_info.personal_id = personal_info.gen_personal_id();
+            Log.i("PERSONAL_ID", "Generated value is "+personal_info.personal_id);
+        }
 
         String json_pers_info = gson.toJson(personal_info);
+        Log.i("SETTINGS", "Save JSON: "+json_pers_info);
         this.set(PREF_KEY_PERSONAL_INFO, json_pers_info);
     }
 
