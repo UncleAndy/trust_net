@@ -34,7 +34,7 @@
     <string name="title_servers_announces_view">Servers announces</string>
     <string name="btn_server_announce_create">Create self announce</string>
     <string name="btn_sign">Sign</string>
-    <string name="template_doc_public_key">LIST\nYour personal identifier\nYour public key</string>
+    <string name="template_doc_public_key">LIST\nYour personal identifier\nCurrent time in ms\nYour public key</string>
     <string name="label_personal_id">Personal identifier</string>
     <string name="txt_about_me_generate">Now generated PERSONAL ID from your personal data. It may doing some minutes. Please, wait.</string>
 </resources>

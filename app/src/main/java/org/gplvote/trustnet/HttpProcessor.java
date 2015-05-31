@@ -11,6 +11,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
@@ -32,8 +33,9 @@ public class HttpProcessor {
 
         try {
             // Add your data
+            Log.d("http_processor", "Send data: "+json);
             StringEntity se = null;
-            se = new StringEntity(json);
+            se = new StringEntity(json, "UTF-8");
             httppost.setEntity(se);
             httppost.setHeader("Accept", "application/json");
             httppost.setHeader("Content-type", "application/json");
