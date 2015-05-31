@@ -21,6 +21,7 @@
         </activity>
         <activity android:name=".AAboutMe" />
         <activity android:name=".AAboutMeEdit" />
+        <activity android:name=".ASendSign" />
         <activity android:name=".AServers"
                   android:screenOrientation="portrait"
                   android:label="Trust Net Servers">

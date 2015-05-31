@@ -51,6 +51,7 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
             String reg_host = d.getPath();
             reg_host = reg_host.replaceAll("^/", "");
             register_server(reg_host);
+            reload_servers();
         }
     }
 
@@ -79,13 +80,16 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
         if (!Servers.add(host, Servers.SOURCE_DIRECT))
             return;
 
+        Log.d("register_server", "Add from server");
         Servers.add_from_server(host);
 
         Settings settings = Settings.getInstance(this);
         DataPersonalInfo pi = settings.getPersonalInfo();
 
+        Log.d("register_server", "Send public key");
         send_public_key(host);
 
+        Log.d("register_server", "Send all local packets");
         ArrayList<PacketSigned> list =  PacketSigned.db_list();
         for(int i = 0; i < list.size(); i++) {
             PacketSigned packet = list.get(i);
@@ -169,8 +173,12 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
             TextView txtHost = (TextView) rowView.findViewById(R.id.txtSrvListHost);
 
             // Time parse
-            String t_last_online = time_to_string(Long.parseLong((String) list.get(position).get("t_last_online")));
-            String t_create = time_to_string(Long.parseLong((String) list.get(position).get("t_create")));
+            String t_last_online = (String) list.get(position).get("t_last_online");
+            if (t_last_online != null && !t_last_online.isEmpty())
+                t_last_online = time_to_string(Long.parseLong(t_last_online));
+            String t_create = (String) list.get(position).get("t_create");
+            if (t_create != null && !t_create.isEmpty())
+                t_create = time_to_string(Long.parseLong(t_create));
 
             // Status parse
             String host = (String) list.get(position).get("host");
@@ -241,15 +249,20 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
                 do {
                     String doc_json = c.getString(c.getColumnIndex("doc"));
 
-                    Gson gson = new Gson();
-                    DocSigned doc = gson.fromJson(doc_json, DocSigned.class);
+                    Log.d("PK_FROM_DB", "Doc PK = "+doc_json);
 
-                    String[] data = gson.fromJson(doc.dec_data, String[].class);
+                    if (doc_json != null && !doc_json.isEmpty()) {
+                        Gson gson = new Gson();
+                        DocSigned doc = gson.fromJson(doc_json, DocSigned.class);
 
-                    if (data[0].equals(pi.personal_id) && (data[1].equals(pi.public_key))) {
-                        public_key_signed = !c.getString(c.getColumnIndex("sign")).isEmpty();
-                        public_key_doc_id = c.getInt(c.getColumnIndex("id"));
-                        break;
+                        String[] data = gson.fromJson(doc.dec_data, String[].class);
+
+                        if (data[0].equals(pi.personal_id) && (data[1].equals(pi.public_key))) {
+                            String sign = c.getString(c.getColumnIndex("sign"));
+                            public_key_signed = !(sign == null || sign.isEmpty());
+                            public_key_doc_id = c.getInt(c.getColumnIndex("id"));
+                            break;
+                        }
                     }
                 } while (c.moveToNext());
             }
@@ -260,13 +273,15 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
         PacketSigned pack = null;
         if (public_key_doc_id == -1) {
             DocPublicKey doc = new DocPublicKey();
-            doc.type = DocPublicKey.DOC_TYPE;
             doc.site = AMain.SIGN_DOC_APP_TYPE;
             doc.template = getString(R.string.template_doc_public_key);
             doc.dec_data = "[\"" + pi.personal_id + "\",\"" + pi.public_key + "\"]";
 
+            Gson gson = new Gson();
+            Log.d("send_public_key", "Doc = "+gson.toJson(doc));
             pack = doc.get_packet(null, null);
 
+            Log.d("send_public_key", "Packet = "+gson.toJson(pack));
             pack.insert(DocPublicKey.DOC_TYPE);
             public_key_signed = false;
         } else {

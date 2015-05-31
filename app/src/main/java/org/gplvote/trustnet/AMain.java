@@ -66,6 +66,8 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
         btnMessages.setOnClickListener(this);
         btnQRCode.setOnClickListener(this);
 
+        check_personal_id_status();
+
         db = DbHelper.getInstance(this);
 
         // Считываем публичный ключ и его идентификатор из приложения SignDoc
@@ -162,5 +164,17 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void check_personal_id_status() {
+        DataPersonalInfo pi = settings.getPersonalInfo();
+
+        Boolean need_add_info = (pi == null || pi.personal_id == null || pi.personal_id.isEmpty());
+        btnAttestations.setEnabled(!need_add_info);
+        btnQRCode.setEnabled(!need_add_info);
+        btnMessages.setEnabled(!need_add_info);
+        btnServers.setEnabled(!need_add_info);
+        btnTagsAttestations.setEnabled(!need_add_info);
+        btnTrusts.setEnabled(!need_add_info);
     }
 }

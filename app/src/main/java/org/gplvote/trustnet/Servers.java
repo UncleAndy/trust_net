@@ -59,13 +59,22 @@ public class Servers {
     public static boolean add(String host, String source) {
         SQLiteDatabase db = AMain.db.getWritableDatabase();
 
+        // TODO: Проверяем наличие данного сервера в базе.
+        // Если его нет - добавляем
+        // Если он есть - изменяем значение source если нужно
         ContentValues cv = new ContentValues();
-        cv.put("host", host);
-        cv.put("source", source);
-        cv.put("t_create", System.currentTimeMillis());
-        long row_id = db.insert("servers", null, cv);
+        Long server_id = find_by_host(host);
+        if (server_id != -1) {
+            cv.put("source", source);
+            db.update("servers", cv, "id = ?", new String[]{String.valueOf(server_id)});
+        } else {
+            cv.put("host", host);
+            cv.put("source", source);
+            cv.put("t_create", System.currentTimeMillis());
+            server_id = db.insert("servers", null, cv);
+        }
 
-        return(row_id > 0);
+        return(server_id > 0);
     }
 
     // Делаем запрос на сервер и получаем в ответ список его доверенных серверов
@@ -76,6 +85,7 @@ public class Servers {
         HttpProcessor httpprocessor = new HttpProcessor();
         String response = httpprocessor.getData("http://"+host+Servers.URI_GET_SERVERS);
         if (!response.isEmpty()) {
+            Log.i("HTTP_RESPONSE", "Get servers"+response);
             Gson gson = new Gson();
             PacketResponseServers pack = gson.fromJson(response, PacketResponseServers.class);
 
@@ -106,10 +116,24 @@ public class Servers {
                 ContentValues cv = new ContentValues();
                 cv.put("t_last_online", System.currentTimeMillis());
 
-                return(db.update("docs", cv, "id = ?", new String[] {String.valueOf(row_id)}) > 0);
+                return(db.update("servers", cv, "id = ?", new String[] {String.valueOf(row_id)}) > 0);
             }
             c.close();
         }
         return(false);
+    }
+
+    // Проверяем наличие сервера в базе и возвращаем его id если есть и -1 если нет
+    public static Long find_by_host(String host) {
+        SQLiteDatabase db = AMain.db.getWritableDatabase();
+
+        Cursor c = db.query("servers", new String[]{"id", "host"}, "host = ?", new String[]{host}, null, null, null, "1");
+        if (c != null) {
+            if (c.moveToFirst()) {
+                Long row_id = c.getLong(c.getColumnIndex("id"));
+                return(row_id);
+            }
+        };
+        return Long.valueOf(-1);
     }
 }

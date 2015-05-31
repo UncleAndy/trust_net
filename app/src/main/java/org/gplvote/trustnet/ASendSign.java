@@ -60,8 +60,11 @@ public class ASendSign extends Activity {
         for (int i = 0; i < queue.size(); i++) {
             QueueRecord req = queue.get(i);
             if (req.sign_req) {
+                Log.d("SendSign", "Doc for send = "+req.doc_id);
                 PacketSigned pack = new PacketSigned(req.doc_id);
-                if (pack.doc != null && pack.sign.isEmpty()) {
+                Gson gson = new Gson();
+                Log.d("SendSign", "Pack for send = "+gson.toJson(pack));
+                if (pack.doc != null && (pack.sign == null || pack.sign.isEmpty())) {
                     pack.doc.type = "SIGN REQUEST";
                     documents_for_sign.add(pack.doc);
                 }
@@ -78,7 +81,7 @@ public class ASendSign extends Activity {
     }
 
     private void sign_docs(ArrayList<DocSigned> docs) {
-        Intent intent = new Intent("org.gplvote.signdoc.DO_SIGN", Uri.parse("signdoc://sign_array"));
+        Intent intent = new Intent("org.gplvote.signdoc.DO_SIGN");
 
         Gson gson = new Gson();
         intent.putExtra("DocsList", gson.toJson(docs));
@@ -122,9 +125,9 @@ public class ASendSign extends Activity {
 
             // В приложение подписания документов отправляем подтверждение об обработке
             if (confirms.size() > 0) {
-                Intent intent = new Intent("org.gplvote.signdoc.DO_SIGN", Uri.parse("signdoc://sign_array"));
+                Intent intent = new Intent("org.gplvote.signdoc.DO_SIGN");
                 intent.putExtra("DocsList", gson.toJson(confirms));
-                intent.putExtra("ConfirmMode", "1");
+                intent.putExtra("Command", "SendConfirms");
                 startActivity(intent);
             }
 

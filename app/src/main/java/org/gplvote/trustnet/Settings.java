@@ -49,9 +49,10 @@ public class Settings {
 
         // Сравниваем старые персональные данные с новыми и запускаем генерацию нового персонального идентификатора если не совпадают
         DataPersonalInfo old_pi = getPersonalInfo();
-        if (!old_pi.birthday.equals(personal_info.birthday) ||
-            !old_pi.social_number.equals(personal_info.social_number) ||
-            !old_pi.tax_number.equals(personal_info.tax_number)) {
+        if (personal_info.birthday != null && personal_info.social_number != null && personal_info.tax_number != null &&
+            (old_pi.birthday == null || old_pi.birthday.isEmpty() || !old_pi.birthday.equals(personal_info.birthday) ||
+             old_pi.social_number == null || old_pi.social_number.isEmpty() || !old_pi.social_number.equals(personal_info.social_number) ||
+             old_pi.tax_number == null || old_pi.tax_number.isEmpty() || !old_pi.tax_number.equals(personal_info.tax_number))) {
             personal_info.personal_id = personal_info.gen_personal_id();
             Log.i("PERSONAL_ID", "Generated value is "+personal_info.personal_id);
         }

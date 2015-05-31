@@ -12,7 +12,11 @@ import com.google.gson.annotations.Expose;
 import java.util.ArrayList;
 
 public class PacketBase {
-    public DocBase doc;
+    public transient DocBase doc;
+
+    public String get_uri() {
+        return(Servers.URI_GET_TIME);
+    }
 
     public boolean send_hosts(String hosts) {
         if (hosts.isEmpty()) return(false);
@@ -80,7 +84,8 @@ public class PacketBase {
         Log.d("PacketBase send", "Json = " + json);
 
         HttpProcessor httpprocessor = new HttpProcessor();
-        if (httpprocessor.postData("http://"+host+Servers.URI_GET_TIME, json)) {
+        String uri = this.get_uri();
+        if (httpprocessor.postData("http://"+host+uri, json)) {
             Servers.set_online(host);
             return (true);
         }

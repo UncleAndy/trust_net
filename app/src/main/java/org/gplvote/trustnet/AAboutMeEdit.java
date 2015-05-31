@@ -1,11 +1,14 @@
 package org.gplvote.trustnet;
 
 import android.app.Activity;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -21,6 +24,7 @@ public class AAboutMeEdit extends Activity implements View.OnClickListener {
     private Button btnBack;
     private TextView txtInfo;
     private ProgressBar progressSave;
+    private LinearLayout lyFields;
 
     private TaskSettingSave task_save = null;
 
@@ -30,6 +34,8 @@ public class AAboutMeEdit extends Activity implements View.OnClickListener {
         setContentView(R.layout.about_me_edit);
 
         settings = Settings.getInstance(this);
+
+        lyFields = (LinearLayout) findViewById(R.id.lyAboutMeFields);
 
         btnSave = (Button) findViewById(R.id.btnAboutMeSave);
         btnSave.setOnClickListener(this);
@@ -74,6 +80,13 @@ public class AAboutMeEdit extends Activity implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (task_save == null) {
+            super.onBackPressed();
+        }
+    }
+
     // Асинхронный таск для записи персональных данных
     // Необходим потому, что генерация персонального идентификатора может занять существенное время
     // При старте в форме ввода:
@@ -96,6 +109,8 @@ public class AAboutMeEdit extends Activity implements View.OnClickListener {
             btnSave.setEnabled(false);
             btnBack.setEnabled(false);
 
+            lyFields.setVisibility(View.GONE);
+
             progressSave.setVisibility(View.VISIBLE);
         }
 
@@ -109,9 +124,20 @@ public class AAboutMeEdit extends Activity implements View.OnClickListener {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
 
+            try {
+                final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+                tg.startTone(ToneGenerator.TONE_DTMF_0, 300);
+                Thread.sleep(300);
+                tg.startTone(ToneGenerator.TONE_PROP_BEEP2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             AAboutMe.instance.setData();
 
             task_save = null;
+
+            AMain.instance.check_personal_id_status();
 
             AAboutMeEdit.this.finish();
         }

@@ -3,16 +3,18 @@ package org.gplvote.trustnet;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
 
 import java.util.ArrayList;
 
 public class PacketSigned extends PacketBase {
-    public DocSigned doc;
-    public String sign;
-    public String sign_pub_key_id;
-    public String sign_personal_id;
+    @Expose public DocSigned doc;
+    @Expose public String sign;
+    @Expose public String sign_pub_key_id;
+    @Expose public String sign_personal_id;
 
     // Create doc from DB
     public PacketSigned(String doc_id) {
@@ -27,14 +29,21 @@ public class PacketSigned extends PacketBase {
 
                 String doc_json = c.getString(c.getColumnIndex("doc"));
 
-                Gson gson = new Gson();
-                doc = gson.fromJson(doc_json, DocSigned.class);
+                if (doc_json != null && !doc_json.isEmpty()) {
+                    Gson gson = new Gson();
+                    doc = gson.fromJson(doc_json, DocSigned.class);
+                };
             }
             c.close();
         }
     }
 
     public PacketSigned() {
+    }
+
+    @Override
+    public String get_uri() {
+        return(Servers.URI_SEND_PACKET);
     }
 
     // Сохранение подписи документа в базу
@@ -56,18 +65,25 @@ public class PacketSigned extends PacketBase {
     // Возвращает идентификатор пакеты или -1
     // В процессе вставки id из базы назначается так-же и в doc.doc_id
     public long insert(String type) {
-        SQLiteDatabase db = AMain.db.getWritableDatabase();
-        long row_id = db.insert("docs", null, null);
+        Gson gsond = new Gson();
+        Log.d("INSERT", "Packet for insert: "+gsond.toJson(this.doc));
 
-        ((DocSigned) doc).doc_id = String.valueOf(row_id);
-
-        Gson gson = new Gson();
         ContentValues cv = new ContentValues();
         cv.put("type", type);
-        cv.put("doc", gson.toJson(doc));
-        cv.put("sign", sign);
-        cv.put("sign_pub_key_id", sign_pub_key_id);
-        cv.put("sign_personal_id", sign_personal_id);
+
+        SQLiteDatabase db = AMain.db.getWritableDatabase();
+        long row_id = db.insert("docs", null, cv);
+
+        Log.d("DOC_INSERT", "New doc id = "+String.valueOf(row_id));
+        if (this.doc == null)
+            Log.d("DOC_INSERT", "Doc = null");
+        this.doc.doc_id = String.valueOf(row_id);
+
+        Gson gson = new Gson();
+        cv.put("doc", gson.toJson(this.doc));
+        cv.put("sign", this.sign);
+        cv.put("sign_pub_key_id", this.sign_pub_key_id);
+        cv.put("sign_personal_id", this.sign_personal_id);
 
         db.update("docs", cv, "id = ?", new String[] {String.valueOf(row_id)});
 
@@ -101,15 +117,17 @@ public class PacketSigned extends PacketBase {
                     String json_doc = c.getString(c.getColumnIndex("doc"));
                     String sign = c.getString(c.getColumnIndex("sign"));
                     String sign_pub_key_id = c.getString(c.getColumnIndex("sign_pub_key_id"));
-                    String sign_personal_id = c.getString(c.getColumnIndex("sign_personal_id"));
 
-                    Gson gson = new Gson();
-                    doc = gson.fromJson(json_doc, doc.getClass());
+                    Log.d("DOC_DB_LIST", "JSON DOC = "+json_doc);
 
-                    PacketSigned packet = doc.get_packet(sign, sign_pub_key_id);
+                    if (json_doc != null && !json_doc.isEmpty()) {
+                        Gson gson = new Gson();
+                        doc = gson.fromJson(json_doc, doc.getClass());
 
-                    list.add(packet);
+                        PacketSigned packet = doc.get_packet(sign, sign_pub_key_id);
 
+                        list.add(packet);
+                    }
                 } while (c.moveToNext());
             }
             c.close();
