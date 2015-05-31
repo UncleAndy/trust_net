@@ -37,4 +37,6 @@
     <string name="template_doc_public_key">LIST\nYour personal identifier\nCurrent time in ms\nYour public key</string>
     <string name="label_personal_id">Personal identifier</string>
     <string name="txt_about_me_generate">Now generated PERSONAL ID from your personal data. It may doing some minutes. Please, wait.</string>
+    <string name="btn_sign_doc_app_install">Install...</string>
+    <string name="text_sign_doc_app_install">This application required GPLVote Sign Doc application installed.</string>
 </resources>

@@ -1,6 +1,8 @@
 package org.gplvote.trustnet;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 
 
 public class AMain extends ActionBarActivity implements View.OnClickListener {
+    public static final String SIGN_DOC_PACKAGE_NAME = "org.gplvote.signdoc";
     public static final String SIGN_DOC_APP_TYPE = "app:trustnet";
     public static AMain instance;
 
@@ -33,6 +36,8 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
     private Button btnMessages;
     private Button btnQRCode;
 
+    private Button btnSignDocInstall;
+
     private static final Integer RESULT_PUBLIC_KEY = 1;
 
     public static DbHelper db;
@@ -40,40 +45,48 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        // Проверяем наличие установленного приложения Sign Doc
+        if (isPackageInstalled(SIGN_DOC_PACKAGE_NAME)) {
+            setContentView(R.layout.activity_main);
 
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+
+            settings = Settings.getInstance(this);
+            instance = this;
+
+            btnMe               = (Button) findViewById(R.id.btnMe);
+            btnServers          = (Button) findViewById(R.id.btnServers);
+            btnAttestations     = (Button) findViewById(R.id.btnAttestations);
+            btnTrusts           = (Button) findViewById(R.id.btnTrusts);
+            btnTagsAttestations = (Button) findViewById(R.id.btnTagsAttestations);
+            btnMessages         = (Button) findViewById(R.id.btnMessages);
+            btnQRCode           = (Button) findViewById(R.id.btnQRRead);
+
+            btnMe.setOnClickListener(this);
+            btnServers.setOnClickListener(this);
+            btnAttestations.setOnClickListener(this);
+            btnTrusts.setOnClickListener(this);
+            btnTagsAttestations.setOnClickListener(this);
+            btnMessages.setOnClickListener(this);
+            btnQRCode.setOnClickListener(this);
+
+            check_personal_id_status();
+
+            db = DbHelper.getInstance(this);
+
+            // Считываем публичный ключ и его идентификатор из приложения SignDoc
+            Intent intent = new Intent("org.gplvote.signdoc.DO_SIGN");
+            intent.putExtra("Command", "GetPublicKeyId");
+            startActivityForResult(intent, RESULT_PUBLIC_KEY);
+        } else {
+            setContentView(R.layout.sign_doc_app);
+
+            btnSignDocInstall = (Button) findViewById(R.id.btnSignDocInstall);
+            btnSignDocInstall.setOnClickListener(this);
         }
-
-        settings = Settings.getInstance(this);
-        instance = this;
-
-        btnMe               = (Button) findViewById(R.id.btnMe);
-        btnServers          = (Button) findViewById(R.id.btnServers);
-        btnAttestations     = (Button) findViewById(R.id.btnAttestations);
-        btnTrusts           = (Button) findViewById(R.id.btnTrusts);
-        btnTagsAttestations = (Button) findViewById(R.id.btnTagsAttestations);
-        btnMessages         = (Button) findViewById(R.id.btnMessages);
-        btnQRCode           = (Button) findViewById(R.id.btnQRRead);
-
-        btnMe.setOnClickListener(this);
-        btnServers.setOnClickListener(this);
-        btnAttestations.setOnClickListener(this);
-        btnTrusts.setOnClickListener(this);
-        btnTagsAttestations.setOnClickListener(this);
-        btnMessages.setOnClickListener(this);
-        btnQRCode.setOnClickListener(this);
-
-        check_personal_id_status();
-
-        db = DbHelper.getInstance(this);
-
-        // Считываем публичный ключ и его идентификатор из приложения SignDoc
-        Intent intent = new Intent("org.gplvote.signdoc.DO_SIGN");
-        intent.putExtra("Command", "GetPublicKeyId");
-        startActivityForResult(intent, RESULT_PUBLIC_KEY);
     }
 
     public void qrScanStart() {
@@ -141,6 +154,14 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
             case R.id.btnQRRead:
                 qrScanStart();
                 break;
+            case R.id.btnSignDocInstall:
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + SIGN_DOC_PACKAGE_NAME)));
+                } catch (android.content.ActivityNotFoundException e) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + SIGN_DOC_PACKAGE_NAME)));
+                }
+                finish();
+                break;
         }
     }
 
@@ -176,5 +197,17 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
         btnServers.setEnabled(!need_add_info);
         btnTagsAttestations.setEnabled(!need_add_info);
         btnTrusts.setEnabled(!need_add_info);
+    }
+
+    boolean isPackageInstalled(String packageName) {
+        PackageManager pm = getPackageManager();
+        boolean available = false;
+        try {
+            PackageInfo pi = pm.getPackageInfo(packageName, 0);
+            available = (pi != null);
+        } catch (PackageManager.NameNotFoundException e) {
+        }
+
+        return available;
     }
 }

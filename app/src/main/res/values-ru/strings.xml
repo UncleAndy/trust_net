@@ -36,4 +36,6 @@
     <string name="template_doc_public_key">LIST\nВаш персональный идентификатор\nТекущее время в миллисекундах\nВаш публичный ключ</string>
     <string name="label_personal_id">Персональный идентификатор</string>
     <string name="txt_about_me_generate">Происходит создание вашего персонального идентификатора. Это может занять несколько минут. Пожалуйста, подождите.</string>
+    <string name="btn_sign_doc_app_install">Установить...</string>
+    <string name="text_sign_doc_app_install">Данное приложение требует установки приложения GPLVote Sign Doc.</string>
 </resources>
