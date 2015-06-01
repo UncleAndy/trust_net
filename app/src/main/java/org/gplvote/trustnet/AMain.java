@@ -1,5 +1,6 @@
 package org.gplvote.trustnet;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 
 public class AMain extends ActionBarActivity implements View.OnClickListener {
     public static final String SIGN_DOC_PACKAGE_NAME = "org.gplvote.signdoc";
+    public static final int SIGN_DOC_MIN_VERSION_CODE_REQUIRED = 17;
     public static final String SIGN_DOC_APP_TYPE = "app:trustnet";
     public static AMain instance;
 
@@ -82,10 +84,7 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
             intent.putExtra("Command", "GetPublicKeyId");
             startActivityForResult(intent, RESULT_PUBLIC_KEY);
         } else {
-            setContentView(R.layout.sign_doc_app);
-
-            btnSignDocInstall = (Button) findViewById(R.id.btnSignDocInstall);
-            btnSignDocInstall.setOnClickListener(this);
+            requireSignDocApplication();
         }
     }
 
@@ -110,8 +109,10 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
                 pi.public_key_id = data.getStringExtra("PUBLIC_KEY_ID");
                 pi.public_key = data.getStringExtra("PUBLIC_KEY");
 
-                if (pi.public_key_id == null || pi.public_key_id.equals("") || pi.public_key == null || pi.public_key.equals(""))
+                if (pi.public_key_id == null || pi.public_key_id.equals("") || pi.public_key == null || pi.public_key.equals("")) {
+                    runSignDocApplication();
                     return;
+                }
 
                 settings.setPersonalInfo(pi);
             } else {
@@ -204,10 +205,35 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
         boolean available = false;
         try {
             PackageInfo pi = pm.getPackageInfo(packageName, 0);
-            available = (pi != null);
+            available = (pi != null && pi.versionCode >= SIGN_DOC_MIN_VERSION_CODE_REQUIRED);
         } catch (PackageManager.NameNotFoundException e) {
         }
 
         return available;
+    }
+
+    void requireSignDocApplication() {
+        setContentView(R.layout.sign_doc_app);
+
+        btnSignDocInstall = (Button) findViewById(R.id.btnSignDocInstall);
+        btnSignDocInstall.setOnClickListener(this);
+    }
+
+    void runSignDocApplication() {
+        PackageManager pm = this.getPackageManager();
+
+        try
+        {
+            Intent it = pm.getLaunchIntentForPackage(SIGN_DOC_PACKAGE_NAME);
+
+            if (null != it) {
+                this.startActivity(it);
+                finish();
+            } else {
+                requireSignDocApplication();
+            }
+        } catch (ActivityNotFoundException e) {
+            requireSignDocApplication();
+        }
     }
 }
