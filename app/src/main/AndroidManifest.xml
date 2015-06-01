@@ -21,9 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AAboutMe" />
-        <activity android:name=".AAboutMeEdit" />
-        <activity android:name=".ASendSign" />
         <activity android:name=".AServers"
                   android:screenOrientation="portrait"
                   android:label="Trust Net Servers">
@@ -34,6 +31,10 @@
                 <data android:scheme="trustnet" android:host="regserver"/>
             </intent-filter>
         </activity>
+        <activity android:name=".AServerView" />
+        <activity android:name=".AAboutMe" />
+        <activity android:name=".AAboutMeEdit" />
+        <activity android:name=".ASendSign" />
     </application>
 
 </manifest>

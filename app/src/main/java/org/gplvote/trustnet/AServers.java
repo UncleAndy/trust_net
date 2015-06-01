@@ -15,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,6 +28,7 @@ import java.util.Map;
 
 public class AServers  extends QRReaderActivity implements View.OnClickListener{
     private Button btnView;
+    private Button btnBack;
     private ListView listServersView;
     private ServersListArrayAdapter sAdapter;
 
@@ -39,6 +39,10 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
 
         btnView = (Button) findViewById(R.id.btnServerView);
         btnView.setOnClickListener(this);
+        btnView.setVisibility(View.GONE);
+
+        btnBack = (Button) findViewById(R.id.btnServersBack);
+        btnBack.setOnClickListener(this);
 
         reload_servers();
 
@@ -60,6 +64,21 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
         Intent intent;
         switch (v.getId()) {
             case R.id.btnServerView:
+                int curPosition = sAdapter.getCurrentPosition();
+
+                if (curPosition < 0) {
+                    return;
+                }
+
+                HashMap<String, Object> item = (HashMap<String, Object>) listServersView.getItemAtPosition(curPosition);
+
+                Gson gson = new Gson();
+                intent = new Intent(this, AServerView.class);
+                intent.putExtra("Server", gson.toJson(item));
+                startActivity(intent);
+                break;
+            case R.id.btnServersBack:
+                finish();
                 break;
         }
     }
@@ -142,6 +161,13 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
 
                 sAdapter.setCurrentPosition(position);
                 sAdapter.notifyDataSetChanged();
+
+                // Ставим статус кнопки "Просмотр" в зависимости от статуса текущего выбранного документа
+                if (item != null) {
+                    btnView.setVisibility(View.VISIBLE);
+                } else {
+                    btnView.setVisibility(View.GONE);
+                }
             }
         });
     }
@@ -185,7 +211,7 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
             String source = (String) list.get(position).get("source");
 
             // Если исходник из кода - подчеркиваем
-            if ((source != null) && source.equals("code")) {
+            if ((source != null) && source.equals(Servers.SOURCE_DIRECT)) {
                 txtHost.setPaintFlags(txtHost.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             }
 
@@ -207,24 +233,6 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
 
         public int getCurrentPosition() {
             return(currentPosition);
-        }
-
-        private String time_to_string(Long time) {
-            if (time == null || time <= 0) return("");
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            return(sdf.format(time));
-        }
-
-        private String time_to_string(String time) {
-            Long time_long;
-            try {
-                time_long = Long.parseLong(time);
-            } catch (Exception e) {
-                time_long = 0L;
-            }
-
-            return(time_to_string(time_long));
         }
     }
 
@@ -293,5 +301,23 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
 
         Intent intent = new Intent(this, ASendSign.class);
         startActivity(intent);
+    }
+
+    public static String time_to_string(Long time) {
+        if (time == null || time <= 0) return("");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return(sdf.format(time));
+    }
+
+    public static String time_to_string(String time) {
+        Long time_long;
+        try {
+            time_long = Long.parseLong(time);
+        } catch (Exception e) {
+            time_long = 0L;
+        }
+
+        return(time_to_string(time_long));
     }
 }

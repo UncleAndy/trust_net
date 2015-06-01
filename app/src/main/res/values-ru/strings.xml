@@ -38,4 +38,9 @@
     <string name="txt_about_me_generate">Происходит создание вашего персонального идентификатора. Это может занять несколько минут. Пожалуйста, подождите.</string>
     <string name="btn_sign_doc_app_install">Установить...</string>
     <string name="text_sign_doc_app_install">Данное приложение требует установки последней версии приложения GPLVote Sign Doc.</string>
+    <string name="title_server_view">Информация по серверу</string>
+    <string name="btn_server_host">Хост:</string>
+    <string name="btn_server_source">Источник:</string>
+    <string name="btn_server_t_create">Время обнаружения:</string>
+    <string name="btn_server_t_last_online">Последний раз в онлайн:</string>
 </resources>
