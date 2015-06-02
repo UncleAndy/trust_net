@@ -13,8 +13,8 @@
     <string name="btn_save">Save</string>
     <string name="label_birth_day">Birth day (dd.mm.yyyy)</string>
     <string name="txt_confirm_info">ATTENTION!!! You need cleanly check all marked data by real documents before conform verification!</string>
-    <string name="label_verification_level">Verification level (from -16 to 16)</string>
-    <string name="label_trust_level">Trust level (from -16 to 16)</string>
+    <string name="label_verification_level">Verification level (from -10 to 10)</string>
+    <string name="label_trust_level">Trust level (from -10 to 10)</string>
     <string name="btn_confirm">Confirm</string>
     <string name="btn_cancel">Cancel</string>
     <string name="label_id_social_number">Social number</string>
@@ -34,7 +34,7 @@
     <string name="title_servers_announces_view">Servers announces</string>
     <string name="btn_server_announce_create">Create self announce</string>
     <string name="btn_sign">Sign</string>
-    <string name="template_doc_public_key">LIST\nYour personal identifier\nCurrent time in ms\nYour public key</string>
+    <string name="template_doc_public_key">LIST\nYour personal identifier\nCurrent time in ms\nYour public key\nPublic key for cancel it</string>
     <string name="label_personal_id">Personal identifier</string>
     <string name="txt_about_me_generate">Now generated PERSONAL ID from your personal data. It may doing some minutes. Please, wait.</string>
     <string name="btn_sign_doc_app_install">Install...</string>
@@ -44,4 +44,8 @@
     <string name="btn_server_source">Source:</string>
     <string name="btn_server_t_create">Detect time:</string>
     <string name="btn_server_t_last_online">Last time online:</string>
+    <string name="label_user_cancel_key_id">Cancel key id for main key</string>
+    <string name="btn_QR_code_view">Сode for verify</string>
+    <string name="text_progress_check_personal_id">Please, wait. Checking personal id...</string>
+    <string name="error_bad_personal_id">ERROR!!!\nPersonal id from code and calculated not equal.</string>
 </resources>

@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -19,7 +20,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.util.Hashtable;
 
-public class ConfirmMe extends ActionBarActivity {
+public class AConfirmMe extends ActionBarActivity {
     private Settings settings;
 
     private ImageView imgQRCode;
@@ -34,22 +35,25 @@ public class ConfirmMe extends ActionBarActivity {
         settings = Settings.getInstance(this);
         info = settings.getPersonalInfo();
 
-        Intent intent = new Intent("org.gplvote.signdoc.DO_SIGN");
-        intent.putExtra("Command", "GetPublicKeyId");
-        startActivityForResult(intent, 1);
+        show_qr_code();
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data == null) {return;}
+    public void show_qr_code() {
+        if (info == null) {return;}
 
-        String user_key_id = data.getStringExtra("PUBLIC_KEY_ID");
-        String public_key = data.getStringExtra("PUBLIC_KEY");
+        if (info.public_key_id == null || info.public_key_id.isEmpty()) {return;}
 
-        if (user_key_id == null || user_key_id.equals("")) {return;}
+        DataAttestationInfo att = new DataAttestationInfo();
+
+        att.nm = info.name;
+        att.bd = info.birthday;
+        att.sn = info.social_number;
+        att.tn = info.tax_number;
+        att.pkid = info.public_key_id;
+        att.pid = info.personal_id;
 
         Gson gson = new Gson();
-        info.public_key_id = user_key_id;
-        String json_qr_data = gson.toJson(info);
+        String json_qr_data = gson.toJson(att);
 
         //Find screen size
         WindowManager manager = (WindowManager) getSystemService(WINDOW_SERVICE);
@@ -67,7 +71,7 @@ public class ConfirmMe extends ActionBarActivity {
             Hashtable hints = new Hashtable();
             hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
 
-            matrix = writer.encode(json_qr_data, BarcodeFormat.QR_CODE, smallerDimension, smallerDimension, hints);
+            matrix = writer.encode(AMain.TRUSTNET_INT_URL_VERIFICATION + json_qr_data, BarcodeFormat.QR_CODE, smallerDimension, smallerDimension, hints);
         } catch (WriterException ex) {
             ex.printStackTrace();
         }

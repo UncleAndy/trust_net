@@ -16,131 +16,165 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold" />
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp">
+        android:id="@+id/scrollView2"
+        android:layout_weight="1">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/label_first_name"
-            android:id="@+id/textView3"
-            android:textColor="@android:color/black" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtAboutMeName"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:text="Name"
-            android:padding="4dp"
-            android:background="@android:color/background_light" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/label_first_name"
+                android:id="@+id/textView3"
+                android:textColor="@android:color/black" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/label_birth_day"
-            android:id="@+id/textView7"
-            android:textColor="@android:color/black" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtAboutMeName"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:text="Name"
+                android:padding="4dp"
+                android:background="@android:color/background_light" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="01.01.2001"
-            android:id="@+id/txtAboutMeBirthday"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:padding="4dp"
-            android:background="@android:color/background_light" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/label_birth_day"
+                android:id="@+id/textView7"
+                android:textColor="@android:color/black" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/label_id_doc_number"
-            android:id="@+id/textView6"
-            android:textColor="@android:color/black" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="01.01.2001"
+                android:id="@+id/txtAboutMeBirthday"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:padding="4dp"
+                android:background="@android:color/background_light" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="12332123"
-            android:id="@+id/txtAboutMeTaxNumber"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:padding="4dp"
-            android:background="@android:color/background_light" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/label_id_doc_number"
+                android:id="@+id/textView6"
+                android:textColor="@android:color/black" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/label_id_social_number"
-            android:id="@+id/textView4"
-            android:textColor="@android:color/black" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="12332123"
+                android:id="@+id/txtAboutMeTaxNumber"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:padding="4dp"
+                android:background="@android:color/background_light" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="7676-1726"
-            android:id="@+id/txtAboutMeSocialNumber"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:padding="4dp"
-            android:background="@android:color/background_light" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/label_id_social_number"
+                android:id="@+id/textView4"
+                android:textColor="@android:color/black" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/label_user_key_id"
-            android:id="@+id/textView5"
-            android:textColor="@android:color/black" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="7676-1726"
+                android:id="@+id/txtAboutMeSocialNumber"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:padding="4dp"
+                android:background="@android:color/background_light" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="GFGQYRTYYGJJHJAKJKJKJKKJAIUJLQYTRHQHKG"
-            android:id="@+id/txtAboutMePublicKeyId"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:textSize="12dp"
-            android:textIsSelectable="true"
-            android:padding="4dp"
-            android:background="@android:color/background_light" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/label_user_key_id"
+                android:id="@+id/textView5"
+                android:textColor="@android:color/black" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/label_personal_id"
-            android:id="@+id/textView13"
-            android:textColor="@android:color/black" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="GFGQYRTYYGJJHJAKJKJKJKKJAIUJLQYTRHQHKG"
+                android:id="@+id/txtAboutMePublicKeyId"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="10dp"
+                android:textIsSelectable="true"
+                android:padding="4dp"
+                android:background="@android:color/background_light" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="GFGQYRTYYGJJHJAKJKJKJKKJAIUJLQYTRHQHKG"
-            android:id="@+id/txtAboutMePersonalId"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:textSize="12dp"
-            android:textIsSelectable="true"
-            android:padding="4dp"
-            android:background="@android:color/background_light" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/label_user_cancel_key_id"
+                android:id="@+id/textView19"
+                android:textColor="@android:color/black" />
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="GFGQYRTYYGJJHJAKJKJKJKKJAIUJLQYTRHQHKG"
+                android:id="@+id/txtAboutMeCancelPublicKeyId"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="10dp"
+                android:textIsSelectable="true"
+                android:padding="4dp"
+                android:background="@android:color/background_light" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/label_personal_id"
+                android:id="@+id/textView13"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="GFGQYRTYYGJJHJAKJKJKJKKJAIUJLQYTRHQHKG"
+                android:id="@+id/txtAboutMePersonalId"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="12dp"
+                android:textIsSelectable="true"
+                android:padding="4dp"
+                android:background="@android:color/background_light" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_QR_code_view"
+        android:id="@+id/btnAboutMeShowQRCode"
+        android:elegantTextHeight="false" />
 
     <LinearLayout
         android:orientation="horizontal"

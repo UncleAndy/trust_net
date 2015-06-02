@@ -2,6 +2,7 @@ package org.gplvote.trustnet;
 
 import android.os.AsyncTask;
 import android.util.Base64;
+import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 
@@ -22,10 +23,13 @@ public class DataPersonalInfo {
     @Expose public String social_number;
     @Expose public String public_key_id;
     @Expose public String public_key;
+    @Expose public String cancel_public_key_id;
+    @Expose public String cancel_public_key;
     @Expose public String personal_id;
 
     public String gen_personal_id() {
         String hashed_str = birthday+":"+tax_number+":"+social_number;
+        Log.d("gen_personal_id", "For str = "+hashed_str);
 
         try {
             return(personal_hash(hashed_str));

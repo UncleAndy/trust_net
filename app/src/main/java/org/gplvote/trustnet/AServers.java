@@ -283,7 +283,7 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
             DocPublicKey doc = new DocPublicKey();
             doc.site = AMain.SIGN_DOC_APP_TYPE;
             doc.template = getString(R.string.template_doc_public_key);
-            doc.dec_data = "[\"" + pi.personal_id + "\",\"" + String.valueOf(System.currentTimeMillis()) + "\",\"" + pi.public_key + "\"]";
+            doc.dec_data = "[\"" + pi.personal_id + "\",\"" + String.valueOf(System.currentTimeMillis()) + "\",\"" + pi.public_key + "\",\""+ pi.cancel_public_key +"\"]";
 
             Gson gson = new Gson();
             Log.d("send_public_key", "Doc = "+gson.toJson(doc));

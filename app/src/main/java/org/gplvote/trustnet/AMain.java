@@ -28,6 +28,13 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
     public static final String SIGN_DOC_APP_TYPE = "app:trustnet";
     public static AMain instance;
 
+    public static final String TRUSTNET_INT_URL_REG_SERVER = "trustnet://regserver/";
+    public static final String TRUSTNET_INT_URL_VERIFICATION = "trustnet://verification/";
+    public static final String TRUSTNET_INT_URL_TRUST = "trustnet://trust/";
+    public static final String TRUSTNET_INT_URL_TAG_INFO = "trustnet://taginfo/";
+    public static final String TRUSTNET_INT_URL_TAG = "trustnet://tag/";
+    public static final String TRUSTNET_INT_URL_PUBLIC_KEY = "trustnet://publickey/";
+
     public static Settings settings;
 
     private Button btnMe;
@@ -108,6 +115,8 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
 
                 pi.public_key_id = data.getStringExtra("PUBLIC_KEY_ID");
                 pi.public_key = data.getStringExtra("PUBLIC_KEY");
+                pi.cancel_public_key_id = data.getStringExtra("CANCEL_PUBLIC_KEY_ID");
+                pi.cancel_public_key = data.getStringExtra("CANCEL_PUBLIC_KEY");
 
                 if (pi.public_key_id == null || pi.public_key_id.equals("") || pi.public_key == null || pi.public_key.equals("")) {
                     runSignDocApplication();

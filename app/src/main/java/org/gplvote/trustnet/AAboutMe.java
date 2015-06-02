@@ -12,11 +12,13 @@ public class AAboutMe extends Activity implements View.OnClickListener {
 
     private Settings settings;
 
+    private Button btnShowQRCode;
     private TextView txtName;
     private TextView txtBirthday;
     private TextView txtTaxNumber;
     private TextView txtSocialNumber;
     private TextView txtPublicKeyId;
+    private TextView txtCancelPublicKeyId;
     private TextView txtPersonalId;
     private Button btnChange;
     private Button btnBack;
@@ -34,12 +36,15 @@ public class AAboutMe extends Activity implements View.OnClickListener {
         btnChange.setOnClickListener(this);
         btnBack = (Button) findViewById(R.id.btnAboutMeBack);
         btnBack.setOnClickListener(this);
+        btnShowQRCode = (Button) findViewById(R.id.btnAboutMeShowQRCode);
+        btnShowQRCode.setOnClickListener(this);
 
         txtName         = (TextView) findViewById(R.id.txtAboutMeName);
         txtBirthday     = (TextView) findViewById(R.id.txtAboutMeBirthday);
         txtTaxNumber    = (TextView) findViewById(R.id.txtAboutMeTaxNumber);
         txtSocialNumber = (TextView) findViewById(R.id.txtAboutMeSocialNumber);
         txtPublicKeyId  = (TextView) findViewById(R.id.txtAboutMePublicKeyId);
+        txtCancelPublicKeyId  = (TextView) findViewById(R.id.txtAboutMeCancelPublicKeyId);
         txtPersonalId   = (TextView) findViewById(R.id.txtAboutMePersonalId);
 
         setData();
@@ -49,6 +54,11 @@ public class AAboutMe extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()) {
+            case R.id.btnAboutMeShowQRCode:
+                // Выводим на экран QR код с данными для удостоверения
+                intent = new Intent(this, AConfirmMe.class);
+                startActivity(intent);
+                break;
             case R.id.btnAboutMeChange:
                 intent = new Intent(this, AAboutMeEdit.class);
                 startActivity(intent);
@@ -67,6 +77,7 @@ public class AAboutMe extends Activity implements View.OnClickListener {
             txtTaxNumber.setText(info.tax_number);
             txtSocialNumber.setText(info.social_number);
             txtPublicKeyId.setText(info.public_key_id);
+            txtCancelPublicKeyId.setText(info.cancel_public_key_id);
             txtPersonalId.setText(info.personal_id);
         }
     }
