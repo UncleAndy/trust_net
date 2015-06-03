@@ -1,8 +1,14 @@
 package org.gplvote.trustnet;
 
+import android.util.Base64;
+
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class DocSigned {
@@ -45,5 +51,42 @@ public class DocSigned {
         packet_pk.sign_pub_key_id = sign_pub_key_id;
         packet_pk.sign_personal_id = desc_data_array[0];
         return(packet_pk);
+    }
+
+    public PacketSigned get_packet() {
+        return(get_packet(null, null));
+    }
+
+    // Генерирует хэш sha512 от данных, которые идентифицируют пакет как принадлежащий к одному контенту
+    // Пакеты одного контента при повторении в более позднее время заменяют друг друга:
+    // старая версия становится не актуальна. Content_id у разных версий одного пакета должен быть одинаковый.
+    // Данные, используемые для формирования этого content_id зависят от типа пакета
+    public String content_id() {
+        // Данные располагаются в строке через ":"
+        Gson gson = new Gson();
+        String[] data_array = gson.fromJson(dec_data, new TypeToken<String[]>(){}.getType());
+
+        String hash_str = "";
+        String sep = "";
+        for (String str : data_array) {
+            hash_str = hash_str + sep + str;
+            sep = ":";
+        }
+
+        return(content_id(hash_str));
+    }
+
+    public String content_id(String hashed_string) {
+        MessageDigest digest = null;
+        byte[] hash = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+            hash = new byte[0];
+            hash = digest.digest(hashed_string.getBytes("UTF-8"));
+            return(Base64.encodeToString(hash, Base64.NO_WRAP));
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return(null);
     }
 }

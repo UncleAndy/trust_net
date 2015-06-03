@@ -36,7 +36,7 @@ public class Servers {
         SQLiteDatabase db = AMain.db.getWritableDatabase();
 
         Cursor c;
-        if (skip_server.isEmpty()) {
+        if (skip_server == null || skip_server.isEmpty()) {
             c = db.query("servers", new String[]{"id", "host"}, null, null, null, null, "RANDOM()", "10");
         } else {
             c = db.query("servers", new String[]{"id", "host"}, "host != ?", new String[]{skip_server}, null, null, "RANDOM()", "10");

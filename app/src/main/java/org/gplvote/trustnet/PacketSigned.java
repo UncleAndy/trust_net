@@ -65,8 +65,8 @@ public class PacketSigned extends PacketBase {
     // Возвращает идентификатор пакеты или -1
     // В процессе вставки id из базы назначается так-же и в doc.doc_id
     public long insert(String type) {
-        Gson gsond = new Gson();
-        Log.d("INSERT", "Packet for insert: "+gsond.toJson(this.doc));
+        Gson gson = new Gson();
+        Log.d("INSERT", "Packet for insert: "+gson.toJson(this.doc));
 
         ContentValues cv = new ContentValues();
         cv.put("type", type);
@@ -79,11 +79,11 @@ public class PacketSigned extends PacketBase {
             Log.d("DOC_INSERT", "Doc = null");
         this.doc.doc_id = String.valueOf(row_id);
 
-        Gson gson = new Gson();
         cv.put("doc", gson.toJson(this.doc));
         cv.put("sign", this.sign);
         cv.put("sign_pub_key_id", this.sign_pub_key_id);
         cv.put("sign_personal_id", this.sign_personal_id);
+        cv.put("content_id", this.doc.content_id());
 
         db.update("docs", cv, "id = ?", new String[] {String.valueOf(row_id)});
 

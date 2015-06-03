@@ -37,41 +37,47 @@ public class AConfirmOther extends Activity implements View.OnClickListener {
     private DataAttestationInfo att_info;
 
     private TaskCalcPersonalId task = null;
+    private boolean personal_id_checked = false;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.progress);
+        if (!personal_id_checked) {
+            setContentView(R.layout.progress);
 
-        txtInfo = (TextView) findViewById(R.id.txtProgressInfo);
-        txtInfo.setText(getString(R.string.text_progress_check_personal_id));
+            txtInfo = (TextView) findViewById(R.id.txtProgressInfo);
+            txtInfo.setText(getString(R.string.text_progress_check_personal_id));
 
-        gson = new Gson();
+            gson = new Gson();
 
-        // Получение данных только из URL
-        Intent i = getIntent();
-        Uri d = null;
-        if (i != null) d = i.getData();
+            // Получение данных только из URL
+            Intent i = getIntent();
+            Uri d = null;
+            if (i != null) d = i.getData();
 
-        String json_att_info = null;
-        if (d != null && d.getScheme().equals("trustnet") && d.getHost().equals("verification")) {
-            json_att_info = d.getPath();
-            json_att_info = json_att_info.replaceAll("^/", "");
-        }
+            String json_att_info = null;
+            if (d != null && d.getScheme().equals("trustnet") && d.getHost().equals("verification")) {
+                json_att_info = d.getPath();
+                json_att_info = json_att_info.replaceAll("^/", "");
+            }
 
-        if (json_att_info == null) {
-            Log.e("ConfirmOther", "Error when get attestation info from URL");
-            throw new RuntimeException("ConfirmOther: Error when get attestation info from URL");
-        }
+            if (json_att_info == null) {
+                Log.e("ConfirmOther", "Error when get attestation info from URL");
+                throw new RuntimeException("ConfirmOther: Error when get attestation info from URL");
+            }
 
-        att_info = gson.fromJson(json_att_info, DataAttestationInfo.class);
+            att_info = gson.fromJson(json_att_info, DataAttestationInfo.class);
 
-        // Запуск процесса определения персонального идентификатора и сравнения его с переданным (в асинхронной задаче)
-        task = new TaskCalcPersonalId();
-        task.execute(att_info);
+            // Запуск процесса определения персонального идентификатора и сравнения его с переданным (в асинхронной задаче)
+            task = new TaskCalcPersonalId();
+            task.execute(att_info);
+        } else {
+            show_confirm_info(att_info.pid);
+        };
     }
 
     private void show_confirm_info(String calc_personal_id) {
         if (calc_personal_id.equals(att_info.pid)) {
+            personal_id_checked = true;
             setContentView(R.layout.confirm_other);
 
             txtConfirmName = (TextView) findViewById(R.id.txtConfirmName);
@@ -82,6 +88,9 @@ public class AConfirmOther extends Activity implements View.OnClickListener {
 
             btnBack = (Button) findViewById(R.id.btnAttestationBack);
             btnConfirm = (Button) findViewById(R.id.btnAttestationConfirm);
+
+            btnBack.setOnClickListener(this);
+            btnConfirm.setOnClickListener(this);
 
             edtVerifyLevel = (EditText) findViewById(R.id.edtConfirmVerifyLevel);
             edtVerifyLevel.setFilters(new InputFilter[]{new InputFilterMinMax("-10", "10")});
@@ -109,9 +118,29 @@ public class AConfirmOther extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btnAttestationConfirm:
                 // TODO: Формирование подтверждения и отправка его на подписание и сервер через ASendSign
+                DataPersonalInfo pi = AMain.settings.getPersonalInfo();
+                DocAttestation doc_att = new DocAttestation();
 
+                doc_att.site = AMain.SIGN_DOC_APP_TYPE;
+                doc_att.dec_data = "[\"" + pi.personal_id + "\",\"" + String.valueOf(System.currentTimeMillis()) + "\",\"" + att_info.pid + "\",\""+ att_info.pkid + "\",\""+ edtVerifyLevel.getText() +"\"]";;
+                doc_att.template = getString(R.string.template_doc_attestation);
 
+                PacketSigned pack_att = doc_att.get_packet();
+                pack_att.insert(DocAttestation.DOC_TYPE);
+                ASendSign.add_to_queue(pack_att.doc, "*", true);
 
+                DocTrust doc_tr = new DocTrust();
+
+                doc_tr.site = AMain.SIGN_DOC_APP_TYPE;
+                doc_tr.dec_data = "[\"" + pi.personal_id + "\",\"" + String.valueOf(System.currentTimeMillis()) + "\",\"" + att_info.pid + "\",\""+ edtTrustLevel.getText() +"\"]";;
+                doc_tr.template = getString(R.string.template_doc_trust);
+
+                PacketSigned pack_tr = doc_att.get_packet();
+                pack_tr.insert(DocTrust.DOC_TYPE);
+                ASendSign.add_to_queue(pack_tr.doc, "*", true);
+
+                Intent intent = new Intent(this, ASendSign.class);
+                startActivity(intent);
 
                 break;
             case R.id.btnAttestationBack:

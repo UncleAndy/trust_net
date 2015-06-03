@@ -24,7 +24,7 @@ public class ASendSign extends Activity {
             doc_id = _doc_id;
             hosts = _hosts;
             sign_req = _sign_req;
-            send_req = (hosts != null && !hosts.equals(""));
+            send_req = (hosts != null && !hosts.isEmpty());
         }
     }
 
@@ -42,6 +42,9 @@ public class ASendSign extends Activity {
         QueueRecord queue_doc = new QueueRecord(doc.doc_id, hosts, sign_req);
 
         queue.add(queue_doc);
+
+        Gson gson = new Gson();
+        Log.d("add-to-queue", "Current queue = "+gson.toJson(queue));
     }
 
     @Override

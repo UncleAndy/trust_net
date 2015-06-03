@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -20,6 +21,7 @@ public class AServerView extends ActionBarActivity implements View.OnClickListen
     private TextView txtSource;
     private TextView txtCreateTime;
     private TextView txtOnlineTime;
+    private ImageView imgQRCode;
 
     private Button btnBack;
 
@@ -33,6 +35,7 @@ public class AServerView extends ActionBarActivity implements View.OnClickListen
         txtCreateTime   = (TextView) findViewById(R.id.txtServerCreateTime);
         txtOnlineTime   = (TextView) findViewById(R.id.txtServerLastOnlineTime);
         btnBack         = (Button) findViewById(R.id.btnServerViewBack);
+        imgQRCode       = (ImageView) findViewById(R.id.imgServerQR);
 
         btnBack.setOnClickListener(this);
 
@@ -44,6 +47,8 @@ public class AServerView extends ActionBarActivity implements View.OnClickListen
         txtSource.setText((String) item.get("source"));
         txtCreateTime.setText(AServers.time_to_string((String) item.get("t_create")));
         txtOnlineTime.setText(AServers.time_to_string((String) item.get("t_last_online")));
+
+        AMain.showQRCode(AMain.TRUSTNET_INT_URL_REG_SERVER+"/"+txtHost.getText(), imgQRCode);
     }
 
     @Override

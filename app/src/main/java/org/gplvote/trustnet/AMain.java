@@ -4,22 +4,35 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 
 public class AMain extends ActionBarActivity implements View.OnClickListener {
@@ -244,5 +257,43 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
         } catch (ActivityNotFoundException e) {
             requireSignDocApplication();
         }
+    }
+
+    public static void showQRCode(String content, ImageView element) {
+        final ImageView iv = element;
+        final String cont = content;
+        ViewTreeObserver vto = iv.getViewTreeObserver();
+        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            public boolean onPreDraw() {
+                iv.getViewTreeObserver().removeOnPreDrawListener(this);
+                int width = iv.getMeasuredWidth();
+                int height = iv.getMeasuredHeight();
+
+                int smallerDimension = width < height ? width : height;
+                smallerDimension = smallerDimension * 3 / 4;
+
+                QRCodeWriter writer = new QRCodeWriter();
+                BitMatrix matrix = null;
+                try {
+                    Hashtable hints = new Hashtable();
+                    hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+
+                    matrix = writer.encode(cont, BarcodeFormat.QR_CODE, smallerDimension, smallerDimension, hints);
+                } catch (WriterException ex) {
+                    ex.printStackTrace();
+                }
+
+                Bitmap bmp = Bitmap.createBitmap(smallerDimension, smallerDimension, Bitmap.Config.RGB_565);
+                for (int x = 0; x < smallerDimension; x++) {
+                    for (int y = 0; y < smallerDimension; y++) {
+                        bmp.setPixel(x, y, matrix.get(x, y) ? Color.BLACK : Color.WHITE);
+                    }
+                }
+
+                iv.setImageBitmap(bmp);
+
+                return true;
+            }
+        });
     }
 }

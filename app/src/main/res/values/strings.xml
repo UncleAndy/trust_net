@@ -48,4 +48,6 @@
     <string name="btn_QR_code_view">Сode for verify</string>
     <string name="text_progress_check_personal_id">Please, wait. Checking personal id...</string>
     <string name="error_bad_personal_id">ERROR!!!\nPersonal id from code and calculated not equal.</string>
+    <string name="template_doc_attestation">LIST\nYour personal identifier\nCurrent time in ms\nAttestation personal ID\nAttestation public key id\nAttestation level</string>
+    <string name="template_doc_trust">\nYour personal identifier\nCurrent time in ms\nTrusted personal ID\nTrust level</string>
 </resources>

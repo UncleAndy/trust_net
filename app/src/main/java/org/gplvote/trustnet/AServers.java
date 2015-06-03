@@ -287,7 +287,7 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
 
             Gson gson = new Gson();
             Log.d("send_public_key", "Doc = "+gson.toJson(doc));
-            pack = doc.get_packet(null, null);
+            pack = doc.get_packet();
 
             Log.d("send_public_key", "Packet = "+gson.toJson(pack));
             pack.insert(DocPublicKey.DOC_TYPE);

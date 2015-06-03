@@ -62,13 +62,15 @@ public class PacketBase {
         ArrayList<String> servers;
         do {
             servers = Servers.for_send(skip, exclude_host);
-            for (int i = 0; i < servers.size(); i++) {
-                Log.d("PacketBase", "Send to servers: Host = "+servers.get(i));
-                if (send(servers.get(i)))
-                    sended = true;
+            if (servers != null) {
+                for (int i = 0; i < servers.size(); i++) {
+                    Log.d("PacketBase", "Send to servers: Host = " + servers.get(i));
+                    if (send(servers.get(i)))
+                        sended = true;
+                }
+                skip += servers.size();
             }
-            skip += servers.size();
-        } while (!sended && (servers.size() > 0));
+        } while (!sended && (servers != null && servers.size() > 0));
         return(sended);
     }
 
