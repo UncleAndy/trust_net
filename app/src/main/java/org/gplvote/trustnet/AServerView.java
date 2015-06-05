@@ -45,10 +45,10 @@ public class AServerView extends ActionBarActivity implements View.OnClickListen
 
         txtHost.setText((String) item.get("host"));
         txtSource.setText((String) item.get("source"));
-        txtCreateTime.setText(AServers.time_to_string((String) item.get("t_create")));
-        txtOnlineTime.setText(AServers.time_to_string((String) item.get("t_last_online")));
+        txtCreateTime.setText(AMain.time_to_string((String) item.get("t_create")));
+        txtOnlineTime.setText(AMain.time_to_string((String) item.get("t_last_online")));
 
-        AMain.showQRCode(AMain.TRUSTNET_INT_URL_REG_SERVER+"/"+txtHost.getText(), imgQRCode);
+        AMain.showQRCode(AMain.TRUSTNET_INT_URL_REG_SERVER+txtHost.getText(), imgQRCode);
     }
 
     @Override

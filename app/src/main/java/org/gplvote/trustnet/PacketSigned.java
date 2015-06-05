@@ -29,6 +29,8 @@ public class PacketSigned extends PacketBase {
 
                 String doc_json = c.getString(c.getColumnIndex("doc"));
 
+                Log.d("DOC_FROM_DB", "JSON for "+doc_id+" = "+doc_json);
+
                 if (doc_json != null && !doc_json.isEmpty()) {
                     Gson gson = new Gson();
                     doc = gson.fromJson(doc_json, DocSigned.class);
@@ -64,12 +66,12 @@ public class PacketSigned extends PacketBase {
     // Вставляем в базу данные текущего пакета с указанным типом
     // Возвращает идентификатор пакеты или -1
     // В процессе вставки id из базы назначается так-же и в doc.doc_id
-    public long insert(String type) {
+    public long insert(String doc_type) {
         Gson gson = new Gson();
-        Log.d("INSERT", "Packet for insert: "+gson.toJson(this.doc));
+        Log.d("INSERT", "Packet for insert: " + gson.toJson(this.doc));
 
         ContentValues cv = new ContentValues();
-        cv.put("type", type);
+        cv.put("type", doc_type);
 
         SQLiteDatabase db = AMain.db.getWritableDatabase();
         long row_id = db.insert("docs", null, cv);
@@ -84,6 +86,7 @@ public class PacketSigned extends PacketBase {
         cv.put("sign_pub_key_id", this.sign_pub_key_id);
         cv.put("sign_personal_id", this.sign_personal_id);
         cv.put("content_id", this.doc.content_id());
+        cv.put("t_create", System.currentTimeMillis());
 
         db.update("docs", cv, "id = ?", new String[] {String.valueOf(row_id)});
 

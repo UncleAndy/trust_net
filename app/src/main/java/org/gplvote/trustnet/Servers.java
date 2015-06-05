@@ -59,7 +59,7 @@ public class Servers {
     public static boolean add(String host, String source) {
         SQLiteDatabase db = AMain.db.getWritableDatabase();
 
-        // TODO: Проверяем наличие данного сервера в базе.
+        // Проверяем наличие данного сервера в базе.
         // Если его нет - добавляем
         // Если он есть - изменяем значение source если нужно
         ContentValues cv = new ContentValues();
@@ -130,10 +130,9 @@ public class Servers {
         Cursor c = db.query("servers", new String[]{"id", "host"}, "host = ?", new String[]{host}, null, null, null, "1");
         if (c != null) {
             if (c.moveToFirst()) {
-                Long row_id = c.getLong(c.getColumnIndex("id"));
-                return(row_id);
+                return c.getLong(c.getColumnIndex("id"));
             }
         };
-        return Long.valueOf(-1);
+        return (long) -1;
     }
 }

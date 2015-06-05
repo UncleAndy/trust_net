@@ -46,6 +46,7 @@
         <activity android:name=".AAboutMeEdit" />
         <activity android:name=".ASendSign" />
         <activity android:name=".AConfirmMe"/>
+        <activity android:name=".AAttestations"/>
     </application>
 
 </manifest>

@@ -22,7 +22,7 @@
         android:id="@+id/txtSrvListHost"
         android:textColor="@android:color/black"
         android:textStyle="bold"
-        android:layout_gravity="center"
-        android:gravity="center_vertical|center_horizontal" />
+        android:gravity="center_vertical"
+        android:layout_gravity="center" />
 
 </LinearLayout>

@@ -25,7 +25,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public DbHelper(Context context) {
-        super(context, "TrustNet", null, 4);
+        super(context, "TrustNet", null, 5);
     }
 
     @Override
@@ -54,6 +54,15 @@ public class DbHelper extends SQLiteOpenHelper {
                 + "t_create INTEGER"
                 + ");");
         db.execSQL("CREATE INDEX docs_type_t_create_idx ON docs (type, t_create)");
+
+        // names
+        db.execSQL("CREATE TABLE names ("
+                + "id integer primary key autoincrement,"
+                + "name text,"
+                + "personal_id text,"
+                + "t_create INTEGER"
+                + ");");
+        db.execSQL("CREATE INDEX names_personal_id_idx ON names (personal_id)");
     }
 
     @Override
@@ -71,15 +80,29 @@ public class DbHelper extends SQLiteOpenHelper {
             db.execSQL("CREATE INDEX docs_type_t_create_idx ON docs (type, t_create)");
             db.setTransactionSuccessful();
             db.endTransaction();
-        } else if (oldVersion < 3 && newVersion >= 3) {
+        }
+        if (oldVersion < 3 && newVersion >= 3) {
             db.beginTransaction();
             db.execSQL("ALTER TABLE docs ADD COLUMN sign_personal_id text;");
             db.setTransactionSuccessful();
             db.endTransaction();
-        } else if (oldVersion < 4 && newVersion >= 4) {
+        }
+        if (oldVersion < 4 && newVersion >= 4) {
             db.beginTransaction();
             db.execSQL("ALTER TABLE docs ADD COLUMN content_id text;");
             db.execSQL("CREATE INDEX docs_content_id_t_create ON docs (content_id, t_create)");
+            db.setTransactionSuccessful();
+            db.endTransaction();
+        }
+        if (oldVersion < 5 && newVersion >= 5) {
+            db.beginTransaction();
+            db.execSQL("CREATE TABLE names ("
+                    + "id integer primary key autoincrement,"
+                    + "name text,"
+                    + "personal_id text,"
+                    + "t_create INTEGER"
+                    + ");");
+            db.execSQL("CREATE INDEX names_personal_id_idx ON names (personal_id)");
             db.setTransactionSuccessful();
             db.endTransaction();
         }

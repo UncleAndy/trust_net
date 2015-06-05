@@ -54,23 +54,22 @@ public class PacketBase {
         return(sended);
     }
 
+    // TODO: Исправить зацикливание при неудачно отправке на сервер
     public boolean send_excluded(String exclude_host) {
         Log.d("PacketBase", "send to servers all");
 
         int skip = 0;
+        int try_count = 0;
         boolean sended = false;
-        ArrayList<String> servers;
-        do {
-            servers = Servers.for_send(skip, exclude_host);
-            if (servers != null) {
-                for (int i = 0; i < servers.size(); i++) {
-                    Log.d("PacketBase", "Send to servers: Host = " + servers.get(i));
-                    if (send(servers.get(i)))
-                        sended = true;
-                }
-                skip += servers.size();
+        ArrayList<String> servers = Servers.for_send(0, exclude_host);
+        if (servers != null) {
+            for (int i = 0; i < servers.size(); i++) {
+                Log.d("PacketBase", "Send to servers: Host = " + servers.get(i));
+                if (send(servers.get(i)))
+                    sended = true;
+                try_count++;
             }
-        } while (!sended && (servers != null && servers.size() > 0));
+        }
         return(sended);
     }
 

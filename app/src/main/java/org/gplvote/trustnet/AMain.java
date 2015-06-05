@@ -1,9 +1,12 @@
 package org.gplvote.trustnet;
 
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -31,13 +34,14 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
 
 public class AMain extends ActionBarActivity implements View.OnClickListener {
     public static final String SIGN_DOC_PACKAGE_NAME = "org.gplvote.signdoc";
-    public static final int SIGN_DOC_MIN_VERSION_CODE_REQUIRED = 17;
+    public static final int SIGN_DOC_MIN_VERSION_CODE_REQUIRED = 19;
     public static final String SIGN_DOC_APP_TYPE = "app:trustnet";
     public static AMain instance;
 
@@ -167,6 +171,8 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.btnAttestations:
+                intent = new Intent(this, AAttestations.class);
+                startActivity(intent);
                 break;
             case R.id.btnTrusts:
                 break;
@@ -295,5 +301,56 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
                 return true;
             }
         });
+    }
+
+    public static String time_to_string(Long time) {
+        if (time == null || time <= 0) return("");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return(sdf.format(time));
+    }
+
+    public static String time_to_string(String time) {
+        Long time_long;
+        try {
+            time_long = Long.parseLong(time);
+        } catch (Exception e) {
+            time_long = 0L;
+        }
+
+        return(time_to_string(time_long));
+    }
+
+    public static String get_personal_name(String personal_id) {
+        SQLiteDatabase db = AMain.db.getWritableDatabase();
+
+        Cursor c = db.query("names", new String[]{"name"}, "personal_id = '"+personal_id+"'", null, null, null, null, null);
+        if (c != null && c.moveToFirst()) {
+            return(c.getString(c.getColumnIndex("name")));
+        }
+        return("");
+    }
+
+    public static void update_name(String name, String personal_id) {
+        SQLiteDatabase db = AMain.db.getWritableDatabase();
+
+        Cursor c = db.query("names", new String[]{"id", "name"}, "personal_id = '"+personal_id+"'", null, null, null, null, null);
+        if (c != null && c.moveToFirst()) {
+            String id = c.getString(c.getColumnIndex("id"));
+            String old_name = c.getString(c.getColumnIndex("name"));
+            if (!name.equals(old_name)) {
+                ContentValues cv = new ContentValues();
+                cv.put("name", name);
+
+                db.update("names", cv, "id = ?", new String[] {id});
+            }
+        } else {
+            ContentValues cv = new ContentValues();
+            cv.put("name", name);
+            cv.put("personal_id", personal_id);
+            cv.put("t_create", System.currentTimeMillis());
+
+            db.insert("names", null, cv);
+        }
     }
 }

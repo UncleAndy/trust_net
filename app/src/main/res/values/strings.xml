@@ -34,7 +34,7 @@
     <string name="title_servers_announces_view">Servers announces</string>
     <string name="btn_server_announce_create">Create self announce</string>
     <string name="btn_sign">Sign</string>
-    <string name="template_doc_public_key">LIST\nYour personal identifier\nCurrent time in ms\nYour public key\nPublic key for cancel it</string>
+    <string name="template_doc_public_key">LIST:Your public key\nYour personal identifier\nCurrent time in ms\nYour public key\nPublic key for cancel it</string>
     <string name="label_personal_id">Personal identifier</string>
     <string name="txt_about_me_generate">Now generated PERSONAL ID from your personal data. It may doing some minutes. Please, wait.</string>
     <string name="btn_sign_doc_app_install">Install...</string>
@@ -48,6 +48,10 @@
     <string name="btn_QR_code_view">Сode for verify</string>
     <string name="text_progress_check_personal_id">Please, wait. Checking personal id...</string>
     <string name="error_bad_personal_id">ERROR!!!\nPersonal id from code and calculated not equal.</string>
-    <string name="template_doc_attestation">LIST\nYour personal identifier\nCurrent time in ms\nAttestation personal ID\nAttestation public key id\nAttestation level</string>
-    <string name="template_doc_trust">\nYour personal identifier\nCurrent time in ms\nTrusted personal ID\nTrust level</string>
+    <string name="template_doc_attestation">LIST:Attestation\nYour personal identifier\nCurrent time in ms\nAttestation personal ID\nAttestation public key id\nAttestation level</string>
+    <string name="template_doc_trust">LIST:Trust\nYour personal identifier\nCurrent time in ms\nTrusted personal ID\nTrust level</string>
+    <string name="title_attestations">Attestations</string>
+    <string name="btn_simple_change">Change</string>
+    <string name="btn_recreate">Recreate...</string>
+    <string name="txt_send_sign">Sign and send data to servers...</string>
 </resources>

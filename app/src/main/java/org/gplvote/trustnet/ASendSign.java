@@ -2,9 +2,13 @@ package org.gplvote.trustnet;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -30,6 +34,8 @@ public class ASendSign extends Activity {
 
     private static ArrayList<QueueRecord> queue;
 
+    private static TaskSendPackets task;
+
     // hosts:
     // null || "" - send not required
     // 'host.ru,*' - to server host.ru and some random servers set (set size - from setup values)
@@ -50,7 +56,10 @@ public class ASendSign extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // setContentView(R.layout.servers);
+        setContentView(R.layout.progress);
+
+        TextView txtInfo = (TextView) findViewById(R.id.txtProgressInfo);
+        txtInfo.setText(getString(R.string.txt_send_sign));
 
         // 1. Из очереди документов queue выбираются те, которые требуют подписания
         // 2. По БД проверяется что они еще не имеют подписи
@@ -140,31 +149,59 @@ public class ASendSign extends Activity {
 
     // TODO: Реализовать отправку через асинхронный таск
     private void send_queue_docs() {
-        // Цикл по очереди, выборка документов из базы и отправка всех подписанных по одному
-        for(int i=0; i < queue.size();i++) {
-            QueueRecord req = queue.get(i);
-            if (req.send_req) {
-                PacketSigned pack = new PacketSigned(req.doc_id);
-                if (pack.doc != null && !pack.sign.isEmpty()) {
-                    // Отправляем пакет
-                    if (pack.send_hosts(req.hosts)) {
-                        // После удачной отправки удаляем пакет из очереди
-                        queue.remove(i);
-                        i--;
+        task = new TaskSendPackets();
+        task.execute(queue);
+    }
+
+    private class TaskSendPackets extends AsyncTask<ArrayList<QueueRecord>, Void, ArrayList<QueueRecord>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected ArrayList<QueueRecord> doInBackground(ArrayList<QueueRecord>... params) {
+            return(send_queue_docs(params[0]));
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<QueueRecord> result) {
+            super.onPostExecute(result);
+            Log.d("SEND_PACKETS", "Finished. " + result.size());
+
+            ASendSign.queue = result;
+            task = null;
+            finish();
+        }
+
+        private ArrayList<QueueRecord> send_queue_docs(ArrayList<QueueRecord> queue_docs) {
+            // Цикл по очереди, выборка документов из базы и отправка всех подписанных по одному
+            for(int i=0; i < queue_docs.size();i++) {
+                QueueRecord req = queue_docs.get(i);
+                if (req.send_req) {
+                    PacketSigned pack = new PacketSigned(req.doc_id);
+                    if (pack.doc != null && pack.sign != null && !pack.sign.isEmpty()) {
+                        // Отправляем пакет
+                        if (pack.send_hosts(req.hosts)) {
+                            // После удачной отправки удаляем пакет из очереди
+                            queue_docs.remove(i);
+                            i--;
+                        }
                     }
                 }
             }
-        }
 
-        if (queue.size() > 0) {
-            String doc_ids = "";
-            String sep = "";
-            for(int i=0;i<queue.size();i++) {
-                QueueRecord req = queue.get(i);
-                Log.e("SEND_QUEUE", "Can not send doc "+req.doc_id);
+            if (queue_docs.size() > 0) {
+                String doc_ids = "";
+                String sep = "";
+                for(int i=0;i<queue_docs.size();i++) {
+                    QueueRecord req = queue_docs.get(i);
+                    Log.e("SEND_QUEUE", "Can not send doc "+req.doc_id);
+                }
             }
-        }
 
-        finish();
+            return(queue_docs);
+        }
     }
+
 }

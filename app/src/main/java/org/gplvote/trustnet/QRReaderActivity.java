@@ -10,7 +10,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 public class QRReaderActivity extends ActionBarActivity {
-    public void qrScanStart() {
+/*    public void qrScanStart() {
         Log.d("QRCODE", "qr_scan");
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.initiateScan();
@@ -30,4 +30,5 @@ public class QRReaderActivity extends ActionBarActivity {
             }
         }
     }
+*/
 }

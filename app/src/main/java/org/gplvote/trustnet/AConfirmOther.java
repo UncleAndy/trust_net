@@ -1,7 +1,10 @@
 package org.gplvote.trustnet;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.net.Uri;
@@ -117,7 +120,11 @@ public class AConfirmOther extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnAttestationConfirm:
-                // TODO: Формирование подтверждения и отправка его на подписание и сервер через ASendSign
+                // Проверяем в базе имен (names) наличие имени для данного идентификатора
+                // обновляем его если есть или добавляем если нет
+                AMain.update_name(att_info.nm, att_info.pid);
+
+                // Формирование подтверждения и отправка его на подписание и сервер через ASendSign
                 DataPersonalInfo pi = AMain.settings.getPersonalInfo();
                 DocAttestation doc_att = new DocAttestation();
 
@@ -135,7 +142,7 @@ public class AConfirmOther extends Activity implements View.OnClickListener {
                 doc_tr.dec_data = "[\"" + pi.personal_id + "\",\"" + String.valueOf(System.currentTimeMillis()) + "\",\"" + att_info.pid + "\",\""+ edtTrustLevel.getText() +"\"]";;
                 doc_tr.template = getString(R.string.template_doc_trust);
 
-                PacketSigned pack_tr = doc_att.get_packet();
+                PacketSigned pack_tr = doc_tr.get_packet();
                 pack_tr.insert(DocTrust.DOC_TYPE);
                 ASendSign.add_to_queue(pack_tr.doc, "*", true);
 
@@ -184,5 +191,4 @@ public class AConfirmOther extends Activity implements View.OnClickListener {
             task = null;
         }
     }
-
 }

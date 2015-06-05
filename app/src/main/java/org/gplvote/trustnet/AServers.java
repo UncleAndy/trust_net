@@ -53,7 +53,7 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
 
         if (d != null && d.getScheme().equals("trustnet") && d.getHost().equals("regserver")) {
             String reg_host = d.getPath();
-            reg_host = reg_host.replaceAll("^/", "");
+            reg_host = reg_host.replaceAll("^/+", "");
             register_server(reg_host);
             reload_servers();
         }
@@ -201,10 +201,10 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
             // Time parse
             String t_last_online = (String) list.get(position).get("t_last_online");
             if (t_last_online != null && !t_last_online.isEmpty())
-                t_last_online = time_to_string(Long.parseLong(t_last_online));
+                t_last_online = AMain.time_to_string(Long.parseLong(t_last_online));
             String t_create = (String) list.get(position).get("t_create");
             if (t_create != null && !t_create.isEmpty())
-                t_create = time_to_string(Long.parseLong(t_create));
+                t_create = AMain.time_to_string(Long.parseLong(t_create));
 
             // Status parse
             String host = (String) list.get(position).get("host");
@@ -301,23 +301,5 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
 
         Intent intent = new Intent(this, ASendSign.class);
         startActivity(intent);
-    }
-
-    public static String time_to_string(Long time) {
-        if (time == null || time <= 0) return("");
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return(sdf.format(time));
-    }
-
-    public static String time_to_string(String time) {
-        Long time_long;
-        try {
-            time_long = Long.parseLong(time);
-        } catch (Exception e) {
-            time_long = 0L;
-        }
-
-        return(time_to_string(time_long));
     }
 }
