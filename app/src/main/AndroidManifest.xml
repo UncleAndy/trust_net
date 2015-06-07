@@ -47,6 +47,7 @@
         <activity android:name=".ASendSign" />
         <activity android:name=".AConfirmMe"/>
         <activity android:name=".AAttestations"/>
+        <activity android:name=".AAttestateView"/>
     </application>
 
 </manifest>

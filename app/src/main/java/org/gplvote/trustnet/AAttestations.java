@@ -56,12 +56,23 @@ public class AAttestations extends ActionBarActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch(v.getId()) {
             case R.id.btnAttestateBack:
                 finish();
                 break;
             case R.id.btnAttestateView:
-                // TODO: Реализовать просмотр удостоверения
+                int curPosition = sAdapter.getCurrentPosition();
+
+                if (curPosition < 0) {
+                    return;
+                }
+
+                HashMap<String, Object> item = (HashMap<String, Object>) listAttestates.getItemAtPosition(curPosition);
+
+                intent = new Intent(this, AAttestateView.class);
+                intent.putExtra("AttestateId", (String) item.get("id"));
+                startActivity(intent);
                 break;
             case R.id.btnAttestateRecreate:
                 // TODO: Реализовать перевыпуск удостоверения
@@ -80,7 +91,7 @@ public class AAttestations extends ActionBarActivity implements View.OnClickList
         DbHelper dbStorage = DbHelper.getInstance(this);
         SQLiteDatabase db = dbStorage.getWritableDatabase();
 
-        Cursor c = db.query("docs", new String[]{"id", "doc", "t_create"}, "type = '" + DocAttestation.DOC_TYPE + "'", null, null, null, "t_create desc, content_id", "100");
+        Cursor c = db.query("docs", new String[]{"id", "doc", "t_create"}, "type = '" + DocAttestation.DOC_TYPE + "' AND current = 1", null, null, null, "t_create desc, content_id", "100");
 
         Gson gson = new Gson();
         if (c != null) {
@@ -103,6 +114,7 @@ public class AAttestations extends ActionBarActivity implements View.OnClickList
                     m.put("t_create", doc_data[1]);
                     m.put("personal_id", doc_data[2]);
                     m.put("public_key_id", doc_data[3]);
+                    m.put("level", doc_data[4]);
 
                     list.add(m);
                 } while (c.moveToNext());
@@ -163,6 +175,7 @@ public class AAttestations extends ActionBarActivity implements View.OnClickList
             TextView txtTime = (TextView) rowView.findViewById(R.id.txtAttestateListTime);
             TextView txtPersonalId = (TextView) rowView.findViewById(R.id.txtAttestateListPersonalId);
             TextView txtPublicKeyId = (TextView) rowView.findViewById(R.id.txtAttestateListPublicKeyId);
+            TextView txtLevel = (TextView) rowView.findViewById(R.id.txtAttestateLevel);
 
             // Time parse
             String t_create = (String) list.get(position).get("t_create");
@@ -174,11 +187,13 @@ public class AAttestations extends ActionBarActivity implements View.OnClickList
             String name = (String) list.get(position).get("name");
             String personal_id = (String) list.get(position).get("personal_id");
             String public_key_id = (String) list.get(position).get("public_key_id");
+            String level = (String) list.get(position).get("level");
 
             txtName.setText(name);
             txtTime.setText(t_create);
             txtPersonalId.setText(personal_id);
             txtPublicKeyId.setText(public_key_id);
+            txtLevel.setText(level);
 
             CheckedTextView checkedTextView = (CheckedTextView) rowView.findViewById(R.id.radioAttestationListSel);
             if (position == currentPosition) {

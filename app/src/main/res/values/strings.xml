@@ -54,4 +54,8 @@
     <string name="btn_simple_change">Change</string>
     <string name="btn_recreate">Recreate...</string>
     <string name="txt_send_sign">Sign and send data to servers...</string>
+    <string name="title_att_and_trust">Verification</string>
+    <string name="title_attestate">Attestate</string>
+    <string name="label_history">History</string>
+    <string name="label_time">Time</string>
 </resources>

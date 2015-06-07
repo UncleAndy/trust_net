@@ -25,7 +25,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public DbHelper(Context context) {
-        super(context, "TrustNet", null, 5);
+        super(context, "TrustNet", null, 7);
     }
 
     @Override
@@ -51,6 +51,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 + "sign_pub_key_id,"
                 + "sign_personal_id text,"
                 + "content_id text,"
+                + "current integer DEFAULT 0,"
+                + "pow_nonce text,"
                 + "t_create INTEGER"
                 + ");");
         db.execSQL("CREATE INDEX docs_type_t_create_idx ON docs (type, t_create)");
@@ -103,6 +105,19 @@ public class DbHelper extends SQLiteOpenHelper {
                     + "t_create INTEGER"
                     + ");");
             db.execSQL("CREATE INDEX names_personal_id_idx ON names (personal_id)");
+            db.setTransactionSuccessful();
+            db.endTransaction();
+        }
+        if (oldVersion < 6 && newVersion >= 6) {
+            db.beginTransaction();
+            db.execSQL("ALTER TABLE docs ADD COLUMN current integer DEFAULT 0;");
+            db.execSQL("CREATE INDEX docs_content_id_t_create ON docs (current, t_create)");
+            db.setTransactionSuccessful();
+            db.endTransaction();
+        }
+        if (oldVersion < 7 && newVersion >= 7) {
+            db.beginTransaction();
+            db.execSQL("ALTER TABLE docs ADD COLUMN pow_nonce text;");
             db.setTransactionSuccessful();
             db.endTransaction();
         }

@@ -15,6 +15,7 @@ public class PacketSigned extends PacketBase {
     @Expose public String sign;
     @Expose public String sign_pub_key_id;
     @Expose public String sign_personal_id;
+    @Expose public String pow_nonce;
 
     // Create doc from DB
     public PacketSigned(String doc_id) {
@@ -67,13 +68,19 @@ public class PacketSigned extends PacketBase {
     // Возвращает идентификатор пакеты или -1
     // В процессе вставки id из базы назначается так-же и в doc.doc_id
     public long insert(String doc_type) {
+        SQLiteDatabase db = AMain.db.getWritableDatabase();
         Gson gson = new Gson();
         Log.d("INSERT", "Packet for insert: " + gson.toJson(this.doc));
 
         ContentValues cv = new ContentValues();
-        cv.put("type", doc_type);
 
-        SQLiteDatabase db = AMain.db.getWritableDatabase();
+        // Сначала очищаем флаг текущего контента у старого
+        cv.put("current", 0);
+        String content_id = this.doc.content_id();
+        db.update("docs", cv, "content_id = ? AND current = 1", new String[]{content_id});
+
+        cv.clear();
+        cv.put("type", doc_type);
         long row_id = db.insert("docs", null, cv);
 
         Log.d("DOC_INSERT", "New doc id = "+String.valueOf(row_id));
@@ -85,7 +92,8 @@ public class PacketSigned extends PacketBase {
         cv.put("sign", this.sign);
         cv.put("sign_pub_key_id", this.sign_pub_key_id);
         cv.put("sign_personal_id", this.sign_personal_id);
-        cv.put("content_id", this.doc.content_id());
+        cv.put("content_id", content_id);
+        cv.put("current", 1);
         cv.put("t_create", System.currentTimeMillis());
 
         db.update("docs", cv, "id = ?", new String[] {String.valueOf(row_id)});
