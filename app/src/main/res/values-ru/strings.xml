@@ -57,4 +57,7 @@
     <string name="title_attestate">Удостоверение</string>
     <string name="label_history">История</string>
     <string name="label_time">Время</string>
+    <string name="title_trusts">Доверие</string>
+    <string name="title_trust">Доверие</string>
+    <string name="title_trust_change">Изменение доверия</string>
 </resources>

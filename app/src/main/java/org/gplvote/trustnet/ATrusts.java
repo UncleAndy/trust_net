@@ -32,18 +32,19 @@ public class ATrusts extends ActionBarActivity implements View.OnClickListener {
 
     private TrustsListArrayAdapter sAdapter;
 
+    public static ATrusts instance = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trusts);
 
+        instance = this;
+
         listTrusts = (ListView) findViewById(R.id.listTrusts);
         btnBack = (Button) findViewById(R.id.btnTrustBack);
         btnView = (Button) findViewById(R.id.btnTrustView);
         btnChange = (Button) findViewById(R.id.btnTrustChange);
-
-        btnView.setVisibility(View.GONE);
-        btnChange.setVisibility(View.GONE);
 
         btnBack.setOnClickListener(this);
         btnView.setOnClickListener(this);
@@ -55,28 +56,41 @@ public class ATrusts extends ActionBarActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Intent intent;
+        HashMap<String, Object> item;
+        int curPosition;
         switch(v.getId()) {
             case R.id.btnTrustBack:
+                instance = null;
                 finish();
                 break;
             case R.id.btnTrustView:
-                int curPosition = sAdapter.getCurrentPosition();
+                curPosition = sAdapter.getCurrentPosition();
 
                 if (curPosition < 0) {
                     return;
                 }
 
-                HashMap<String, Object> item = (HashMap<String, Object>) listTrusts.getItemAtPosition(curPosition);
+                item = (HashMap<String, Object>) listTrusts.getItemAtPosition(curPosition);
 
                 intent = new Intent(this, ATrustView.class);
                 intent.putExtra("TrustId", (String) item.get("id"));
                 startActivity(intent);
                 break;
             case R.id.btnTrustChange:
+                curPosition = sAdapter.getCurrentPosition();
+
+                if (curPosition < 0) {
+                    return;
+                }
+
+                item = (HashMap<String, Object>) listTrusts.getItemAtPosition(curPosition);
+
+                intent = new Intent(this, ATrustChange.class);
+                intent.putExtra("TrustId", (String) item.get("id"));
+                startActivity(intent);
                 break;
         }
     }
-
 
     public void reload_data() {
         ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>(100);
@@ -142,6 +156,9 @@ public class ATrusts extends ActionBarActivity implements View.OnClickListener {
                 }
             }
         });
+
+        btnView.setVisibility(View.GONE);
+        btnChange.setVisibility(View.GONE);
     }
 
     public class TrustsListArrayAdapter extends ArrayAdapter<Map<String, Object>> {

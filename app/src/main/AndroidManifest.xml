@@ -50,6 +50,7 @@
         <activity android:name=".AAttestateView"/>
         <activity android:name=".ATrusts"/>
         <activity android:name=".ATrustView"/>
+        <activity android:name=".ATrustChange"/>
     </application>
 
 </manifest>

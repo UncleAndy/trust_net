@@ -11,7 +11,7 @@
         android:background="@android:color/holo_green_dark"
         android:gravity="center_vertical|center_horizontal"
         android:padding="6dp"
-        android:text="@string/title_attestations"
+        android:text="@string/title_trusts"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/white"
         android:textStyle="bold" />

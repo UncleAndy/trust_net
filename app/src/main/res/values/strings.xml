@@ -58,4 +58,7 @@
     <string name="title_attestate">Attestate</string>
     <string name="label_history">History</string>
     <string name="label_time">Time</string>
+    <string name="title_trusts">Trusts</string>
+    <string name="title_trust">Trust</string>
+    <string name="title_trust_change">Trust change</string>
 </resources>
