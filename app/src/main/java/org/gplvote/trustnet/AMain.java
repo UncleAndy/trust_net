@@ -175,6 +175,8 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.btnTrusts:
+                intent = new Intent(this, ATrusts.class);
+                startActivity(intent);
                 break;
             case R.id.btnTagsAttestations:
                 break;

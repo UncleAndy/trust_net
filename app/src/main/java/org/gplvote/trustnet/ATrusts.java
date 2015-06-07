@@ -1,11 +1,9 @@
 package org.gplvote.trustnet;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -26,26 +24,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AAttestations extends ActionBarActivity implements View.OnClickListener {
-    private ListView listAttestates;
+public class ATrusts extends ActionBarActivity implements View.OnClickListener {
+    private ListView listTrusts;
     private Button btnBack;
     private Button btnView;
+    private Button btnChange;
 
-    private AttestationsListArrayAdapter sAdapter;
+    private TrustsListArrayAdapter sAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.attestations);
+        setContentView(R.layout.trusts);
 
-        listAttestates = (ListView) findViewById(R.id.listAttestations);
-        btnBack = (Button) findViewById(R.id.btnAttestateBack);
-        btnView = (Button) findViewById(R.id.btnAttestateView);
+        listTrusts = (ListView) findViewById(R.id.listTrusts);
+        btnBack = (Button) findViewById(R.id.btnTrustBack);
+        btnView = (Button) findViewById(R.id.btnTrustView);
+        btnChange = (Button) findViewById(R.id.btnTrustChange);
 
         btnView.setVisibility(View.GONE);
+        btnChange.setVisibility(View.GONE);
 
         btnBack.setOnClickListener(this);
         btnView.setOnClickListener(this);
+        btnChange.setOnClickListener(this);
 
         reload_data();
     }
@@ -54,21 +56,23 @@ public class AAttestations extends ActionBarActivity implements View.OnClickList
     public void onClick(View v) {
         Intent intent;
         switch(v.getId()) {
-            case R.id.btnAttestateBack:
+            case R.id.btnTrustBack:
                 finish();
                 break;
-            case R.id.btnAttestateView:
+            case R.id.btnTrustView:
                 int curPosition = sAdapter.getCurrentPosition();
 
                 if (curPosition < 0) {
                     return;
                 }
 
-                HashMap<String, Object> item = (HashMap<String, Object>) listAttestates.getItemAtPosition(curPosition);
+                HashMap<String, Object> item = (HashMap<String, Object>) listTrusts.getItemAtPosition(curPosition);
 
-                intent = new Intent(this, AAttestateView.class);
-                intent.putExtra("AttestateId", (String) item.get("id"));
+                intent = new Intent(this, ATrustView.class);
+                intent.putExtra("TrustId", (String) item.get("id"));
                 startActivity(intent);
+                break;
+            case R.id.btnTrustChange:
                 break;
         }
     }
@@ -78,21 +82,21 @@ public class AAttestations extends ActionBarActivity implements View.OnClickList
         ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>(100);
         Map<String, Object> m;
 
-        Log.d("ATTESTATIONS", "Run update_list");
+        Log.d("TRUSTS", "Run update_list");
 
         // Заполнение m данными из таблицы документов
         DbHelper dbStorage = DbHelper.getInstance(this);
         SQLiteDatabase db = dbStorage.getWritableDatabase();
 
-        Cursor c = db.query("docs", new String[]{"id", "doc", "t_create"}, "type = '" + DocAttestation.DOC_TYPE + "' AND current = 1", null, null, null, "t_create desc, content_id", "100");
+        Cursor c = db.query("docs", new String[]{"id", "doc", "t_create"}, "type = '" + DocTrust.DOC_TYPE + "' AND current = 1", null, null, null, "t_create desc, content_id", "100");
 
         Gson gson = new Gson();
         if (c != null) {
-            Log.d("ATTESTATIONS", "update_list p1");
+            Log.d("TRUSTS", "update_list p1");
             if (c.moveToFirst()) {
-                Log.d("SERVERS", "update_list p2");
+                Log.d("TRUSTS", "update_list p2");
                 do {
-                    Log.d("ATTESTATIONS", "update_list p3");
+                    Log.d("TRUSTS", "update_list p3");
                     m = new HashMap<String, Object>();
 
                     m.put("id", c.getString(c.getColumnIndex("id")));
@@ -106,8 +110,7 @@ public class AAttestations extends ActionBarActivity implements View.OnClickList
                     m.put("name", AMain.get_personal_name(doc_data[2]));
                     m.put("t_create", doc_data[1]);
                     m.put("personal_id", doc_data[2]);
-                    m.put("public_key_id", doc_data[3]);
-                    m.put("level", doc_data[4]);
+                    m.put("level", doc_data[3]);
 
                     list.add(m);
                 } while (c.moveToNext());
@@ -115,16 +118,16 @@ public class AAttestations extends ActionBarActivity implements View.OnClickList
             c.close();
         }
 
-        listAttestates = (ListView) findViewById(R.id.listAttestations);
-        listAttestates.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        sAdapter = new AttestationsListArrayAdapter(this, list);
-        listAttestates.setAdapter(sAdapter);
+        listTrusts = (ListView) findViewById(R.id.listTrusts);
+        listTrusts.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        sAdapter = new TrustsListArrayAdapter(this, list);
+        listTrusts.setAdapter(sAdapter);
 
-        listAttestates.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listTrusts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                HashMap<String, Object> item = (HashMap<String, Object>) listAttestates.getItemAtPosition(position);
+                HashMap<String, Object> item = (HashMap<String, Object>) listTrusts.getItemAtPosition(position);
 
                 sAdapter.setCurrentPosition(position);
                 sAdapter.notifyDataSetChanged();
@@ -132,20 +135,22 @@ public class AAttestations extends ActionBarActivity implements View.OnClickList
                 // Ставим статус кнопки "Просмотр" в зависимости от статуса текущего выбранного документа
                 if (item != null) {
                     btnView.setVisibility(View.VISIBLE);
+                    btnChange.setVisibility(View.VISIBLE);
                 } else {
                     btnView.setVisibility(View.GONE);
+                    btnChange.setVisibility(View.GONE);
                 }
             }
         });
     }
 
-    public class AttestationsListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
+    public class TrustsListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         private final Context context;
         private final List<Map<String, Object>> list;
         private int currentPosition = -1;
 
-        public AttestationsListArrayAdapter(Context context, List<Map<String, Object>> objects) {
-            super(context, R.layout.list_item_attestation, objects);
+        public TrustsListArrayAdapter(Context context, List<Map<String, Object>> objects) {
+            super(context, R.layout.list_item_trust, objects);
             this.context = context;
             this.list = objects;
         }
@@ -153,20 +158,19 @@ public class AAttestations extends ActionBarActivity implements View.OnClickList
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View rowView;
-            Log.d("ATTESTATES", "Start getView for position = " + position);
+            Log.d("TrustS", "Start getView for position = " + position);
 
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                rowView = inflater.inflate(R.layout.list_item_attestation, parent, false);
+                rowView = inflater.inflate(R.layout.list_item_trust, parent, false);
             } else {
                 rowView = convertView;
             }
 
-            TextView txtName = (TextView) rowView.findViewById(R.id.txtAttestateListName);
-            TextView txtTime = (TextView) rowView.findViewById(R.id.txtAttestateListTime);
-            TextView txtPersonalId = (TextView) rowView.findViewById(R.id.txtAttestateListPersonalId);
-            TextView txtPublicKeyId = (TextView) rowView.findViewById(R.id.txtAttestateListPublicKeyId);
-            TextView txtLevel = (TextView) rowView.findViewById(R.id.txtAttestateLevel);
+            TextView txtName = (TextView) rowView.findViewById(R.id.txtTrustListName);
+            TextView txtTime = (TextView) rowView.findViewById(R.id.txtTrustListTime);
+            TextView txtPersonalId = (TextView) rowView.findViewById(R.id.txtTrustListPersonalId);
+            TextView txtLevel = (TextView) rowView.findViewById(R.id.txtTrustLevel);
 
             // Time parse
             String t_create = (String) list.get(position).get("t_create");
@@ -177,16 +181,14 @@ public class AAttestations extends ActionBarActivity implements View.OnClickList
 
             String name = (String) list.get(position).get("name");
             String personal_id = (String) list.get(position).get("personal_id");
-            String public_key_id = (String) list.get(position).get("public_key_id");
             String level = (String) list.get(position).get("level");
 
             txtName.setText(name);
             txtTime.setText(t_create);
             txtPersonalId.setText(personal_id);
-            txtPublicKeyId.setText(public_key_id);
             txtLevel.setText(level);
 
-            CheckedTextView checkedTextView = (CheckedTextView) rowView.findViewById(R.id.radioAttestationListSel);
+            CheckedTextView checkedTextView = (CheckedTextView) rowView.findViewById(R.id.radioTrustListSel);
             if (position == currentPosition) {
                 checkedTextView.setChecked(true);
             } else {

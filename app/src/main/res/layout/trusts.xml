@@ -19,8 +19,14 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/listAttestations"
+        android:id="@+id/listTrusts"
         android:layout_weight="1" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_change"
+        android:id="@+id/btnTrustChange" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -32,14 +38,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="@string/btn_back"
-            android:id="@+id/btnAttestateBack"
+            android:id="@+id/btnTrustBack"
             android:layout_weight="1" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="@string/btn_servers_view"
-            android:id="@+id/btnAttestateView"
+            android:id="@+id/btnTrustView"
             android:layout_weight="1" />
 
     </LinearLayout>
