@@ -13,6 +13,7 @@ public class AAboutMe extends Activity implements View.OnClickListener {
     private Settings settings;
 
     private Button btnShowQRCode;
+    private Button btnTrustQRCode;
     private TextView txtName;
     private TextView txtBirthday;
     private TextView txtTaxNumber;
@@ -38,6 +39,8 @@ public class AAboutMe extends Activity implements View.OnClickListener {
         btnBack.setOnClickListener(this);
         btnShowQRCode = (Button) findViewById(R.id.btnAboutMeShowQRCode);
         btnShowQRCode.setOnClickListener(this);
+        btnTrustQRCode = (Button) findViewById(R.id.btnAboutMeTrustQRCode);
+        btnTrustQRCode.setOnClickListener(this);
 
         txtName         = (TextView) findViewById(R.id.txtAboutMeName);
         txtBirthday     = (TextView) findViewById(R.id.txtAboutMeBirthday);
@@ -57,6 +60,11 @@ public class AAboutMe extends Activity implements View.OnClickListener {
             case R.id.btnAboutMeShowQRCode:
                 // Выводим на экран QR код с данными для удостоверения
                 intent = new Intent(this, AConfirmMe.class);
+                startActivity(intent);
+                break;
+            case R.id.btnAboutMeTrustQRCode:
+                // Выводим на экран QR код с данными для удостоверения
+                intent = new Intent(this, ATrustMe.class);
                 startActivity(intent);
                 break;
             case R.id.btnAboutMeChange:

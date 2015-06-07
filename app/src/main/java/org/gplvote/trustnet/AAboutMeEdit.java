@@ -70,7 +70,7 @@ public class AAboutMeEdit extends Activity implements View.OnClickListener {
                 info.tax_number = edtTaxNumber.getText().toString();
                 info.social_number = edtSocialNumber.getText().toString();
 
-                // TODO: Запуск фоновой задачи сохранения данных
+                // Запуск фоновой задачи сохранения данных
                 task_save = new TaskSettingSave();
                 task_save.execute(info);
                 break;

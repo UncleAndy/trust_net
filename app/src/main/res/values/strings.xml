@@ -45,7 +45,7 @@
     <string name="btn_server_t_create">Detect time:</string>
     <string name="btn_server_t_last_online">Last time online:</string>
     <string name="label_user_cancel_key_id">Cancel key id for main key</string>
-    <string name="btn_QR_code_view">Сode for verify</string>
+    <string name="btn_QR_code_view">Verify QR...</string>
     <string name="text_progress_check_personal_id">Please, wait. Checking personal id...</string>
     <string name="error_bad_personal_id">ERROR!!!\nPersonal id from code and calculated not equal.</string>
     <string name="template_doc_attestation">LIST:Attestation\nYour personal identifier\nCurrent time in ms\nAttestation personal ID\nAttestation public key id\nAttestation level</string>
@@ -61,4 +61,5 @@
     <string name="title_trusts">Trusts</string>
     <string name="title_trust">Trust</string>
     <string name="title_trust_change">Trust change</string>
+    <string name="btn_QR_code_trust">Trust QR...</string>
 </resources>

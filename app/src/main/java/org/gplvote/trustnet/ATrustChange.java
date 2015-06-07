@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +32,8 @@ public class ATrustChange extends ActionBarActivity implements View.OnClickListe
     private Button   btnConfirm;
 
     private String trust_id;
+
+    private String mode = "act";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +51,44 @@ public class ATrustChange extends ActionBarActivity implements View.OnClickListe
         btnConfirm.setOnClickListener(this);
 
         trust_id = getIntent().getStringExtra("TrustId");
+        if (trust_id == null || trust_id.isEmpty()) {
+            // TODO: Проверить вариант получения уровня доверия из QR-кода
+            Intent i = getIntent();
+            Uri d = null;
+            if (i != null) d = i.getData();
 
-        reload_data();
+            String json_trust_info = null;
+            if (d != null && d.getScheme().equals("trustnet") && d.getHost().equals("trust")) {
+                json_trust_info = d.getPath();
+                json_trust_info = json_trust_info.replaceAll("^/", "");
+            }
+
+            if (json_trust_info == null || json_trust_info.isEmpty()) {
+                Log.e("ConfirmTrust", "Error when get attestation info from URL");
+                throw new RuntimeException("ConfirmTrust: Error when get attestation info from URL");
+            }
+
+            Gson gson = new Gson();
+            HashMap<String, Object> trust_info = gson.fromJson(json_trust_info, new TypeToken<HashMap<String, Object>>() {}.getType());
+
+            String personal_id = (String) trust_info.get("pid");
+            String name_qr = (String) trust_info.get("nm");
+            String name_db = AMain.get_personal_name(personal_id);
+            String level = (String) trust_info.get("lv");
+
+            String name = name_qr;
+            if (name_db != null && !name_db.isEmpty() && !name_db.equals(name_qr))
+                name = name + "(" + name_db + ")";
+
+            if (level == null || level.isEmpty() || Integer.valueOf(level) < -10 || Integer.valueOf(level) > 10)
+                level = "0";
+
+            txtName.setText(name);
+            txtPersonalId.setText(personal_id);
+            edtLevel.setText(level);
+        } else {
+            reload_data();
+        };
     }
 
     @Override
@@ -59,8 +100,7 @@ public class ATrustChange extends ActionBarActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.btnTrustChangeConfirm:
-                // TODO: Если уровень не совпадает с предыдущим, формируем документ
-                // TODO: об уровне доверия, подписываем и отправляем его
+                // TODO: Если уровень не совпадает с предыдущим, формируем документ об уровне доверия, подписываем и отправляем его
                 DataPersonalInfo pi = AMain.settings.getPersonalInfo();
 
                 String personal_id = (String) txtPersonalId.getText();

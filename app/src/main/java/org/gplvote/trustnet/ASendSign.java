@@ -147,7 +147,6 @@ public class ASendSign extends Activity {
         }
     }
 
-    // TODO: Реализовать отправку через асинхронный таск
     private void send_queue_docs() {
         task = new TaskSendPackets();
         task.execute(queue);

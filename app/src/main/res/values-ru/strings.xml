@@ -44,7 +44,7 @@
     <string name="btn_server_t_create">Время обнаружения:</string>
     <string name="btn_server_t_last_online">Последний раз в онлайн:</string>
     <string name="label_user_cancel_key_id">Идентификатор ключа отмены</string>
-    <string name="btn_QR_code_view">Код для проверки</string>
+    <string name="btn_QR_code_view">Код проверки...</string>
     <string name="text_progress_check_personal_id">Пожалуйста, подождите. Проверяется персональный идентификатор...</string>
     <string name="error_bad_personal_id">ОШИБКА!!!\nПерсональный идентификатор переданный в коде не совпадает с вычисленным.</string>
     <string name="template_doc_attestation">LIST:Удостоверение\nВаш персональный идентификатор\nТекущее время в миллисекундах\nЗаверяемый персональный идентификатор\nЗаверяемый идентификатор публичного ключа\nУровень заверения</string>
@@ -60,4 +60,5 @@
     <string name="title_trusts">Доверие</string>
     <string name="title_trust">Доверие</string>
     <string name="title_trust_change">Изменение доверия</string>
+    <string name="btn_QR_code_trust">Код доверия...</string>
 </resources>

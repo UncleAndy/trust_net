@@ -41,6 +41,16 @@
                 <data android:scheme="trustnet" android:host="verification"/>
             </intent-filter>
         </activity>
+        <activity android:name=".ATrustChange"
+            android:screenOrientation="portrait"
+            android:label="Trust Net">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="trustnet" android:host="trust"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".AServerView" />
         <activity android:name=".AAboutMe" />
         <activity android:name=".AAboutMeEdit" />
@@ -50,7 +60,7 @@
         <activity android:name=".AAttestateView"/>
         <activity android:name=".ATrusts"/>
         <activity android:name=".ATrustView"/>
-        <activity android:name=".ATrustChange"/>
+        <activity android:name=".ATrustMe"/>
     </application>
 
 </manifest>

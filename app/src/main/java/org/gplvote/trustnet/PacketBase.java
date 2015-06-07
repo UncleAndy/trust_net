@@ -54,7 +54,6 @@ public class PacketBase {
         return(sended);
     }
 
-    // TODO: Исправить зацикливание при неудачно отправке на сервер
     public boolean send_excluded(String exclude_host) {
         Log.d("PacketBase", "send to servers all");
 
