@@ -71,4 +71,5 @@
     <string name="label_tag_addition_data">Addition data</string>
     <string name="template_doc_tag">LIST:Addition attestate\nYour personal identifier\nCurrent time in ms\nAddition attestate ID\nVerifyed personal ID\nAddition data\nVerification level</string>
     <string name="label_tag_level">Level (from -10 to 10)</string>
+    <string name="label_tag_type_name">Addition attestate type</string>
 </resources>

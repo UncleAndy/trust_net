@@ -89,16 +89,34 @@ public class ATagChange extends ActionBarActivity implements View.OnClickListene
             String data = (String) tag_att_info.get("d");
             String level = (String) tag_att_info.get("lv");
 
+            DataPersonalInfo pi = AMain.settings.getPersonalInfo();
+            String hash_str = String.format("%s:%s:%s", pi.personal_id, tag_id, personal_id);
+            String content_id = DocTag.content_id(hash_str);
+
             if (level == null || level.isEmpty() || Integer.valueOf(level) < -10 || Integer.valueOf(level) > 10)
                 level = "0";
 
             txtTagId.setText(tag_id);
-            txtTagName.setText(tag_name);
-            txtTagInfo.setText(tag_info);
+            if (tag_name != null && !tag_name.isEmpty())
+                txtTagName.setText(tag_name);
+            else
+                txtTagName.setVisibility(View.GONE);
+            if (tag_info != null && !tag_info.isEmpty())
+                txtTagInfo.setText(tag_info);
+            else
+                txtTagInfo.setVisibility(View.GONE);
             txtPersonalId.setText(personal_id);
-            txtPersonalName.setText(name);
-            txtTagData.setText(data);
+            if (name != null && !name.isEmpty())
+                txtPersonalName.setText(name);
+            else
+                txtPersonalName.setVisibility(View.GONE);
+            if (data != null && !data.isEmpty())
+                txtTagData.setText(data);
+            else
+                txtTagData.setVisibility(View.GONE);
             edtLevel.setText(level);
+
+            reload_history(content_id, true);
         } else {
             reload_data();
         };
@@ -155,13 +173,33 @@ public class ATagChange extends ActionBarActivity implements View.OnClickListene
             DocSigned doc = gson.fromJson(doc_json, DocSigned.class);
             String[] doc_data = gson.fromJson(doc.dec_data, String[].class);
 
-            txtTagId.setText(doc_data[2]);
-            txtTagName.setText(AMain.get_tag_name(doc_data[2]));
-            txtTagInfo.setText(AMain.get_tag_info(doc_data[2]));
-            txtPersonalId.setText(doc_data[3]);
-            txtPersonalName.setText(AMain.get_personal_name(doc_data[3]));
-            txtTagData.setText(doc_data[4]);
-            edtLevel.setText(doc_data[5]);
+            String tag_id = doc_data[2];
+            String tag_name = AMain.get_tag_name(tag_id);
+            String tag_info = AMain.get_tag_info(tag_id);
+            String personal_id = doc_data[3];
+            String name = AMain.get_personal_name(personal_id);
+            String data = doc_data[4];
+            String level = doc_data[5];
+
+            txtTagId.setText(tag_id);
+            if (tag_name != null && !tag_name.isEmpty())
+                txtTagName.setText(tag_name);
+            else
+                txtTagName.setVisibility(View.GONE);
+            if (tag_info != null && !tag_info.isEmpty())
+                txtTagInfo.setText(tag_info);
+            else
+                txtTagInfo.setVisibility(View.GONE);
+            txtPersonalId.setText(personal_id);
+            if (name != null && !name.isEmpty())
+                txtPersonalName.setText(name);
+            else
+                txtPersonalName.setVisibility(View.GONE);
+            if (data != null && !data.isEmpty())
+                txtTagData.setText(data);
+            else
+                txtTagData.setVisibility(View.GONE);
+            edtLevel.setText(level);
 
             reload_history(c.getString(c.getColumnIndex("content_id")), true);
 

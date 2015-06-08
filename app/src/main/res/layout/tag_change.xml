@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/txt_tag_type_name"
+                android:text="@string/label_tag_type_name"
                 android:id="@+id/textView26"
                 android:textColor="@android:color/black" />
 
@@ -59,14 +59,6 @@
                 android:background="@android:color/white"
                 android:textColor="@android:color/black"
                 android:padding="4dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/txt_tag_type_info"
-                android:id="@+id/textView27"
-                android:textColor="@android:color/black" />
 
             <TextView
                 android:layout_width="match_parent"

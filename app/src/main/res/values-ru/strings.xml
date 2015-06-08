@@ -70,4 +70,5 @@
     <string name="label_tag_addition_data">Дополнительные данные</string>
     <string name="template_doc_tag">LIST:Дополнительное удостоверение\nВаш персональный идентификатор\nТекущее время в миллисекундах\nИдентификатор удостоверения\nЗаверяемый персональный идентификатор\nДополнительные данные\nУровень заверения</string>
     <string name="label_tag_level">Уровень удостоверения (-10:10)</string>
+    <string name="label_tag_type_name">Тип удостоверения</string>
 </resources>

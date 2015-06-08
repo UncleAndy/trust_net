@@ -76,7 +76,7 @@ public class DocSigned {
         return(content_id(hash_str));
     }
 
-    public String content_id(String hashed_string) {
+    static public String content_id(String hashed_string) {
         MessageDigest digest = null;
         byte[] hash = null;
         try {
