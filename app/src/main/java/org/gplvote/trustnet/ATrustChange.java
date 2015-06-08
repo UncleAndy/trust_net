@@ -52,7 +52,6 @@ public class ATrustChange extends ActionBarActivity implements View.OnClickListe
 
         trust_id = getIntent().getStringExtra("TrustId");
         if (trust_id == null || trust_id.isEmpty()) {
-            // TODO: Проверить вариант получения уровня доверия из QR-кода
             Intent i = getIntent();
             Uri d = null;
             if (i != null) d = i.getData();
@@ -100,7 +99,6 @@ public class ATrustChange extends ActionBarActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.btnTrustChangeConfirm:
-                // TODO: Если уровень не совпадает с предыдущим, формируем документ об уровне доверия, подписываем и отправляем его
                 DataPersonalInfo pi = AMain.settings.getPersonalInfo();
 
                 String personal_id = (String) txtPersonalId.getText();

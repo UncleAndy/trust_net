@@ -25,7 +25,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public DbHelper(Context context) {
-        super(context, "TrustNet", null, 7);
+        super(context, "TrustNet", null, 9);
     }
 
     @Override
@@ -65,6 +65,17 @@ public class DbHelper extends SQLiteOpenHelper {
                 + "t_create INTEGER"
                 + ");");
         db.execSQL("CREATE INDEX names_personal_id_idx ON names (personal_id)");
+
+        // tags info
+        db.execSQL("CREATE TABLE tags_info ("
+                + "id text primary key,"
+                + "name text,"
+                + "info text,"
+                + "count INTEGER DEFAULT 0,"
+                + "t_update INTEGER"
+                + "t_create INTEGER"
+                + ");");
+        db.execSQL("CREATE INDEX tags_info_id_idx ON tags_info (id)");
     }
 
     @Override
@@ -118,6 +129,25 @@ public class DbHelper extends SQLiteOpenHelper {
         if (oldVersion < 7 && newVersion >= 7) {
             db.beginTransaction();
             db.execSQL("ALTER TABLE docs ADD COLUMN pow_nonce text;");
+            db.setTransactionSuccessful();
+            db.endTransaction();
+        }
+        if (oldVersion < 8 && newVersion >= 8) {
+            db.beginTransaction();
+            db.execSQL("CREATE TABLE tags_info ("
+                    + "id text primary key,"
+                    + "name text,"
+                    + "info text,"
+                    + "t_create INTEGER"
+                    + ");");
+            db.execSQL("CREATE INDEX tags_info_id_idx ON tags_info (id)");
+            db.setTransactionSuccessful();
+            db.endTransaction();
+        }
+        if (oldVersion < 9 && newVersion >= 9) {
+            db.beginTransaction();
+            db.execSQL("ALTER TABLE tags_info ADD COLUMN count INTEGER DEFAULT 0");
+            db.execSQL("ALTER TABLE tags_info ADD COLUMN t_update INTEGER");
             db.setTransactionSuccessful();
             db.endTransaction();
         }

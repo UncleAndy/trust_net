@@ -51,6 +51,26 @@
                 <data android:scheme="trustnet" android:host="trust"/>
             </intent-filter>
         </activity>
+        <activity android:name=".ATagType"
+            android:screenOrientation="portrait"
+            android:label="Trust Net">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="trustnet" android:host="taginfo"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".ATagChange"
+            android:screenOrientation="portrait"
+            android:label="Trust Net">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="trustnet" android:host="tag"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".AServerView" />
         <activity android:name=".AAboutMe" />
         <activity android:name=".AAboutMeEdit" />
@@ -61,6 +81,7 @@
         <activity android:name=".ATrusts"/>
         <activity android:name=".ATrustView"/>
         <activity android:name=".ATrustMe"/>
+        <activity android:name=".ATags"/>
     </application>
 
 </manifest>

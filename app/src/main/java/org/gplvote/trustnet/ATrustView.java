@@ -76,7 +76,7 @@ public class ATrustView extends ActionBarActivity implements View.OnClickListene
             c.close();
         }
 
-        // Сделать загрузку данных для текущего атестата и для истории
+        // Загрузка данных для истории
         c = db.query("docs", new String[]{"id", "doc", "t_create"}, "content_id = '" + content_id + "' AND current = 0", null, null, null, "t_create desc", "100");
 
         ArrayList<Map<String, Object>> items_list = new ArrayList<Map<String, Object>>();

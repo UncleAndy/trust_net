@@ -62,4 +62,13 @@
     <string name="title_trust">Trust</string>
     <string name="title_trust_change">Trust change</string>
     <string name="btn_QR_code_trust">Trust QR...</string>
+    <string name="title_tag_type">Addition attestate type</string>
+    <string name="txt_tag_type_code">Identification code</string>
+    <string name="txt_tag_type_info">Description</string>
+    <string name="txt_tag_type_name">Short name</string>
+    <string name="title_tags">Addition attestate types</string>
+    <string name="title_tag_attestates">Addition attestates</string>
+    <string name="label_tag_addition_data">Addition data</string>
+    <string name="template_doc_tag">LIST:Addition attestate\nYour personal identifier\nCurrent time in ms\nAddition attestate ID\nVerifyed personal ID\nAddition data\nVerification level</string>
+    <string name="label_tag_level">Level (from -10 to 10)</string>
 </resources>

@@ -12,8 +12,8 @@
     <string name="btn_save">Сохранить</string>
     <string name="label_birth_day">Дата рождения (дд.мм.гггг)*</string>
     <string name="txt_confirm_info">ВНИМАНИЕ!!! Перед подтверждением выделенных данных вам необходимо проверить их по настоящим документам!</string>
-    <string name="label_verification_level">Уровень достоверности (от -10 до 10)</string>
-    <string name="label_trust_level">Уровень доверия (от -10 до 10)</string>
+    <string name="label_verification_level">Уровень достоверности (-10:10)</string>
+    <string name="label_trust_level">Уровень доверия (-10:10)</string>
     <string name="btn_confirm">Подтвердить</string>
     <string name="btn_cancel">Отмена</string>
     <string name="label_id_social_number">Пенсионный номер (СНИЛС)*</string>
@@ -61,4 +61,13 @@
     <string name="title_trust">Доверие</string>
     <string name="title_trust_change">Изменение доверия</string>
     <string name="btn_QR_code_trust">Код доверия...</string>
+    <string name="title_tag_type">Вид дополнительного удостоверения</string>
+    <string name="txt_tag_type_code">Код идентификации</string>
+    <string name="txt_tag_type_info">Описание</string>
+    <string name="txt_tag_type_name">Короткое название</string>
+    <string name="title_tags">Виды дополнительных удостоверений</string>
+    <string name="title_tag_attestates">Дополнительные удостоверения</string>
+    <string name="label_tag_addition_data">Дополнительные данные</string>
+    <string name="template_doc_tag">LIST:Дополнительное удостоверение\nВаш персональный идентификатор\nТекущее время в миллисекундах\nИдентификатор удостоверения\nЗаверяемый персональный идентификатор\nДополнительные данные\nУровень заверения</string>
+    <string name="label_tag_level">Уровень удостоверения (-10:10)</string>
 </resources>

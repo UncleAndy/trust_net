@@ -179,6 +179,8 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.btnTagsAttestations:
+                intent = new Intent(this, ATags.class);
+                startActivity(intent);
                 break;
             case R.id.btnMessages:
                 break;
@@ -329,6 +331,26 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
         Cursor c = db.query("names", new String[]{"name"}, "personal_id = '"+personal_id+"'", null, null, null, null, null);
         if (c != null && c.moveToFirst()) {
             return(c.getString(c.getColumnIndex("name")));
+        }
+        return("");
+    }
+
+    public static String get_tag_name(String tag_id) {
+        SQLiteDatabase db = AMain.db.getWritableDatabase();
+
+        Cursor c = db.query("tags_info", new String[]{"name"}, "id = '"+tag_id+"'", null, null, null, null, null);
+        if (c != null && c.moveToFirst()) {
+            return(c.getString(c.getColumnIndex("name")));
+        }
+        return("");
+    }
+
+    public static String get_tag_info(String tag_id) {
+        SQLiteDatabase db = AMain.db.getWritableDatabase();
+
+        Cursor c = db.query("tags_info", new String[]{"info"}, "id = '"+tag_id+"'", null, null, null, null, null);
+        if (c != null && c.moveToFirst()) {
+            return(c.getString(c.getColumnIndex("info")));
         }
         return("");
     }
