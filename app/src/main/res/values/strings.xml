@@ -72,4 +72,11 @@
     <string name="template_doc_tag">LIST:Addition attestate\nYour personal identifier\nCurrent time in ms\nAddition attestate ID\nVerifyed personal ID\nAddition data\nVerification level</string>
     <string name="label_tag_level">Level (from -10 to 10)</string>
     <string name="label_tag_type_name">Addition attestate type</string>
+    <string name="title_message_create">Create message</string>
+    <string name="label_target_public_key_id">To public key</string>
+    <string name="label_message_text">Message text</string>
+    <string name="btn_send">Send</string>
+    <string name="template_doc_message">LIST:Message\nCurrent time in ms\nReceiver personal key id\nText</string>
+    <string name="txt_message_gen_pow">Please, wait! Prepare message for send...</string>
+    <string name="txt_message_send">Please, wait! Message sended...</string>
 </resources>

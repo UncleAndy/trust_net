@@ -71,6 +71,16 @@
                 <data android:scheme="trustnet" android:host="tag"/>
             </intent-filter>
         </activity>
+        <activity android:name=".AMessageCreate"
+            android:screenOrientation="portrait"
+            android:label="Trust Net Message">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="trustnet" android:host="message"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".AServerView" />
         <activity android:name=".AAboutMe" />
         <activity android:name=".AAboutMeEdit" />

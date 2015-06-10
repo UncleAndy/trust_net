@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-// TODO: Реализовать обработку заверения доп. удостоверений из QR-кода и по проямому вызову
+// Обработка заверения доп. удостоверений из QR-кода и по проямому вызову
 public class ATagChange extends ActionBarActivity implements View.OnClickListener {
 
     private TextView txtTagId;

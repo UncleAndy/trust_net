@@ -71,4 +71,11 @@
     <string name="template_doc_tag">LIST:Дополнительное удостоверение\nВаш персональный идентификатор\nТекущее время в миллисекундах\nИдентификатор удостоверения\nЗаверяемый персональный идентификатор\nДополнительные данные\nУровень заверения</string>
     <string name="label_tag_level">Уровень удостоверения (-10:10)</string>
     <string name="label_tag_type_name">Тип удостоверения</string>
+    <string name="title_message_create">Новое сообщение</string>
+    <string name="label_target_public_key_id">Получатель (по ключу)</string>
+    <string name="label_message_text">Текст сообщения</string>
+    <string name="btn_send">Отправить</string>
+    <string name="template_doc_message">LIST:Сообщение\nТекущее время\nКлюч получателя\nТекст</string>
+    <string name="txt_message_gen_pow">Подготовка сообщения к отправке. Пожалуйста, подождите...</string>
+    <string name="txt_message_send">Сообщение отправляется. Пожалуйста, подождите...</string>
 </resources>

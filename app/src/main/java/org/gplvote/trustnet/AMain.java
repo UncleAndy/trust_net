@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
@@ -34,9 +35,16 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 
 public class AMain extends ActionBarActivity implements View.OnClickListener {
@@ -51,6 +59,7 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
     public static final String TRUSTNET_INT_URL_TAG_INFO = "trustnet://taginfo/";
     public static final String TRUSTNET_INT_URL_TAG = "trustnet://tag/";
     public static final String TRUSTNET_INT_URL_PUBLIC_KEY = "trustnet://publickey/";
+    public static final String TRUSTNET_INT_URL_MESSAGE = "trustnet://message/";
 
     public static Settings settings;
 
@@ -145,12 +154,15 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
                 Log.d("QRCODE", "onActivityResult");
                 IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
                 if (scanResult != null) {
-                    String uri = scanResult.getContents();
+                    String uri_str = scanResult.getContents();
 
-                    if (uri != null) {
-                        Log.d("SCAN", "Scan result = " + uri);
+                    if (uri_str != null) {
+                        Log.d("SCAN", "Scan result = " + uri_str);
 
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                        Uri uri = Uri.parse(uri_str);
+                        Log.d("SCAN", "URI = " + uri.getScheme()+ " - " +uri.getHost() + " - " + uri.getQuery());
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                         startActivity(intent);
                     }
                 }
@@ -358,7 +370,7 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
     public static void update_name(String name, String personal_id) {
         SQLiteDatabase db = AMain.db.getWritableDatabase();
 
-        Cursor c = db.query("names", new String[]{"id", "name"}, "personal_id = '"+personal_id+"'", null, null, null, null, null);
+        Cursor c = db.query("names", new String[]{"id", "name"}, "personal_id = '" + personal_id + "'", null, null, null, null, null);
         if (c != null && c.moveToFirst()) {
             String id = c.getString(c.getColumnIndex("id"));
             String old_name = c.getString(c.getColumnIndex("name"));
@@ -376,5 +388,27 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
 
             db.insert("names", null, cv);
         }
+    }
+
+    public static byte[] getPublicKeyId(byte[] public_key_bytes) {
+        MessageDigest digest;
+        byte[] hash;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+            hash = digest.digest(public_key_bytes);
+            return(hash);
+        } catch (NoSuchAlgorithmException e) {
+            Log.e("SHA-256", "Hash create error: " + e.getMessage());
+        }
+
+        return(null);
+    }
+
+    public static String getPublicKeyIdBase64(String public_key_base64) {
+        byte[] hash = getPublicKeyId(Base64.decode(public_key_base64, Base64.NO_WRAP));
+        if (hash != null) {
+            return (Base64.encodeToString(hash, Base64.NO_WRAP));
+        }
+        return(null);
     }
 }

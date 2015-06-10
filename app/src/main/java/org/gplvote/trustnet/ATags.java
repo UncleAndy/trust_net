@@ -108,10 +108,6 @@ public class ATags extends ActionBarActivity implements View.OnClickListener {
                 HashMap<String, Object> item = (HashMap<String, Object>) listTags.getItemAtPosition(position);
 
                 sAdapter.setCurrentPosition(position);
-                // sAdapter.notifyDataSetChanged();
-
-                // TODO: Переход "внутрь" выбранного пункта (просмотр с возможностью изменения)
-                Log.d("TAG_CLICK", (String) item.get("id"));
 
                 Intent intent = new Intent(ATags.this, ATagChange.class);
                 intent.putExtra("TagId", (String) item.get("id"));
