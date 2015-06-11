@@ -50,6 +50,8 @@ public class AMessageCreate extends Activity implements View.OnClickListener {
 
     private final int RESULT_ID_SIGN = 1;
     private final int RESULT_ID_ENCRYPT = 2;
+    private final int RESULT_ID_PUBLIC_KEY = 3;
+    private final int RESULT_ID_PUBLIC_KEY_FOR_SEND = 4;
 
     private DataPersonalInfo personal_info;
     private DocMessage doc;
@@ -70,30 +72,52 @@ public class AMessageCreate extends Activity implements View.OnClickListener {
         btnBack.setOnClickListener(this);
         btnSend.setOnClickListener(this);
 
-        // Получение данных только из URL
-        Intent i = getIntent();
-        Uri d = null;
-        if (i != null) d = i.getData();
-
-        // TODO: Предусмотреть вариант вызова trustnet://msg/<public_key_id> с запросом публичного ключа с сервера и сохранением его в локальном справочнике
-
-        target_public_key = null;
-        if (d != null && d.getScheme().equals("trustnet") && d.getHost().equals("message")) {
-            target_public_key = d.getPath();
-            target_public_key = target_public_key.replaceAll("^/", "");
-        }
-
-        if (target_public_key == null) {
-            Log.e("ConfirmOther", "Error when get attestation info from URL");
-            throw new RuntimeException("ConfirmOther: Error when get attestation info from URL");
-        }
-
-        target_public_key_id = AMain.getPublicKeyIdBase64(target_public_key);
-
-        txtPublicKeyId.setText(target_public_key_id);
-        edtMessage.setText("");
-
         personal_info = AMain.settings.getPersonalInfo();
+
+        Intent i = getIntent();
+        String msg_to = i.getStringExtra("MessageTo");
+        String msg_text = i.getStringExtra("MessageText");
+
+        if (msg_to == null || msg_to.isEmpty()) {
+            // Получение данных только из URL
+            Uri d = null;
+            if (i != null) d = i.getData();
+
+            target_public_key = null;
+            if (d != null && d.getScheme().equals("trustnet") && d.getHost().equals("message")) {
+                target_public_key = d.getPath();
+                target_public_key = target_public_key.replaceAll("^/", "");
+
+                if (target_public_key == null) {
+                    Log.e("ConfirmOther", "Error when get attestation info from URL");
+                    throw new RuntimeException("ConfirmOther: Error when get attestation info from URL");
+                }
+
+                target_public_key_id = AMain.getPublicKeyIdBase64(target_public_key);
+
+                txtPublicKeyId.setText(target_public_key_id);
+                edtMessage.setText("");
+            } else if (d != null && d.getScheme().equals("trustnet") && d.getHost().equals("msg")) {
+                target_public_key_id = d.getPath();
+                target_public_key_id = target_public_key_id.replaceAll("^/", "");
+
+                Intent intent = new Intent(this, AGetPublicKey.class);
+                intent.putExtra("PublicKeyId", target_public_key_id);
+                startActivityForResult(intent, RESULT_ID_PUBLIC_KEY_FOR_SEND);
+            }
+        } else {
+            target_public_key = null;
+            target_public_key_id = msg_to;
+
+            txtPublicKeyId.setText(target_public_key_id);
+            edtMessage.setText(text_quoted(msg_text));
+        }
+    }
+
+    private String text_quoted(String text) {
+        text = text.replaceAll("^", "> ");
+        text = text.replaceAll("\n", "\n> ");
+        return(text);
     }
 
     @Override
@@ -169,6 +193,8 @@ public class AMessageCreate extends Activity implements View.OnClickListener {
                 ArrayList<DocSignConfirm> confirms = new ArrayList<DocSignConfirm>();
                 confirms.add(doc_confirm);
 
+                Log.d("DOSIGN", "Confirms...");
+
                 // В приложение подписания документов отправляем подтверждение об обработке
                 if (confirms.size() > 0) {
                     Intent intent = new Intent("org.gplvote.signdoc.DO_SIGN");
@@ -177,14 +203,39 @@ public class AMessageCreate extends Activity implements View.OnClickListener {
                     startActivity(intent);
                 }
 
-                // Далее шифруем текст сообщения
-                Intent intent = new Intent("org.gplvote.signdoc.DO_SIGN");
+                Log.d("DOSIGN", "Confirmed...");
 
-                intent.putExtra("Command", "Encrypt");
-                intent.putExtra("Text", message_text);
-                intent.putExtra("PublicKey", target_public_key);
+                if ((target_public_key == null || target_public_key.isEmpty()) && (target_public_key_id != null && !target_public_key_id.isEmpty())) {
+                    // Если публичный ключ отсутствует, а его идентификатор есть:
+                    // Вызываем специальный активити для получения публичного ключа по идентификатору
+                    Intent intent = new Intent(this, AGetPublicKey.class);
+                    intent.putExtra("PublicKeyId", target_public_key_id);
+                    startActivityForResult(intent, RESULT_ID_PUBLIC_KEY);
+                } else {
+                    // Далее шифруем текст сообщения
+                    encrypt_message();
+                }
+            } else if (requestCode == RESULT_ID_PUBLIC_KEY) {
+                target_public_key = data.getStringExtra("PUBLIC_KEY");
 
-                startActivityForResult(intent, RESULT_ID_ENCRYPT);
+                if (target_public_key != null && !target_public_key.isEmpty()) {
+                    encrypt_message();
+                } else {
+                    setContentView(R.layout.error);
+                    TextView txtError = (TextView) findViewById(R.id.txtError);
+                    txtError.setText(R.string.error_no_public_key_found);
+                };
+            } else if (requestCode == RESULT_ID_PUBLIC_KEY_FOR_SEND) {
+                target_public_key = data.getStringExtra("PUBLIC_KEY");
+
+                if (target_public_key == null || target_public_key.isEmpty()) {
+                    setContentView(R.layout.error);
+                    TextView txtError = (TextView) findViewById(R.id.txtError);
+                    txtError.setText(R.string.error_no_public_key_found);
+                } else {
+                    txtPublicKeyId.setText(target_public_key_id);
+                    edtMessage.setText("");
+                };
             } else if (requestCode == RESULT_ID_ENCRYPT) {
                 String encrypted_text = data.getStringExtra("ENCRYPTED_TEXT");
 
@@ -199,6 +250,17 @@ public class AMessageCreate extends Activity implements View.OnClickListener {
                 task_pow.execute(doc);
             }
         }
+    }
+
+    public void encrypt_message() {
+        Log.d("DOSIGN", "Encrypt...");
+        Intent intent = new Intent("org.gplvote.signdoc.DO_SIGN");
+
+        intent.putExtra("Command", "Encrypt");
+        intent.putExtra("Text", message_text);
+        intent.putExtra("PublicKey", target_public_key);
+
+        startActivityForResult(intent, RESULT_ID_ENCRYPT);
     }
 
     public void send_message(PacketSigned packet) {

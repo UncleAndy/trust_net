@@ -91,7 +91,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 + "id integer primary key autoincrement,"
                 + "msg_id text,"
                 + "doc text,"
-                + "from text,"
+                + "sender text,"
                 + "dec_text text,"
                 + "t_create INTEGER"
                 + ");");
@@ -185,7 +185,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     + "id integer primary key autoincrement,"
                     + "msg_id text,"
                     + "doc text,"
-                    + "from text,"
+                    + "sender text,"
                     + "dec_text text,"
                     + "is_decrypted INTEGER DEFAULT 0,"
                     + "t_create INTEGER"

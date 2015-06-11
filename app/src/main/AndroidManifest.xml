@@ -80,6 +80,12 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="trustnet" android:host="message"/>
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="trustnet" android:host="msg"/>
+            </intent-filter>
         </activity>
         <activity android:name=".AServerView" />
         <activity android:name=".AAboutMe" />
@@ -93,6 +99,8 @@
         <activity android:name=".ATrustMe"/>
         <activity android:name=".ATags"/>
         <activity android:name=".AMessages"/>
+        <activity android:name=".AMessagesCheck"/>
+        <activity android:name=".AGetPublicKey"/>
     </application>
 
 </manifest>

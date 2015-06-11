@@ -195,6 +195,8 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.btnMessages:
+                intent = new Intent(this, AMessages.class);
+                startActivity(intent);
                 break;
             case R.id.btnQRRead:
                 qrScanStart();

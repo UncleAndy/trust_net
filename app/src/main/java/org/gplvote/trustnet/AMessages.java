@@ -61,19 +61,14 @@ public class AMessages extends ActionBarActivity implements View.OnClickListener
                 finish();
                 break;
             case R.id.btnMessagesCheck:
-                // TODO: Показ активити с прогрессом и проверкой сообщений по серверам
-
-
-
-
-
-
+                intent = new Intent(this, AMessagesCheck.class);
+                startActivity(intent);
                 break;
         }
     }
 
     public void reload_data() {
-        ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>(100);
+        ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         Map<String, Object> m;
 
         Log.d("MESSAGES", "Run update_list");
@@ -81,7 +76,7 @@ public class AMessages extends ActionBarActivity implements View.OnClickListener
         // Заполнение m данными из таблицы документов
         SQLiteDatabase db = AMain.db.getWritableDatabase();
 
-        Cursor c = db.query("message_inbox", new String[]{"id", "from", "dec_text", "is_decrypted", "t_create"}, "is_decrypted = 1", null, null, null, "t_create desc", "100");
+        Cursor c = db.query("message_inbox", new String[]{"id", "sender", "dec_text", "is_decrypted", "t_create"}, "is_decrypted = 1", null, null, null, "t_create desc", "100");
 
         Gson gson = new Gson();
         if (c != null) {
@@ -90,7 +85,7 @@ public class AMessages extends ActionBarActivity implements View.OnClickListener
                     m = new HashMap<String, Object>();
 
                     m.put("id", c.getString(c.getColumnIndex("id")));
-                    m.put("from", c.getString(c.getColumnIndex("from")));
+                    m.put("sender", c.getString(c.getColumnIndex("sender")));
                     m.put("text", c.getString(c.getColumnIndex("dec_text")));
 
                     list.add(m);
@@ -100,6 +95,7 @@ public class AMessages extends ActionBarActivity implements View.OnClickListener
         }
 
         listMessages = (ListView) findViewById(R.id.listMessages);
+        listMessages.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         sAdapter = new MessagesListArrayAdapter(this, list);
         listMessages.setAdapter(sAdapter);
 
@@ -111,7 +107,7 @@ public class AMessages extends ActionBarActivity implements View.OnClickListener
                 sAdapter.setCurrentPosition(position);
 
                 Intent intent = new Intent(AMessages.this, AMessageCreate.class);
-                intent.putExtra("MessageTo", (String) item.get("from"));
+                intent.putExtra("MessageTo", (String) item.get("sender"));
                 intent.putExtra("MessageText", (String) item.get("text"));
                 startActivity(intent);
             }
@@ -135,7 +131,7 @@ public class AMessages extends ActionBarActivity implements View.OnClickListener
 
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                rowView = inflater.inflate(R.layout.list_item_tag, parent, false);
+                rowView = inflater.inflate(R.layout.list_item_message, parent, false);
             } else {
                 rowView = convertView;
             }
@@ -143,9 +139,7 @@ public class AMessages extends ActionBarActivity implements View.OnClickListener
             TextView txtFrom = (TextView) rowView.findViewById(R.id.txtListMessageFrom);
             TextView txtText = (TextView) rowView.findViewById(R.id.txtListMessageText);
 
-            String name = (String) list.get(position).get("person_name");
-
-            txtFrom.setText((String) list.get(position).get("from"));
+            txtFrom.setText((String) list.get(position).get("sender"));
             txtText.setText((String) list.get(position).get("text"));
 
             return rowView;

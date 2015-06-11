@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -131,9 +133,15 @@ public class AMessagesCheck extends ActionBarActivity {
             HttpProcessor http = new HttpProcessor();
             ArrayList<String> servers = Servers.for_check_random(5);
             for(String server: servers) {
-                String url_str = "http://" +server+Servers.URI_GET_MESSAGES_LIST+"?id="+personal_info.public_key_id;
+                String url_str = null;
+                try {
+                    url_str = "http://" +server+ Servers.URI_GET_MESSAGES_LIST+"?id=" + URLEncoder.encode(personal_info.public_key_id, "utf-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
 
                 String response = http.getData(url_str);
+                Log.d("GET_MESSAGES", "List new messages: "+response);
 
                 // В ответе - массив со списком идентификаторов сообщений
                 if (response == null || response.isEmpty()) continue;
@@ -147,17 +155,24 @@ public class AMessagesCheck extends ActionBarActivity {
                 ArrayList<String> new_msg_ids = new ArrayList<String>();
                 for (String msg_id: packet.doc.list) {
                     // Проверяем наличие такого сообщения в БД
-                    c = db.query("message_inbox", new String[]{"id"}, "msg_id = ?", new String[]{"msg_id"}, null, null, null, "1");
-                    if (c == null || !c.moveToFirst())
+                    c = db.query("message_inbox", new String[]{"id"}, "msg_id = ?", new String[]{msg_id}, null, null, null, "1");
+                    if (c == null || !c.moveToFirst()) {
                         new_msg_ids.add(msg_id);
+                    };
                     if (c != null) c.close();
                 }
 
                 // Запрашиваем новые сообщения с сервера
                 for (String msg_id: new_msg_ids) {
-                    url_str = "http://" +server+Servers.URI_GET_MESSAGE+"?id="+msg_id;
+                    url_str = null;
+                    try {
+                        url_str = "http://" +server+Servers.URI_GET_MESSAGE+"?id="+URLEncoder.encode(msg_id, "utf-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
 
                     response = http.getData(url_str);
+                    Log.d("GET_MESSAGES", "Get message "+msg_id+": "+response);
 
                     if (response == null || response.isEmpty()) continue;
 
@@ -170,13 +185,11 @@ public class AMessagesCheck extends ActionBarActivity {
                     ContentValues cv = new ContentValues();
                     cv.put("msg_id", msg_id);
                     cv.put("doc", gson.toJson(packet_msg.doc));
-                    cv.put("from", packet_msg.sign_pub_key_id);
+                    cv.put("sender", packet_msg.sign_pub_key_id);
                     cv.put("t_create", System.currentTimeMillis());
                     long row_id = db.insert("message_inbox", null, cv);
 
-                    String doc_json = c.getString(c.getColumnIndex("doc"));
-                    DocSigned doc = gson.fromJson(doc_json, DocSigned.class);
-                    String[] doc_data = gson.fromJson(doc.dec_data, String[].class);
+                    String[] doc_data = gson.fromJson(packet_msg.doc.dec_data, String[].class);
 
                     Message msg = new Message();
                     msg.id = String.valueOf(row_id);

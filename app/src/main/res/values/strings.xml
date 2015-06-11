@@ -82,4 +82,6 @@
     <string name="title_messages">Messages inbox</string>
     <string name="btn_messages_check">Check new...</string>
     <string name="txt_messages_check">Check new messages on servers. Please, wait...</string>
+    <string name="txt_progress_get_public_key">Find public key. Please, wait...</string>
+    <string name="error_no_public_key_found">Can not found public key. Sorry...</string>
 </resources>
