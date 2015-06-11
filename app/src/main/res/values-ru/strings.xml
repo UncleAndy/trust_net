@@ -78,4 +78,7 @@
     <string name="template_doc_message">LIST:Сообщение\nТекущее время\nКлюч получателя\nТекст</string>
     <string name="txt_message_gen_pow">Подготовка сообщения к отправке. Пожалуйста, подождите...</string>
     <string name="txt_message_send">Сообщение отправляется. Пожалуйста, подождите...</string>
+    <string name="title_messages">Входящие сообщения</string>
+    <string name="btn_messages_check">Проверить...</string>
+    <string name="txt_messages_check">Проверяются новые сообщения на серверах. Пожалуйста, подождите...</string>
 </resources>

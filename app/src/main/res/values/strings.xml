@@ -79,4 +79,7 @@
     <string name="template_doc_message">LIST:Message\nCurrent time in ms\nReceiver personal key id\nText</string>
     <string name="txt_message_gen_pow">Please, wait! Prepare message for send...</string>
     <string name="txt_message_send">Please, wait! Message sended...</string>
+    <string name="title_messages">Messages inbox</string>
+    <string name="btn_messages_check">Check new...</string>
+    <string name="txt_messages_check">Check new messages on servers. Please, wait...</string>
 </resources>

@@ -75,6 +75,8 @@ public class AMessageCreate extends Activity implements View.OnClickListener {
         Uri d = null;
         if (i != null) d = i.getData();
 
+        // TODO: Предусмотреть вариант вызова trustnet://msg/<public_key_id> с запросом публичного ключа с сервера и сохранением его в локальном справочнике
+
         target_public_key = null;
         if (d != null && d.getScheme().equals("trustnet") && d.getHost().equals("message")) {
             target_public_key = d.getPath();

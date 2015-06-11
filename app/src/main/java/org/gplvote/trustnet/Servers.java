@@ -19,6 +19,9 @@ public class Servers {
 
     public static final String URI_GET_SERVERS = "/get/servers";
     public static final String URI_GET_TIME = "/get/time";
+    public static final String URI_GET_PUBLIC_KEY = "/get/public_key";
+    public static final String URI_GET_MESSAGES_LIST = "/get/messages_list";
+    public static final String URI_GET_MESSAGE = "/get/message";
     public static final String URI_SEND_PACKET = "/put/packet";
 
     public static ArrayList<String> for_send() {
@@ -42,6 +45,43 @@ public class Servers {
             c = db.query("servers", new String[]{"id", "host"}, "host != ?", new String[]{skip_server}, null, null, "RANDOM()", "10");
         }
 
+        if (c != null) {
+            if (c.moveToFirst()) {
+                do {
+                    servers.add(c.getString(c.getColumnIndex("host")));
+                } while (c.moveToNext());
+            }
+            c.close();
+        }
+
+        if (servers.size() > 0) return(servers);
+        return(null);
+    }
+
+    // Возвращает список севреров для поиска данных
+    public static ArrayList<String> for_check(int limit) {
+        ArrayList<String> servers = new ArrayList<String>();
+
+        SQLiteDatabase db = AMain.db.getWritableDatabase();
+        Cursor c = db.query("servers", new String[]{"id", "host"}, null, null, null, null, "t_last_online desc", String.valueOf(limit));
+        if (c != null) {
+            if (c.moveToFirst()) {
+                do {
+                    servers.add(c.getString(c.getColumnIndex("host")));
+                } while (c.moveToNext());
+            }
+            c.close();
+        }
+
+        if (servers.size() > 0) return(servers);
+        return(null);
+    }
+
+    public static ArrayList<String> for_check_random(int limit) {
+        ArrayList<String> servers = new ArrayList<String>();
+
+        SQLiteDatabase db = AMain.db.getWritableDatabase();
+        Cursor c = db.query("servers", new String[]{"id", "host"}, null, null, null, null, "RANDOM()", String.valueOf(limit));
         if (c != null) {
             if (c.moveToFirst()) {
                 do {

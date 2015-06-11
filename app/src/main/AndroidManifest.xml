@@ -92,6 +92,7 @@
         <activity android:name=".ATrustView"/>
         <activity android:name=".ATrustMe"/>
         <activity android:name=".ATags"/>
+        <activity android:name=".AMessages"/>
     </application>
 
 </manifest>

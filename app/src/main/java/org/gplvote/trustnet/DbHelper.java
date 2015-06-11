@@ -25,7 +25,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public DbHelper(Context context) {
-        super(context, "TrustNet", null, 9);
+        super(context, "TrustNet", null, 10);
     }
 
     @Override
@@ -76,6 +76,27 @@ public class DbHelper extends SQLiteOpenHelper {
                 + "t_create INTEGER"
                 + ");");
         db.execSQL("CREATE INDEX tags_info_id_idx ON tags_info (id)");
+
+        // public_keys
+        db.execSQL("CREATE TABLE public_keys ("
+                + "id text primary key,"
+                + "key text,"
+                + "name text,"
+                + "t_create INTEGER"
+                + ");");
+        db.execSQL("CREATE INDEX public_keys_id_idx ON public_keys (id)");
+
+        // message_inbox
+        db.execSQL("CREATE TABLE message_inbox ("
+                + "id integer primary key autoincrement,"
+                + "msg_id text,"
+                + "doc text,"
+                + "from text,"
+                + "dec_text text,"
+                + "t_create INTEGER"
+                + ");");
+        db.execSQL("CREATE INDEX message_inbox_t_create_idx ON message_inbox (t_create)");
+        db.execSQL("CREATE INDEX message_inbox_msg_id_idx ON message_inbox (msg_id)");
     }
 
     @Override
@@ -148,6 +169,29 @@ public class DbHelper extends SQLiteOpenHelper {
             db.beginTransaction();
             db.execSQL("ALTER TABLE tags_info ADD COLUMN count INTEGER DEFAULT 0");
             db.execSQL("ALTER TABLE tags_info ADD COLUMN t_update INTEGER");
+            db.setTransactionSuccessful();
+            db.endTransaction();
+        }
+        if (oldVersion < 10 && newVersion >= 10) {
+            db.beginTransaction();
+            db.execSQL("CREATE TABLE public_keys ("
+                    + "id text primary key,"
+                    + "key text,"
+                    + "name text,"
+                    + "t_create INTEGER"
+                    + ");");
+            db.execSQL("CREATE INDEX public_keys_id_idx ON public_keys (id)");
+            db.execSQL("CREATE TABLE message_inbox ("
+                    + "id integer primary key autoincrement,"
+                    + "msg_id text,"
+                    + "doc text,"
+                    + "from text,"
+                    + "dec_text text,"
+                    + "is_decrypted INTEGER DEFAULT 0,"
+                    + "t_create INTEGER"
+                    + ");");
+            db.execSQL("CREATE INDEX message_inbox_msg_id_idx ON message_inbox (msg_id)");
+            db.execSQL("CREATE INDEX message_inbox_t_create_idx ON message_inbox (t_create)");
             db.setTransactionSuccessful();
             db.endTransaction();
         }
