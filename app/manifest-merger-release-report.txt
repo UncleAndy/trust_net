@@ -6,93 +6,175 @@ ADDED from AndroidManifest.xml:2:1
 		INJECTED from AndroidManifest.xml:0:0
 		INJECTED from AndroidManifest.xml:0:0
 	android:versionName
+		ADDED from AndroidManifest.xml:5:5
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	android:versionCode
+		ADDED from AndroidManifest.xml:4:5
 		INJECTED from AndroidManifest.xml:0:0
 		INJECTED from AndroidManifest.xml:0:0
 	xmlns:android
 		ADDED from AndroidManifest.xml:2:11
-	android:versionCode
-		INJECTED from AndroidManifest.xml:0:0
-		INJECTED from AndroidManifest.xml:0:0
 uses-permission#android.permission.CAMERA
-ADDED from AndroidManifest.xml:5:5
-	android:name
-		ADDED from AndroidManifest.xml:5:22
-uses-permission#android.permission.INTERNET
-ADDED from AndroidManifest.xml:6:5
-	android:name
-		ADDED from AndroidManifest.xml:6:22
-uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from AndroidManifest.xml:7:5
 	android:name
 		ADDED from AndroidManifest.xml:7:22
-application
+uses-permission#android.permission.INTERNET
+ADDED from AndroidManifest.xml:8:5
+	android:name
+		ADDED from AndroidManifest.xml:8:22
+uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from AndroidManifest.xml:9:5
+	android:name
+		ADDED from AndroidManifest.xml:9:22
+application
+ADDED from AndroidManifest.xml:11:5
 MERGED from com.android.support:appcompat-v7:21.0.2:16:5
 MERGED from com.android.support:support-v4:21.0.2:16:5
 	android:label
-		ADDED from AndroidManifest.xml:12:9
+		ADDED from AndroidManifest.xml:14:9
 	android:allowBackup
-		ADDED from AndroidManifest.xml:10:9
+		ADDED from AndroidManifest.xml:12:9
 	android:icon
-		ADDED from AndroidManifest.xml:11:9
-	android:theme
 		ADDED from AndroidManifest.xml:13:9
+	android:theme
+		ADDED from AndroidManifest.xml:15:9
 activity#org.gplvote.trustnet.AMain
-ADDED from AndroidManifest.xml:14:9
+ADDED from AndroidManifest.xml:16:9
 	android:label
-		ADDED from AndroidManifest.xml:16:13
+		ADDED from AndroidManifest.xml:18:13
 	android:name
-		ADDED from AndroidManifest.xml:15:13
+		ADDED from AndroidManifest.xml:17:13
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from AndroidManifest.xml:17:13
+ADDED from AndroidManifest.xml:19:13
 action#android.intent.action.MAIN
-ADDED from AndroidManifest.xml:18:17
+ADDED from AndroidManifest.xml:20:17
 	android:name
-		ADDED from AndroidManifest.xml:18:25
+		ADDED from AndroidManifest.xml:20:25
 category#android.intent.category.LAUNCHER
-ADDED from AndroidManifest.xml:19:17
+ADDED from AndroidManifest.xml:21:17
 	android:name
-		ADDED from AndroidManifest.xml:19:27
-activity#org.gplvote.trustnet.AAboutMe
-ADDED from AndroidManifest.xml:22:9
-	android:name
-		ADDED from AndroidManifest.xml:22:19
-activity#org.gplvote.trustnet.AAboutMeEdit
-ADDED from AndroidManifest.xml:23:9
-	android:name
-		ADDED from AndroidManifest.xml:23:19
-activity#org.gplvote.trustnet.ASendSign
+		ADDED from AndroidManifest.xml:21:27
+activity#org.gplvote.trustnet.AServers
 ADDED from AndroidManifest.xml:24:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:25:19
+	android:label
+		ADDED from AndroidManifest.xml:26:19
 	android:name
 		ADDED from AndroidManifest.xml:24:19
-activity#org.gplvote.trustnet.AServers
-ADDED from AndroidManifest.xml:25:9
-	android:screenOrientation
-		ADDED from AndroidManifest.xml:26:19
-	android:label
-		ADDED from AndroidManifest.xml:27:19
-	android:name
-		ADDED from AndroidManifest.xml:25:19
 intent-filter#android.intent.action.VIEW+android.intent.category.BROWSABLE+android.intent.category.DEFAULT
-ADDED from AndroidManifest.xml:28:13
+ADDED from AndroidManifest.xml:27:13
 action#android.intent.action.VIEW
+ADDED from AndroidManifest.xml:28:17
+	android:name
+		ADDED from AndroidManifest.xml:28:25
+category#android.intent.category.DEFAULT
 ADDED from AndroidManifest.xml:29:17
 	android:name
-		ADDED from AndroidManifest.xml:29:25
-category#android.intent.category.DEFAULT
+		ADDED from AndroidManifest.xml:29:27
+category#android.intent.category.BROWSABLE
 ADDED from AndroidManifest.xml:30:17
 	android:name
 		ADDED from AndroidManifest.xml:30:27
-category#android.intent.category.BROWSABLE
-ADDED from AndroidManifest.xml:31:17
-	android:name
-		ADDED from AndroidManifest.xml:31:27
 data
-ADDED from AndroidManifest.xml:32:17
+ADDED from AndroidManifest.xml:31:17
 	android:host
-		ADDED from AndroidManifest.xml:32:49
+		ADDED from AndroidManifest.xml:31:49
 	android:scheme
-		ADDED from AndroidManifest.xml:32:23
+		ADDED from AndroidManifest.xml:31:23
+activity#org.gplvote.trustnet.AConfirmOther
+ADDED from AndroidManifest.xml:34:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:35:19
+	android:label
+		ADDED from AndroidManifest.xml:36:19
+	android:name
+		ADDED from AndroidManifest.xml:34:19
+activity#org.gplvote.trustnet.ATrustChange
+ADDED from AndroidManifest.xml:44:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:45:13
+	android:label
+		ADDED from AndroidManifest.xml:46:13
+	android:name
+		ADDED from AndroidManifest.xml:44:19
+activity#org.gplvote.trustnet.ATagType
+ADDED from AndroidManifest.xml:54:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:55:13
+	android:label
+		ADDED from AndroidManifest.xml:56:13
+	android:name
+		ADDED from AndroidManifest.xml:54:19
+activity#org.gplvote.trustnet.ATagChange
+ADDED from AndroidManifest.xml:64:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:65:13
+	android:label
+		ADDED from AndroidManifest.xml:66:13
+	android:name
+		ADDED from AndroidManifest.xml:64:19
+activity#org.gplvote.trustnet.AMessageCreate
+ADDED from AndroidManifest.xml:74:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:75:13
+	android:label
+		ADDED from AndroidManifest.xml:76:13
+	android:name
+		ADDED from AndroidManifest.xml:74:19
+activity#org.gplvote.trustnet.AServerView
+ADDED from AndroidManifest.xml:90:9
+	android:name
+		ADDED from AndroidManifest.xml:90:19
+activity#org.gplvote.trustnet.AAboutMe
+ADDED from AndroidManifest.xml:91:9
+	android:name
+		ADDED from AndroidManifest.xml:91:19
+activity#org.gplvote.trustnet.AAboutMeEdit
+ADDED from AndroidManifest.xml:92:9
+	android:name
+		ADDED from AndroidManifest.xml:92:19
+activity#org.gplvote.trustnet.ASendSign
+ADDED from AndroidManifest.xml:93:9
+	android:name
+		ADDED from AndroidManifest.xml:93:19
+activity#org.gplvote.trustnet.AConfirmMe
+ADDED from AndroidManifest.xml:94:9
+	android:name
+		ADDED from AndroidManifest.xml:94:19
+activity#org.gplvote.trustnet.AAttestations
+ADDED from AndroidManifest.xml:95:9
+	android:name
+		ADDED from AndroidManifest.xml:95:19
+activity#org.gplvote.trustnet.AAttestateView
+ADDED from AndroidManifest.xml:96:9
+	android:name
+		ADDED from AndroidManifest.xml:96:19
+activity#org.gplvote.trustnet.ATrusts
+ADDED from AndroidManifest.xml:97:9
+	android:name
+		ADDED from AndroidManifest.xml:97:19
+activity#org.gplvote.trustnet.ATrustMe
+ADDED from AndroidManifest.xml:98:9
+	android:name
+		ADDED from AndroidManifest.xml:98:19
+activity#org.gplvote.trustnet.ATags
+ADDED from AndroidManifest.xml:99:9
+	android:name
+		ADDED from AndroidManifest.xml:99:19
+activity#org.gplvote.trustnet.AMessages
+ADDED from AndroidManifest.xml:100:9
+	android:name
+		ADDED from AndroidManifest.xml:100:19
+activity#org.gplvote.trustnet.AMessagesCheck
+ADDED from AndroidManifest.xml:101:9
+	android:name
+		ADDED from AndroidManifest.xml:101:19
+activity#org.gplvote.trustnet.AGetPublicKey
+ADDED from AndroidManifest.xml:102:9
+	android:name
+		ADDED from AndroidManifest.xml:102:19
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from com.android.support:appcompat-v7:21.0.2:15:5

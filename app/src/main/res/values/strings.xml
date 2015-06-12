@@ -53,7 +53,7 @@
     <string name="title_attestations">Attestations</string>
     <string name="btn_simple_change">Change</string>
     <string name="btn_recreate">Recreate...</string>
-    <string name="txt_send_sign">Sign and send data to servers...</string>
+    <string name="txt_send_sign">Prepare and send data to servers...</string>
     <string name="title_att_and_trust">Verification</string>
     <string name="title_attestate">Attestate</string>
     <string name="label_history">History</string>
@@ -84,4 +84,7 @@
     <string name="txt_messages_check">Check new messages on servers. Please, wait...</string>
     <string name="txt_progress_get_public_key">Find public key. Please, wait...</string>
     <string name="error_no_public_key_found">Can not found public key. Sorry...</string>
+    <string name="error_internet_required">Internet connection required for this operation. Please, turn on and repeat.</string>
+    <string name="notify_internet_absent">Internet connection absent. You need do syncronize later for send data to servers.</string>
+    <string name="btn_data_sync">Syncronize</string>
 </resources>

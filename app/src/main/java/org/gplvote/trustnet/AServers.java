@@ -28,6 +28,7 @@ import java.util.Map;
 
 public class AServers  extends QRReaderActivity implements View.OnClickListener{
     private Button btnBack;
+    private Button btnSync;
     private ListView listServersView;
     private ServersListArrayAdapter sAdapter;
 
@@ -37,7 +38,9 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
         setContentView(R.layout.servers);
 
         btnBack = (Button) findViewById(R.id.btnServersBack);
+        btnSync = (Button) findViewById(R.id.btnServersSync);
         btnBack.setOnClickListener(this);
+        btnSync.setOnClickListener(this);
 
         reload_servers();
 
@@ -58,6 +61,10 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()) {
+            case R.id.btnServersSync:
+                intent = new Intent(this, AServersSync.class);
+                startActivity(intent);
+                break;
             case R.id.btnServersBack:
                 finish();
                 break;

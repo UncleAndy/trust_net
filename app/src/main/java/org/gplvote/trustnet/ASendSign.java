@@ -48,9 +48,15 @@ public class ASendSign extends Activity {
         QueueRecord queue_doc = new QueueRecord(doc.doc_id, hosts, sign_req);
 
         queue.add(queue_doc);
+    }
 
-        Gson gson = new Gson();
-        Log.d("add-to-queue", "Current queue = "+gson.toJson(queue));
+    static public void add_to_queue(String doc_id, String hosts, Boolean sign_req) {
+        if (queue == null)
+            queue = new ArrayList<QueueRecord>();
+
+        QueueRecord queue_doc = new QueueRecord(doc_id, hosts, sign_req);
+
+        queue.add(queue_doc);
     }
 
     @Override
@@ -148,8 +154,14 @@ public class ASendSign extends Activity {
     }
 
     private void send_queue_docs() {
-        task = new TaskSendPackets();
-        task.execute(queue);
+        if (AMain.isInternetPresent(this)) {
+            task = new TaskSendPackets();
+            task.execute(queue);
+        } else {
+            setContentView(R.layout.error);
+            TextView txtInfo = (TextView) findViewById(R.id.txtError);
+            txtInfo.setText(getString(R.string.notify_internet_absent));
+        }
     }
 
     private class TaskSendPackets extends AsyncTask<ArrayList<QueueRecord>, Void, ArrayList<QueueRecord>> {

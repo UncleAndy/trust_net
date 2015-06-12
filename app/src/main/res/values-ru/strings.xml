@@ -52,7 +52,7 @@
     <string name="title_attestations">Удостоверения</string>
     <string name="btn_simple_change">Изменить</string>
     <string name="btn_recreate">Перевыпуск...</string>
-    <string name="txt_send_sign">Производится подписание данных и отправка их на сервера...</string>
+    <string name="txt_send_sign">Производится обработка данных и отправка их на сервера...</string>
     <string name="title_att_and_trust">Удостоверение</string>
     <string name="title_attestate">Удостоверение</string>
     <string name="label_history">История</string>
@@ -83,4 +83,7 @@
     <string name="txt_messages_check">Проверяются новые сообщения на серверах. Пожалуйста, подождите...</string>
     <string name="txt_progress_get_public_key">Поиск открытого ключа. Пожалуйста, подождите...</string>
     <string name="error_no_public_key_found">Публичный ключ не найден. Попробуйте позже...</string>
+    <string name="error_internet_required">Для данной операции необходимо интернет соединение. Пожалуйста, включите его и повторите операцию.</string>
+    <string name="notify_internet_absent">Нет соединения с сетью. После установки соединения вам необходимо сделать операцию синхронизации для доставки новых данных в сеть.</string>
+    <string name="btn_data_sync">Синхронизировать</string>
 </resources>

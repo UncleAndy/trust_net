@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// TODO: Получение и расшифровка сообщений
+// Получение и расшифровка сообщений
 public class AMessagesCheck extends ActionBarActivity {
     private static class Message {
         public String id;
@@ -40,12 +40,20 @@ public class AMessagesCheck extends ActionBarActivity {
 
     private ArrayList<Message> messages;
 
+    private String last_check_time = null;
+    private Settings settings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.progress);
 
-        personal_info = Settings.getInstance(this).getPersonalInfo();
+        settings = Settings.getInstance(this);
+
+        // Извлекаем данные о последнем времени проверки
+        last_check_time = settings.get("messages_last_check_time");
+
+        personal_info = settings.getPersonalInfo();
 
         messages = new ArrayList<Message>();
 
@@ -135,7 +143,10 @@ public class AMessagesCheck extends ActionBarActivity {
             for(String server: servers) {
                 String url_str = null;
                 try {
-                    url_str = "http://" +server+ Servers.URI_GET_MESSAGES_LIST+"?id=" + URLEncoder.encode(personal_info.public_key_id, "utf-8");
+                    if (last_check_time != null && !last_check_time.isEmpty())
+                        url_str = "http://" +server+ Servers.URI_GET_MESSAGES_LIST+"?time="+last_check_time+"&id=" + URLEncoder.encode(personal_info.public_key_id, "utf-8");
+                    else
+                        url_str = "http://" +server+ Servers.URI_GET_MESSAGES_LIST+"?id=" + URLEncoder.encode(personal_info.public_key_id, "utf-8");
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -205,8 +216,10 @@ public class AMessagesCheck extends ActionBarActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
 
-            // Для всех сообщений из messages производим расшифровку
+            // Обновляем время последней проверки сообщений
+            AMessagesCheck.this.settings.set("messages_last_check_time", String.valueOf(System.currentTimeMillis()/1000));
 
+            // Для всех сообщений из messages производим расшифровку
             AMessagesCheck.this.decrypt_messages();
 
             task = null;

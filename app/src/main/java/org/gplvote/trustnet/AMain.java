@@ -2,6 +2,7 @@ package org.gplvote.trustnet;
 
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -10,6 +11,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
@@ -46,6 +49,8 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+
+// TODO: Перед любыми операциями по работе с интернетом делать проверку на соединение и выдавать ошибку если его нет
 
 public class AMain extends ActionBarActivity implements View.OnClickListener {
     public static final String SIGN_DOC_PACKAGE_NAME = "org.gplvote.signdoc";
@@ -412,5 +417,19 @@ public class AMain extends ActionBarActivity implements View.OnClickListener {
             return (Base64.encodeToString(hash, Base64.NO_WRAP));
         }
         return(null);
+    }
+
+    public static boolean isInternetPresent(Context context) {
+        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null)
+        {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null)
+                for (NetworkInfo anInfo : info)
+                    if (anInfo.getState() == NetworkInfo.State.CONNECTED) {
+                        return true;
+                    }
+        }
+        return false;
     }
 }

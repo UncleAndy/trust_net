@@ -1,5 +1,6 @@
 package org.gplvote.trustnet;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -24,6 +25,9 @@ public class AServerView extends ActionBarActivity implements View.OnClickListen
     private ImageView imgQRCode;
 
     private Button btnBack;
+    private Button btnSync;
+
+    String host;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +39,18 @@ public class AServerView extends ActionBarActivity implements View.OnClickListen
         txtCreateTime   = (TextView) findViewById(R.id.txtServerCreateTime);
         txtOnlineTime   = (TextView) findViewById(R.id.txtServerLastOnlineTime);
         btnBack         = (Button) findViewById(R.id.btnServerViewBack);
+        btnSync         = (Button) findViewById(R.id.btnServerSync);
         imgQRCode       = (ImageView) findViewById(R.id.imgServerQR);
 
         btnBack.setOnClickListener(this);
+        btnSync.setOnClickListener(this);
 
         String server_json = getIntent().getStringExtra("Server");
         Gson gson = new Gson();
         HashMap<String, Object> item = gson.fromJson(server_json, new TypeToken<HashMap<String, Object>>() {}.getType());
 
-        txtHost.setText((String) item.get("host"));
+        host = (String) item.get("host");
+        txtHost.setText(host);
         txtSource.setText((String) item.get("source"));
         txtCreateTime.setText(AMain.time_to_string((String) item.get("t_create")));
         txtOnlineTime.setText(AMain.time_to_string((String) item.get("t_last_online")));
@@ -52,7 +59,17 @@ public class AServerView extends ActionBarActivity implements View.OnClickListen
     }
 
     @Override
-    public void onClick(View view) {
-        finish();
+    public void onClick(View v) {
+        Intent intent;
+        switch (v.getId()) {
+            case R.id.btnServerSync:
+                intent = new Intent(this, AServersSync.class);
+                intent.putExtra("Host", host);
+                startActivity(intent);
+                break;
+            case R.id.btnServerViewBack:
+                finish();
+                break;
+        }
     }
 }

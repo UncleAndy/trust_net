@@ -16,7 +16,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-// TODO: Получение публичного ключа по идентификатору
+// Получение публичного ключа по идентификатору
 public class AGetPublicKey extends ActionBarActivity {
     private static TaskGetPublicKey task = null;
 
@@ -27,25 +27,32 @@ public class AGetPublicKey extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.progress);
 
-        gson = new Gson();
+        if (AMain.isInternetPresent(this)) {
+            setContentView(R.layout.progress);
 
-        TextView txtInfo = (TextView) findViewById(R.id.txtProgressInfo);
-        txtInfo.setText(R.string.txt_progress_get_public_key);
+            gson = new Gson();
 
-        String public_key = null;
-        public_key_id = getIntent().getStringExtra("PublicKeyId");
+            TextView txtInfo = (TextView) findViewById(R.id.txtProgressInfo);
+            txtInfo.setText(R.string.txt_progress_get_public_key);
 
-        // Сначала ищем в базе
-        public_key = find_public_key_in_db();
+            String public_key = null;
+            public_key_id = getIntent().getStringExtra("PublicKeyId");
 
-        if (public_key != null && !public_key.isEmpty()) {
-            return_result(public_key);
+            // Сначала ищем в базе
+            public_key = find_public_key_in_db();
+
+            if (public_key != null && !public_key.isEmpty()) {
+                return_result(public_key);
+            } else {
+                // Если не найден в базе - сканирование серверов и получение публичного ключа с них
+                task = new TaskGetPublicKey();
+                task.execute(public_key_id);
+            }
         } else {
-            // Если не найден в базе - сканирование серверов и получение публичного ключа с них
-            task = new TaskGetPublicKey();
-            task.execute(public_key_id);
+            setContentView(R.layout.error);
+            TextView txtError = (TextView) findViewById(R.id.txtError);
+            txtError.setText(R.string.error_internet_required);
         }
     }
 

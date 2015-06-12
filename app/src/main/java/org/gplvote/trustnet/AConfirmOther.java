@@ -125,6 +125,8 @@ public class AConfirmOther extends Activity implements View.OnClickListener {
 
             txtInfo = (TextView) findViewById(R.id.txtError);
             txtInfo.setText(getString(R.string.error_bad_personal_id));
+
+            Log.e("PERSONAL_ID", "From QR ["+att_info.pid+"] != calculated ["+calc_personal_id+"\"");
         }
     }
 

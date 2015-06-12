@@ -26,7 +26,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.UUID;
 
-// TODO: Из QR-кода извлекаем публичный ключ и на него формируем сообщение
+// Из QR-кода извлекаем публичный ключ и на него формируем сообщение
 public class AMessageCreate extends Activity implements View.OnClickListener {
     public static final int MESSAGE_BCRYPT_COST = 8;
     public static final int MESSAGE_HASH_ORDER = 1;
