@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.gplvote.trustnet"
-    android:versionCode="2"
-    android:versionName="0.2" >
+    package="org.gplvote.trustnet" >
 
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.INTERNET" />
@@ -15,7 +13,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".AMain"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -87,20 +86,20 @@
                 <data android:scheme="trustnet" android:host="msg"/>
             </intent-filter>
         </activity>
-        <activity android:name=".AServerView" />
-        <activity android:name=".AServersSync" />
-        <activity android:name=".AAboutMe" />
-        <activity android:name=".AAboutMeEdit" />
-        <activity android:name=".ASendSign" />
-        <activity android:name=".AConfirmMe"/>
-        <activity android:name=".AAttestations"/>
-        <activity android:name=".AAttestateView"/>
-        <activity android:name=".ATrusts"/>
-        <activity android:name=".ATrustMe"/>
-        <activity android:name=".ATags"/>
-        <activity android:name=".AMessages"/>
-        <activity android:name=".AMessagesCheck"/>
-        <activity android:name=".AGetPublicKey"/>
+        <activity android:name=".AServerView" android:screenOrientation="portrait"/>
+        <activity android:name=".AServersSync" android:screenOrientation="portrait" />
+        <activity android:name=".AAboutMe" android:screenOrientation="portrait" />
+        <activity android:name=".AAboutMeEdit" android:screenOrientation="portrait" />
+        <activity android:name=".ASendSign" android:screenOrientation="portrait" />
+        <activity android:name=".AConfirmMe" android:screenOrientation="portrait"/>
+        <activity android:name=".AAttestations" android:screenOrientation="portrait"/>
+        <activity android:name=".AAttestateView" android:screenOrientation="portrait"/>
+        <activity android:name=".ATrusts" android:screenOrientation="portrait"/>
+        <activity android:name=".ATrustMe" android:screenOrientation="portrait"/>
+        <activity android:name=".ATags" android:screenOrientation="portrait"/>
+        <activity android:name=".AMessages" android:screenOrientation="portrait"/>
+        <activity android:name=".AMessagesCheck" android:screenOrientation="portrait"/>
+        <activity android:name=".AGetPublicKey" android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

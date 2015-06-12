@@ -32,7 +32,7 @@ public class DataPersonalInfo {
         Log.d("gen_personal_id", "For str = " + hashed_str);
 
         try {
-            return(BCryptHashMining.mine_hash(hashed_str, PERSONAL_ID_BCRYPT_COST, PERSONAL_ID_HASH_ORDER, PERSONAL_ID_ZERO_BITS, false));
+            return(BCryptHashMining.mine_hash(hashed_str, PERSONAL_ID_BCRYPT_COST, PERSONAL_ID_HASH_ORDER, PERSONAL_ID_ZERO_BITS, true));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             return(null);
