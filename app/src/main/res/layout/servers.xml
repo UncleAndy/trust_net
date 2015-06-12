@@ -53,13 +53,6 @@
                 android:id="@+id/btnServersBack"
                 android:layout_weight="1" />
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_servers_view"
-                android:id="@+id/btnServerView"
-                android:layout_weight="1" />
-
         </LinearLayout>
 
     </LinearLayout>

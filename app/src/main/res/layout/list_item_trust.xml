@@ -3,17 +3,8 @@
     android:orientation="horizontal" android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
-    android:id="@+id/llhDocsListRow">
-
-    <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/radioTrustListSel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:checkMark="?android:attr/listChoiceIndicatorSingle"
-        android:clickable="false"
-        android:enabled="false"
-        android:layout_gravity="center" />
+    android:id="@+id/llhDocsListRow"
+    android:padding="6dp">
 
     <LinearLayout
         android:orientation="vertical"

@@ -36,6 +36,10 @@ public class AConfirmOther extends Activity implements View.OnClickListener {
 
     private Button btnBack;
     private Button btnConfirm;
+    private Button btnVerifyPlus;
+    private Button btnVerifyMinus;
+    private Button btnTrustPlus;
+    private Button btnTrustMinus;
 
     private DataAttestationInfo att_info;
 
@@ -91,9 +95,17 @@ public class AConfirmOther extends Activity implements View.OnClickListener {
 
             btnBack = (Button) findViewById(R.id.btnAttestationBack);
             btnConfirm = (Button) findViewById(R.id.btnAttestationConfirm);
+            btnVerifyPlus = (Button) findViewById(R.id.btnVerifyLevelPlus);
+            btnVerifyMinus = (Button) findViewById(R.id.btnVerifyLevelMinus);
+            btnTrustPlus = (Button) findViewById(R.id.btnTrustLevelPlus);
+            btnTrustMinus = (Button) findViewById(R.id.btnTrustLevelMinus);
 
             btnBack.setOnClickListener(this);
             btnConfirm.setOnClickListener(this);
+            btnVerifyPlus.setOnClickListener(this);
+            btnVerifyMinus.setOnClickListener(this);
+            btnTrustPlus.setOnClickListener(this);
+            btnTrustMinus.setOnClickListener(this);
 
             edtVerifyLevel = (EditText) findViewById(R.id.edtConfirmVerifyLevel);
             edtVerifyLevel.setFilters(new InputFilter[]{new InputFilterMinMax("-10", "10")});
@@ -118,6 +130,7 @@ public class AConfirmOther extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        Integer lvl;
         switch (v.getId()) {
             case R.id.btnAttestationConfirm:
                 // Проверяем в базе имен (names) наличие имени для данного идентификатора
@@ -150,10 +163,33 @@ public class AConfirmOther extends Activity implements View.OnClickListener {
                 startActivity(intent);
 
                 break;
+            case R.id.btnVerifyLevelPlus:
+                increment_edit_text(edtVerifyLevel, 1);
+                break;
+            case R.id.btnVerifyLevelMinus:
+                increment_edit_text(edtVerifyLevel, -1);
+                break;
+            case R.id.btnTrustLevelPlus:
+                increment_edit_text(edtTrustLevel, 1);
+                break;
+            case R.id.btnTrustLevelMinus:
+                increment_edit_text(edtTrustLevel, -1);
+                break;
             case R.id.btnAttestationBack:
                 finish();
                 break;
         }
+    }
+
+    private void increment_edit_text(EditText edit, Integer val) {
+        Integer lvl;
+        if (String.valueOf(edit.getText()).isEmpty() || String.valueOf(edit.getText()).equals("-"))
+            lvl = 0;
+        else
+            lvl = Integer.valueOf(String.valueOf(edit.getText())) + val;
+        if (lvl > 10) lvl = 10;
+        if (lvl < -10) lvl = -10;
+        edit.setText(String.valueOf(lvl));
     }
 
     private class TaskCalcPersonalId extends AsyncTask<DataAttestationInfo, Void, String> {

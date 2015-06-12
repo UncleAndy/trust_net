@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 
 public class AServers  extends QRReaderActivity implements View.OnClickListener{
-    private Button btnView;
     private Button btnBack;
     private ListView listServersView;
     private ServersListArrayAdapter sAdapter;
@@ -36,10 +35,6 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.servers);
-
-        btnView = (Button) findViewById(R.id.btnServerView);
-        btnView.setOnClickListener(this);
-        btnView.setVisibility(View.GONE);
 
         btnBack = (Button) findViewById(R.id.btnServersBack);
         btnBack.setOnClickListener(this);
@@ -63,20 +58,6 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()) {
-            case R.id.btnServerView:
-                int curPosition = sAdapter.getCurrentPosition();
-
-                if (curPosition < 0) {
-                    return;
-                }
-
-                HashMap<String, Object> item = (HashMap<String, Object>) listServersView.getItemAtPosition(curPosition);
-
-                Gson gson = new Gson();
-                intent = new Intent(this, AServerView.class);
-                intent.putExtra("Server", gson.toJson(item));
-                startActivity(intent);
-                break;
             case R.id.btnServersBack:
                 finish();
                 break;
@@ -162,12 +143,10 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
                 sAdapter.setCurrentPosition(position);
                 sAdapter.notifyDataSetChanged();
 
-                // Ставим статус кнопки "Просмотр" в зависимости от статуса текущего выбранного документа
-                if (item != null) {
-                    btnView.setVisibility(View.VISIBLE);
-                } else {
-                    btnView.setVisibility(View.GONE);
-                }
+                Gson gson = new Gson();
+                Intent intent = new Intent(AServers.this, AServerView.class);
+                intent.putExtra("Server", gson.toJson(item));
+                startActivity(intent);
             }
         });
     }
@@ -216,13 +195,6 @@ public class AServers  extends QRReaderActivity implements View.OnClickListener{
             }
 
             txtHost.setText(host);
-
-            CheckedTextView checkedTextView = (CheckedTextView) rowView.findViewById(R.id.radioServerListSel);
-            if (position == currentPosition) {
-                checkedTextView.setChecked(true);
-            } else {
-                checkedTextView.setChecked(false);
-            }
 
             return rowView;
         }

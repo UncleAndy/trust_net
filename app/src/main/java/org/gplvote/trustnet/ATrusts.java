@@ -27,8 +27,6 @@ import java.util.Map;
 public class ATrusts extends ActionBarActivity implements View.OnClickListener {
     private ListView listTrusts;
     private Button btnBack;
-    private Button btnView;
-    private Button btnChange;
 
     private TrustsListArrayAdapter sAdapter;
 
@@ -43,12 +41,7 @@ public class ATrusts extends ActionBarActivity implements View.OnClickListener {
 
         listTrusts = (ListView) findViewById(R.id.listTrusts);
         btnBack = (Button) findViewById(R.id.btnTrustBack);
-        btnView = (Button) findViewById(R.id.btnTrustView);
-        btnChange = (Button) findViewById(R.id.btnTrustChange);
-
         btnBack.setOnClickListener(this);
-        btnView.setOnClickListener(this);
-        btnChange.setOnClickListener(this);
 
         reload_data();
     }
@@ -62,32 +55,6 @@ public class ATrusts extends ActionBarActivity implements View.OnClickListener {
             case R.id.btnTrustBack:
                 instance = null;
                 finish();
-                break;
-            case R.id.btnTrustView:
-                curPosition = sAdapter.getCurrentPosition();
-
-                if (curPosition < 0) {
-                    return;
-                }
-
-                item = (HashMap<String, Object>) listTrusts.getItemAtPosition(curPosition);
-
-                intent = new Intent(this, ATrustView.class);
-                intent.putExtra("TrustId", (String) item.get("id"));
-                startActivity(intent);
-                break;
-            case R.id.btnTrustChange:
-                curPosition = sAdapter.getCurrentPosition();
-
-                if (curPosition < 0) {
-                    return;
-                }
-
-                item = (HashMap<String, Object>) listTrusts.getItemAtPosition(curPosition);
-
-                intent = new Intent(this, ATrustChange.class);
-                intent.putExtra("TrustId", (String) item.get("id"));
-                startActivity(intent);
                 break;
         }
     }
@@ -144,21 +111,12 @@ public class ATrusts extends ActionBarActivity implements View.OnClickListener {
                 HashMap<String, Object> item = (HashMap<String, Object>) listTrusts.getItemAtPosition(position);
 
                 sAdapter.setCurrentPosition(position);
-                sAdapter.notifyDataSetChanged();
 
-                // Ставим статус кнопки "Просмотр" в зависимости от статуса текущего выбранного документа
-                if (item != null) {
-                    btnView.setVisibility(View.VISIBLE);
-                    btnChange.setVisibility(View.VISIBLE);
-                } else {
-                    btnView.setVisibility(View.GONE);
-                    btnChange.setVisibility(View.GONE);
-                }
+                Intent intent = new Intent(ATrusts.this, ATrustChange.class);
+                intent.putExtra("TrustId", (String) item.get("id"));
+                startActivity(intent);
             }
         });
-
-        btnView.setVisibility(View.GONE);
-        btnChange.setVisibility(View.GONE);
     }
 
     public class TrustsListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
@@ -204,13 +162,6 @@ public class ATrusts extends ActionBarActivity implements View.OnClickListener {
             txtTime.setText(t_create);
             txtPersonalId.setText(personal_id);
             txtLevel.setText(level);
-
-            CheckedTextView checkedTextView = (CheckedTextView) rowView.findViewById(R.id.radioTrustListSel);
-            if (position == currentPosition) {
-                checkedTextView.setChecked(true);
-            } else {
-                checkedTextView.setChecked(false);
-            }
 
             return rowView;
         }

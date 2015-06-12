@@ -35,6 +35,8 @@ public class ATagChange extends ActionBarActivity implements View.OnClickListene
     private EditText edtLevel;
     private Button   btnBack;
     private Button   btnConfirm;
+    private Button   btnMinus;
+    private Button   btnPlus;
     private LinearLayout listHistory;
 
     private String tag_id;
@@ -58,8 +60,12 @@ public class ATagChange extends ActionBarActivity implements View.OnClickListene
 
         btnBack = (Button) findViewById(R.id.btnTagChangeBack);
         btnConfirm = (Button) findViewById(R.id.btnTagChangeConfirm);
+        btnMinus = (Button) findViewById(R.id.btnTagLevelMinus);
+        btnPlus = (Button) findViewById(R.id.btnTagLevelPlus);
         btnBack.setOnClickListener(this);
         btnConfirm.setOnClickListener(this);
+        btnMinus.setOnClickListener(this);
+        btnPlus.setOnClickListener(this);
 
         tag_id = getIntent().getStringExtra("TagId");
         if (tag_id == null || tag_id.isEmpty()) {
@@ -124,11 +130,28 @@ public class ATagChange extends ActionBarActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+        Integer lvl = 0;
         switch(v.getId()) {
             case R.id.btnTagChangeBack:
                 if (ATags.instance != null)
                     ATags.instance.reload_data();
                 finish();
+                break;
+            case R.id.btnTagLevelMinus:
+                if (String.valueOf(edtLevel.getText()).isEmpty() || String.valueOf(edtLevel.getText()).equals("-"))
+                    lvl = 0;
+                else
+                    lvl = Integer.valueOf(String.valueOf(edtLevel.getText())) - 1;
+                if (lvl < -10) lvl = -10;
+                edtLevel.setText(String.valueOf(lvl));
+                break;
+            case R.id.btnTagLevelPlus:
+                if (String.valueOf(edtLevel.getText()).isEmpty() || String.valueOf(edtLevel.getText()).equals("-"))
+                    lvl = 0;
+                else
+                    lvl = Integer.valueOf(String.valueOf(edtLevel.getText())) + 1;
+                if (lvl > 10) lvl = 10;
+                edtLevel.setText(String.valueOf(lvl));
                 break;
             case R.id.btnTagChangeConfirm:
                 DataPersonalInfo pi = AMain.settings.getPersonalInfo();

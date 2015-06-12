@@ -35,12 +35,5 @@
             android:id="@+id/btnAttestateBack"
             android:layout_weight="1" />
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="@string/btn_servers_view"
-            android:id="@+id/btnAttestateView"
-            android:layout_weight="1" />
-
     </LinearLayout>
 </LinearLayout>

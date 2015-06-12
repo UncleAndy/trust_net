@@ -3,16 +3,9 @@
     android:orientation="horizontal" android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
-    android:id="@+id/llhDocsListRow">
-
-    <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/radioServerListSel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:checkMark="?android:attr/listChoiceIndicatorSingle"
-        android:clickable="false"
-        android:enabled="false" />
+    android:id="@+id/llhDocsListRow"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
 
     <TextView
         android:layout_width="fill_parent"
@@ -22,7 +15,7 @@
         android:id="@+id/txtSrvListHost"
         android:textColor="@android:color/black"
         android:textStyle="bold"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|center_horizontal"
         android:layout_gravity="center" />
 
 </LinearLayout>

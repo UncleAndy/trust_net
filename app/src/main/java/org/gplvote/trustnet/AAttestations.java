@@ -29,7 +29,6 @@ import java.util.Map;
 public class AAttestations extends ActionBarActivity implements View.OnClickListener {
     private ListView listAttestates;
     private Button btnBack;
-    private Button btnView;
 
     private AttestationsListArrayAdapter sAdapter;
 
@@ -40,12 +39,7 @@ public class AAttestations extends ActionBarActivity implements View.OnClickList
 
         listAttestates = (ListView) findViewById(R.id.listAttestations);
         btnBack = (Button) findViewById(R.id.btnAttestateBack);
-        btnView = (Button) findViewById(R.id.btnAttestateView);
-
-        btnView.setVisibility(View.GONE);
-
         btnBack.setOnClickListener(this);
-        btnView.setOnClickListener(this);
 
         reload_data();
     }
@@ -56,19 +50,6 @@ public class AAttestations extends ActionBarActivity implements View.OnClickList
         switch(v.getId()) {
             case R.id.btnAttestateBack:
                 finish();
-                break;
-            case R.id.btnAttestateView:
-                int curPosition = sAdapter.getCurrentPosition();
-
-                if (curPosition < 0) {
-                    return;
-                }
-
-                HashMap<String, Object> item = (HashMap<String, Object>) listAttestates.getItemAtPosition(curPosition);
-
-                intent = new Intent(this, AAttestateView.class);
-                intent.putExtra("AttestateId", (String) item.get("id"));
-                startActivity(intent);
                 break;
         }
     }
@@ -127,14 +108,10 @@ public class AAttestations extends ActionBarActivity implements View.OnClickList
                 HashMap<String, Object> item = (HashMap<String, Object>) listAttestates.getItemAtPosition(position);
 
                 sAdapter.setCurrentPosition(position);
-                sAdapter.notifyDataSetChanged();
 
-                // Ставим статус кнопки "Просмотр" в зависимости от статуса текущего выбранного документа
-                if (item != null) {
-                    btnView.setVisibility(View.VISIBLE);
-                } else {
-                    btnView.setVisibility(View.GONE);
-                }
+                Intent intent = new Intent(AAttestations.this, AAttestateView.class);
+                intent.putExtra("AttestateId", (String) item.get("id"));
+                startActivity(intent);
             }
         });
     }
@@ -185,13 +162,6 @@ public class AAttestations extends ActionBarActivity implements View.OnClickList
             txtPersonalId.setText(personal_id);
             txtPublicKeyId.setText(public_key_id);
             txtLevel.setText(level);
-
-            CheckedTextView checkedTextView = (CheckedTextView) rowView.findViewById(R.id.radioAttestationListSel);
-            if (position == currentPosition) {
-                checkedTextView.setChecked(true);
-            } else {
-                checkedTextView.setChecked(false);
-            }
 
             return rowView;
         }

@@ -42,7 +42,7 @@
                 android:id="@+id/textConfirmInfo"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:padding="4dp" />
 
             <TextView
@@ -142,44 +142,122 @@
                 android:textColor="@android:color/black"
                 android:padding="4dp" />
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black" />
+
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/label_verification_level"
-                android:id="@+id/textView13" />
+                android:id="@+id/textView31"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical|center_horizontal" />
 
-            <EditText
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberSigned"
-                android:ems="10"
-                android:id="@+id/edtConfirmVerifyLevel"
-                android:numeric="signed|integer"
-                android:background="@android:color/white"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                android:text="16"
-                android:padding="4dp" />
+                android:gravity="center_vertical|center_horizontal" >
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="-"
+                    android:id="@+id/btnVerifyLevelMinus"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:inputType="numberSigned"
+                    android:ems="10"
+                    android:id="@+id/edtConfirmVerifyLevel"
+                    android:background="@android:color/white"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:text="5"
+                    android:padding="4dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="26sp" />
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="+"
+                    android:id="@+id/btnVerifyLevelPlus"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/black" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/label_trust_level"
-                android:id="@+id/textView14" />
+                android:id="@+id/textView32"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical|center_horizontal" />
 
-            <EditText
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberSigned"
-                android:ems="10"
-                android:id="@+id/edtConfirmTrustLevel"
-                android:background="@android:color/white"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                android:text="16"
-                android:padding="4dp" />
+                android:gravity="center_vertical|center_horizontal" >
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="-"
+                    android:id="@+id/btnTrustLevelMinus"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:inputType="numberSigned"
+                    android:ems="10"
+                    android:id="@+id/edtConfirmTrustLevel"
+                    android:background="@android:color/white"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:text="5"
+                    android:padding="4dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="26sp" />
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="+"
+                    android:id="@+id/btnTrustLevelPlus"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/black" />
+
 
         </LinearLayout>
     </ScrollView>

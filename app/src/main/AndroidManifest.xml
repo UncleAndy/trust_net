@@ -10,7 +10,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/trustnet_icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
@@ -95,7 +95,6 @@
         <activity android:name=".AAttestations"/>
         <activity android:name=".AAttestateView"/>
         <activity android:name=".ATrusts"/>
-        <activity android:name=".ATrustView"/>
         <activity android:name=".ATrustMe"/>
         <activity android:name=".ATags"/>
         <activity android:name=".AMessages"/>

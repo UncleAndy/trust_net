@@ -17,73 +17,136 @@
         android:textStyle="bold"
         android:padding="6dp" />
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        android:measureWithLargestChild="false"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView6"
         android:layout_weight="1">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/label_first_name"
-            android:id="@+id/textView8" />
-
-        <TextView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/txtTrustChangeName"
-            android:background="@android:color/white"
-            android:textColor="@android:color/black"
-            android:padding="4dp" />
+            android:layout_height="fill_parent"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:measureWithLargestChild="false"
+            android:layout_weight="1">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/label_personal_id"
-            android:id="@+id/textView9"
-            android:textStyle="bold"
-            android:textColor="@android:color/black" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/label_first_name"
+                android:id="@+id/textView8" />
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/txtTrustChangePersonalId"
-            android:textStyle="bold"
-            android:background="@android:color/white"
-            android:textColor="@android:color/black"
-            android:padding="4dp"
-            android:textSize="12sp" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Medium Text"
+                android:id="@+id/txtTrustChangeName"
+                android:background="@android:color/white"
+                android:textColor="@android:color/black"
+                android:padding="4dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/label_trust_level"
-            android:id="@+id/textView14" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/label_personal_id"
+                android:id="@+id/textView9"
+                android:textStyle="bold"
+                android:textColor="@android:color/black" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberSigned"
-            android:ems="10"
-            android:id="@+id/edtTrustChangeLevel"
-            android:background="@android:color/white"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:text="16"
-            android:padding="4dp" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Medium Text"
+                android:id="@+id/txtTrustChangePersonalId"
+                android:textStyle="bold"
+                android:background="@android:color/white"
+                android:textColor="@android:color/black"
+                android:padding="4dp"
+                android:textSize="12sp" />
 
-    </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/label_trust_level"
+                android:id="@+id/textView30"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:gravity="center_vertical|center_horizontal" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|center_horizontal" >
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="-"
+                    android:id="@+id/btnTrustLevelMinus"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:inputType="numberSigned"
+                    android:ems="10"
+                    android:id="@+id/edtTrustChangeLevel"
+                    android:background="@android:color/white"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:text="5"
+                    android:padding="4dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="26sp" />
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="+"
+                    android:id="@+id/btnTrustLevelPlus"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/label_history"
+                android:id="@+id/textView27"
+                android:layout_gravity="center_horizontal" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/llyTrustChangeHistory"></LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
         android:orientation="horizontal"
